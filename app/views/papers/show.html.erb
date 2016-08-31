@@ -1,0 +1,89 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Paper:</strong>
+  <%= @paper.paper_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @paper.user_id %>
+</p>
+
+<p>
+  <strong>Paper status:</strong>
+  <%= @paper.paper_status %>
+</p>
+
+<p>
+  <strong>Moderator:</strong>
+  <%= @paper.moderator_id %>
+</p>
+
+<p>
+  <strong>Moderated time:</strong>
+  <%= @paper.moderated_time %>
+</p>
+
+<p>
+  <strong>Analyst:</strong>
+  <%= @paper.analyst_id %>
+</p>
+
+<p>
+  <strong>Analysed time:</strong>
+  <%= @paper.analysed_time %>
+</p>
+
+<p>
+  <strong>Authors:</strong>
+  <%= @paper.authors %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @paper.title %>
+</p>
+
+<p>
+  <strong>Journal:</strong>
+  <%= @paper.journal %>
+</p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @paper.year %>
+</p>
+
+<p>
+  <strong>Volume:</strong>
+  <%= @paper.volume %>
+</p>
+
+<p>
+  <strong>Pages:</strong>
+  <%= @paper.pages %>
+</p>
+
+<p>
+  <strong>Month:</strong>
+  <%= @paper.month %>
+</p>
+
+<p>
+  <strong>Credibility rate:</strong>
+  <%= @paper.credibility_rate %>
+</p>
+
+<p>
+  <strong>Research metrix:</strong>
+  <%= @paper.research_metrix %>
+</p>
+
+<p>
+  <strong>Research aim:</strong>
+  <%= @paper.research_aim %>
+</p>
+
+<%= link_to 'Edit', edit_paper_path(@paper) %> |
+<%= link_to 'Back', papers_path %>

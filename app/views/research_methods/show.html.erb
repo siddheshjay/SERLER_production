@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Research method:</strong>
+  <%= @research_method.research_method_id %>
+</p>
+
+<p>
+  <strong>Method name:</strong>
+  <%= @research_method.method_name %>
+</p>
+
+<p>
+  <strong>Method status:</strong>
+  <%= @research_method.method_status %>
+</p>
+
+<%= link_to 'Edit', edit_research_method_path(@research_method) %> |
+<%= link_to 'Back', research_methods_path %>

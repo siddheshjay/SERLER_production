@@ -1,0 +1,102 @@
+<%= form_for(paper) do |f| %>
+  <% if paper.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(paper.errors.count, "error") %> prohibited this paper from being saved:</h2>
+
+      <ul>
+      <% paper.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :paper_id %>
+    <%= f.text_field :paper_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :user_id %>
+    <%= f.number_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :paper_status %>
+    <%= f.number_field :paper_status %>
+  </div>
+
+  <div class="field">
+    <%= f.label :moderator_id %>
+    <%= f.number_field :moderator_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :moderated_time %>
+    <%= f.datetime_select :moderated_time %>
+  </div>
+
+  <div class="field">
+    <%= f.label :analyst_id %>
+    <%= f.number_field :analyst_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :analysed_time %>
+    <%= f.datetime_select :analysed_time %>
+  </div>
+
+  <div class="field">
+    <%= f.label :authors %>
+    <%= f.text_area :authors %>
+  </div>
+
+  <div class="field">
+    <%= f.label :title %>
+    <%= f.text_area :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label :journal %>
+    <%= f.text_area :journal %>
+  </div>
+
+  <div class="field">
+    <%= f.label :year %>
+    <%= f.text_area :year %>
+  </div>
+
+  <div class="field">
+    <%= f.label :volume %>
+    <%= f.text_area :volume %>
+  </div>
+
+  <div class="field">
+    <%= f.label :pages %>
+    <%= f.text_area :pages %>
+  </div>
+
+  <div class="field">
+    <%= f.label :month %>
+    <%= f.text_area :month %>
+  </div>
+
+  <div class="field">
+    <%= f.label :credibility_rate %>
+    <%= f.number_field :credibility_rate %>
+  </div>
+
+  <div class="field">
+    <%= f.label :research_metrix %>
+    <%= f.text_area :research_metrix %>
+  </div>
+
+  <div class="field">
+    <%= f.label :research_aim %>
+    <%= f.text_area :research_aim %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

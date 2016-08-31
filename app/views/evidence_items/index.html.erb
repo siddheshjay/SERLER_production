@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Evidence Items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Evidence</th>
+      <th>Benefit comeout</th>
+      <th>Context</th>
+      <th>Confidence rate</th>
+      <th>Integrity</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @evidence_items.each do |evidence_item| %>
+      <tr>
+        <td><%= evidence_item.evidence_id %></td>
+        <td><%= evidence_item.benefit_comeout %></td>
+        <td><%= evidence_item.context %></td>
+        <td><%= evidence_item.confidence_rate %></td>
+        <td><%= evidence_item.integrity %></td>
+        <td><%= link_to 'Show', evidence_item %></td>
+        <td><%= link_to 'Edit', edit_evidence_item_path(evidence_item) %></td>
+        <td><%= link_to 'Destroy', evidence_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Evidence Item', new_evidence_item_path %>

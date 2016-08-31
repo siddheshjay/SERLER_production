@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Evidence:</strong>
+  <%= @evidence_item.evidence_id %>
+</p>
+
+<p>
+  <strong>Benefit comeout:</strong>
+  <%= @evidence_item.benefit_comeout %>
+</p>
+
+<p>
+  <strong>Context:</strong>
+  <%= @evidence_item.context %>
+</p>
+
+<p>
+  <strong>Confidence rate:</strong>
+  <%= @evidence_item.confidence_rate %>
+</p>
+
+<p>
+  <strong>Integrity:</strong>
+  <%= @evidence_item.integrity %>
+</p>
+
+<%= link_to 'Edit', edit_evidence_item_path(@evidence_item) %> |
+<%= link_to 'Back', evidence_items_path %>

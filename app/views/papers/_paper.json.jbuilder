@@ -1,0 +1,2 @@
+json.extract! paper, :id, :paper_id, :user_id, :paper_status, :moderator_id, :moderated_time, :analyst_id, :analysed_time, :authors, :title, :journal, :year, :volume, :pages, :month, :credibility_rate, :research_metrix, :research_aim, :created_at, :updated_at
+json.url paper_url(paper, format: :json)

@@ -1,0 +1,27 @@
+<%= form_for(se_method) do |f| %>
+  <% if se_method.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(se_method.errors.count, "error") %> prohibited this se_method from being saved:</h2>
+
+      <ul>
+      <% se_method.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :method_id %>
+    <%= f.number_field :method_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :method_name %>
+    <%= f.text_area :method_name %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

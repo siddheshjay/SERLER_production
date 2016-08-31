@@ -1,0 +1,1 @@
+json.partial! "evidence_items/evidence_item", evidence_item: @evidence_item
