@@ -2,7 +2,7 @@ class User < ApplicationRecord
 
   has_many :papers
   has_many :notifications
-  has_many :newses, through: :notifications
+  has_many :news, through: :notifications
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
