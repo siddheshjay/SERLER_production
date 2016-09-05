@@ -38,7 +38,14 @@ gem 'autoprefixer-rails'
 # Use Font-awesome-rails
 gem "font-awesome-rails"
 
+# Use cancancan and devise for authentication
+gem 'cancancan'
+gem 'devise'
+
 group :development, :test do
+  gem 'faker'
+  gem 'rspec-rails'
+  gem "factory_girl_rails"
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
 end
