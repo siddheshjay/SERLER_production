@@ -38,6 +38,10 @@ gem 'autoprefixer-rails'
 # Use Font-awesome-rails
 gem "font-awesome-rails"
 
+gem 'bootstrap_form'
+gem "nested_form"
+
+
 # Use cancancan and devise for authentication
 gem 'cancancan'
 gem 'devise'

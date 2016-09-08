@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get  'search/search'
+  post 'search/show'
+
   resources :methodologies
   resources :se_methods
   resources :evidence_items
