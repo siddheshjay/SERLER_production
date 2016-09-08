@@ -3,17 +3,21 @@
 
 <h1>Search#search</h1>
 <p>Find me in app/views/search/search.html.erb</p>
-
+<% count =0 %>
 <%= nested_form_for(@search, url: {action: "show"}) do |f| %>
     <%=f.fields_for :search_fields do |builder| %>
       <div>
+        <% unless count == 0 %>
         <%= builder.select :operator,
                              options_for_select([["OR", "or" ], ["AND", "and"]],"OR")%>
+        <%end%>
         <%= builder.text_field :content%>
         <%= builder.select :limiter,
                              options_for_select([["Title", "title" ], ["Author", "authors"],["Journal","journal"]],"Title") %>
-
-          <%= builder.link_to_remove "Remove Field" %>
+        <% unless count == 0 %>
+        <%= builder.link_to_remove "Remove Field" %>
+        <%end%>
+        <% count += 1%>
       </div>
     <% end %>
       <div>
