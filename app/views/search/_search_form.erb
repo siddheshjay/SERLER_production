@@ -1,4 +1,6 @@
 
+<%= javascript_include_tag 'search_form'%>
+
 <% init = true %>
 <%= nested_form_for(@search, url: {action: "show"}, :html => { :method => 'GET' }) do |f| %>
     <%=f.fields_for :search_fields do |builder| %>
