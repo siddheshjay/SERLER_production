@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  get  'search/search'
-  post 'search/show'
+
+  get 'search/show'
+  root 'search#search'
 
   resources :methodologies
   resources :se_methods

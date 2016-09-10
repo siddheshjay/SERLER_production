@@ -1,0 +1,29 @@
+
+<% init = true %>
+<%= nested_form_for(@search, url: {action: "show"}, :html => { :method => 'GET' }) do |f| %>
+    <%=f.fields_for :search_fields do |builder| %>
+        <div>
+          <%unless init == true %>
+              <%= builder.select :op1,
+                                 options_for_select([["OR", "or" ], ["AND", "and"]],"OR")%>
+          <%end%>
+
+          <%= builder.select :field,
+                             options_for_select([["Title", "title" ], ["Author", "authors"],["Journal","journal"]],"Title") %>
+
+          <%= builder.select :op2,
+                             options_for_select([["Contain", "ILIKE" ], ["Does not contain", "NOT ILIKE"]],"Contain")%>
+
+          <%= builder.text_field :content%>
+
+          <% unless init == true %>
+              <%= builder.link_to_remove "Remove Field" %>
+          <%end%>
+          <% init = false%>
+        </div>
+    <% end %>
+    <div>
+      <%= f.link_to_add "Add a Field", :search_fields %>
+      <%= f.submit "Search" %>
+    </div>
+<% end %>
