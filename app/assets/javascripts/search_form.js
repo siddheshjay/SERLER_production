@@ -13,5 +13,6 @@ $(document).on('nested:fieldRemoved', function(event){
     // this field was just inserted into your form
     var field = event.field;
     // it's a jQuery object already! Now you can find date input
+    event.target.remove();
 
 });
