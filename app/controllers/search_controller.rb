@@ -7,6 +7,9 @@ class SearchController < ApplicationController
 
   def show
     @search = Search.new(search_params)
+    if(@search.search_fields.blank?)
+      @search.search_fields.build
+    end
     query_string = make_query params
     @papers = Paper.where(query_string)
   end
