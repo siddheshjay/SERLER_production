@@ -19,7 +19,8 @@ class SearchController < ApplicationController
   private
 
   def search_params
-    params.require(:search).permit!
+    params.require(:search).permit(:name, :saved_on,
+                                   :search_fields_attributes => [:content,:field,:op1,:op2,:_destroy]);
   end
 
   #make query string for PG
