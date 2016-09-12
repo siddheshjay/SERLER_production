@@ -32,6 +32,7 @@ gem 'jbuilder', '~> 2.5'
 
 #Use bootstrap
 gem 'bootstrap-sass', '~> 3.3.6'
+gem 'sass-rails', '~> 5.0'
 # Use autoprefixer-rails. It automatically adds the proper vendor prefixes to your CSS code when it is compiled.
 gem 'autoprefixer-rails'
 # Use Font-awesome-rails
