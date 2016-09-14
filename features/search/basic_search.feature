@@ -6,7 +6,7 @@ Feature: Search For Empirical Evidence
   Background:
     Given I'm logged in as a user
     Given I'm on search page
-
+    Given There are 3 papers in DB$
   Scenario: User type basic keywords to search
     When I type specific keywords and click search button
     Then I should get specific results
