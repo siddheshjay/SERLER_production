@@ -1,7 +1,29 @@
+language: ruby
+rvm:
+  - "2.3.0"
+
+script:
+- bundle exec rake db:create
+- bundle exec rake db:migrate
+- bundle install
+- bundle exec cucumber
+- bundle exec rspec
+
 deploy:
   provider: heroku
   api_key:
-    secure: AiNpbtqhd4PD/UXgNUvKHcNdpIWZMgAS/zwBS51FvhW+RddxYgJjALg1uY0sZuUwTBaGMjQZkO4JvWwVBwDC7PLcHT3C0jQQSBmmBEPPzDUDd76xY0eq7Lvo34eLBoMSy1560OSJnl+TeJr2Dni24y76fRpdBidrTqMpiHisQz3u68DXL/WG+0HXLW1kZSeSjPK+4Rk6twvTJJCc5vhCzAbjPJ2aDpkOKlhFIw7btBcq82MsgQSV//1T92kC3jswP9QQZznctCprPRVJB7Flm7jA+0vbtkLUpEIVOs0FND3EMQr2OH4+a9eoeneNTAenjq5zlqFnmYgraS4YhoVenVAphhN0MBGRQAzDB9i4PLCme1QwbvB4qBHeLVEa15mUg/nOcQQKwaPV90ZLe0nW15Mrsa0iwgmfRv6ngSMf5fh2bC+rW7kbMYb9LxjCvRa5nVsXc/VoYw4Y8r7z8MB0jbWITyB+cOGtHYbnsICQB3ICGW0YcLXEdMIe2Uv8EHPKuEjmwzCKzjd2SnGxl0qkK4dSrmH75vKeGXeMRjvRkjesPnA4XtgCuB2QjhAVaDAkMbALXzhjc1Yik8ByMP6g9yHZds7VYqWPj43nwhgmpVR1cYyYCZLc3huQKmWKf5WU67F+In3Cd8StO9XE/j2jzDSdlqJQc0DP4wI8mV+zHCo=
-  app: SERLER_production
-  on:
-    repo: SDM2016AUT/SERLER_production
+    secure: ${API_KEY}
+
+  app:
+    master: ${APP_NAME}
+    Sprint1: ${TESTAPP_NAME}
+    Sprint2: ${TESTAPP_NAME}
+    Sprint3: ${TESTAPP_NAME}
+    Sprint4: ${TESTAPP_NAME}
+
+ # on:
+ #     all_branches: true
+
+  run:
+    - "rake heroku:secrets RAILS_ENV=production"
+    - "rake db:create:all"
