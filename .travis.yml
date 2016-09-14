@@ -5,6 +5,9 @@ rvm:
 script:
 - bundle exec rake db:create
 - bundle exec rake db:migrate
+- bundle install
+- bundle exec cucumber
+- bundle exec rspec
 
 deploy:
   provider: heroku
