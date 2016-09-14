@@ -1,11 +1,12 @@
 language: ruby
 rvm:
   - "2.3.0"
-
-script:
+before_script:
+- bundle install --path vendor/bundle
 - bundle exec rake db:create
 - bundle exec rake db:migrate
-- bundle install
+
+script:
 - bundle exec cucumber
 - bundle exec rspec
 
