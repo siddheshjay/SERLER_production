@@ -12,7 +12,7 @@ deploy:
   provider: heroku
   api_key: dc4adac0-6490-4e98-b3f0-aa1adafd0ee8
   app:
-    Sprint1: SERLER_production
+    Sprint1: serler-sprint1
   on:
     all_branches: true
     repo: SDM2016AUT/SERLER_production
