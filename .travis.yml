@@ -11,7 +11,8 @@ deploy:
   provider: heroku
   api_key:
     secure: fgEmDSsyHcSedHgJrPt4UxotAXZMXJjSvTnXmJjIQEC7KbYyAr8hU/4P3fFielr5rsibOuoISHWuwBnrMGLLYCouXR26DZfSZOra+DqZMsoNfythJCxFIQSnqSjfAW3G4MMUv+mSgaLP5Hkdpn3o5O3QgTQLLb52vWQ8xLSATM8nhMz4Y3vCxO4TpmquaogfWANS39G2negGAmLi9TQdTPeuN0qlpm7VfMPdnpix0EyjIYz9VUHlZhYsWCtSZMfJL/qvnqUD+42W3FVgDzmMcLyseFMYFrq7CoNtL/Bf7ata2p+hP5MdeumwzYdTTJMWUN8tc4oztK0si6zuyc5pzt6N0zeZXKKwV2K+WObn0y/QrRMDiGv7eF7VYRRbaR3uYjFcl/+paIPHzH8+URePVuebu9s+lfrJE/elhb8FqTk51TZayfvFvhxX3O4y07EhHbJD88sgIUzomQnAsGPEX/eiFWRgEMA7483drWeXQjzUrWt3AxYEhOMrNqJun0DnknH8+f1/56gSPrY/AzP2rHqODNPcjAS0N7h/VlNEvbn9dXIPIMHIu7v8pUvnG14dejOYoTICfilYZ0TSapsL6NRaWphLfw7GD92VEZ8aVHhTmBzLBINXw/EYUiOqiultkxoBGDnXQkmUH0I2f30wm4zPk3bmTCE+FZrrX2XZAW4=
-  app: serler-sprint1
+  app:
+    Sprint1: serler-sprint1
   on:
     all_branches: true
     repo: SDM2016AUT/SERLER_production
