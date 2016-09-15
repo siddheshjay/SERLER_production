@@ -14,8 +14,7 @@ deploy:
   app:
     Sprint1: serler-sprint1
   on:
-    - Sprint1
-    - Master
     repo: SDM2016AUT/SERLER_production
+    Sprint1
 
 
