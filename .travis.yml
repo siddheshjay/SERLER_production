@@ -27,4 +27,5 @@ deploy:
 
   run:
     - "rake heroku:secrets RAILS_ENV=production"
-    - "rake db:create:all"
+    - "rake db:migrate"
+    - "rake assets:precompile"
