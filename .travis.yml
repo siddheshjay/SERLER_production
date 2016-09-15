@@ -15,6 +15,6 @@ deploy:
     Sprint1: serler-sprint1
   on:
     repo: SDM2016AUT/SERLER_production
-    Sprint1
+    - Sprint1
 
 
