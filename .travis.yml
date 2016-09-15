@@ -1,7 +1,19 @@
+language: ruby
+rvm:
+- 2.3.0
+script:
+- bundle exec rake db:create
+- bundle exec rake db:migrate
+- bundle exec rake db:seed
+- bundle exec rake spec
+- bundle exec rake cucumber
 deploy:
   provider: heroku
   api_key:
-    secure: AiNpbtqhd4PD/UXgNUvKHcNdpIWZMgAS/zwBS51FvhW+RddxYgJjALg1uY0sZuUwTBaGMjQZkO4JvWwVBwDC7PLcHT3C0jQQSBmmBEPPzDUDd76xY0eq7Lvo34eLBoMSy1560OSJnl+TeJr2Dni24y76fRpdBidrTqMpiHisQz3u68DXL/WG+0HXLW1kZSeSjPK+4Rk6twvTJJCc5vhCzAbjPJ2aDpkOKlhFIw7btBcq82MsgQSV//1T92kC3jswP9QQZznctCprPRVJB7Flm7jA+0vbtkLUpEIVOs0FND3EMQr2OH4+a9eoeneNTAenjq5zlqFnmYgraS4YhoVenVAphhN0MBGRQAzDB9i4PLCme1QwbvB4qBHeLVEa15mUg/nOcQQKwaPV90ZLe0nW15Mrsa0iwgmfRv6ngSMf5fh2bC+rW7kbMYb9LxjCvRa5nVsXc/VoYw4Y8r7z8MB0jbWITyB+cOGtHYbnsICQB3ICGW0YcLXEdMIe2Uv8EHPKuEjmwzCKzjd2SnGxl0qkK4dSrmH75vKeGXeMRjvRkjesPnA4XtgCuB2QjhAVaDAkMbALXzhjc1Yik8ByMP6g9yHZds7VYqWPj43nwhgmpVR1cYyYCZLc3huQKmWKf5WU67F+In3Cd8StO9XE/j2jzDSdlqJQc0DP4wI8mV+zHCo=
-  app: SERLER_production
+    secure: fgEmDSsyHcSedHgJrPt4UxotAXZMXJjSvTnXmJjIQEC7KbYyAr8hU/4P3fFielr5rsibOuoISHWuwBnrMGLLYCouXR26DZfSZOra+DqZMsoNfythJCxFIQSnqSjfAW3G4MMUv+mSgaLP5Hkdpn3o5O3QgTQLLb52vWQ8xLSATM8nhMz4Y3vCxO4TpmquaogfWANS39G2negGAmLi9TQdTPeuN0qlpm7VfMPdnpix0EyjIYz9VUHlZhYsWCtSZMfJL/qvnqUD+42W3FVgDzmMcLyseFMYFrq7CoNtL/Bf7ata2p+hP5MdeumwzYdTTJMWUN8tc4oztK0si6zuyc5pzt6N0zeZXKKwV2K+WObn0y/QrRMDiGv7eF7VYRRbaR3uYjFcl/+paIPHzH8+URePVuebu9s+lfrJE/elhb8FqTk51TZayfvFvhxX3O4y07EhHbJD88sgIUzomQnAsGPEX/eiFWRgEMA7483drWeXQjzUrWt3AxYEhOMrNqJun0DnknH8+f1/56gSPrY/AzP2rHqODNPcjAS0N7h/VlNEvbn9dXIPIMHIu7v8pUvnG14dejOYoTICfilYZ0TSapsL6NRaWphLfw7GD92VEZ8aVHhTmBzLBINXw/EYUiOqiultkxoBGDnXQkmUH0I2f30wm4zPk3bmTCE+FZrrX2XZAW4=
+  app:
+    master: serler-production
+    Sprint1: serler-sprint1
   on:
+    all_branches: true
     repo: SDM2016AUT/SERLER_production
