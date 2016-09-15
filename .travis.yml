@@ -13,3 +13,7 @@ deploy:
     Sprint1: serler-sprint1
   on:
     repo: SDM2016AUT/SERLER_production
+  run:
+   -  bundle exec rake spec
+   -  bundle exec rake cucumber
+
