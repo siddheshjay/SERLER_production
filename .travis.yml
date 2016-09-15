@@ -2,8 +2,7 @@ language: ruby
 rvm:
 - 2.3.0
 script:
-- bundle exec rake spec
-- bundle exec rake cucumber
+
 deploy:
   provider: heroku
   api_key:
@@ -18,3 +17,5 @@ deploy:
     - bundle exec rake db:create
     - bundle exec rake db:migrate
     - bundle exec rake db:seed
+    - bundle exec rake spec
+    - bundle exec rake cucumber
