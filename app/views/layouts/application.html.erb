@@ -10,7 +10,7 @@
 
   <body>
 
-    <div id = "app_header" class="container-fluid" >
+    <header id = "app_header" class="container-fluid" >
       <%= image_tag "app_logo", size: 10*10, class: "img-circle"%>
       <h1 class ="header">SERLER</h1>
 
@@ -23,15 +23,15 @@
             <%= link_to "sign out",destroy_user_session_path, method: :delete   %>
         <% end %>
       </div>
-    </div>
+    </header>
     <br>
       <div id="app_content">
         <%= yield %>
       </div>
     <br>
-    <div id = "app_footer" class="container-fluid" >
+    <footer id = "app_footer" class="modal-footer" >
       <p style="text-align: center; width: 100%;">SDM 2016</p>
-    </div>
+    </footer>
 
   </body>
 </html>

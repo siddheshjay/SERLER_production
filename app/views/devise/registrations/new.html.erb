@@ -25,7 +25,7 @@
           <%= f.password_field :password_confirmation,class: "form-control", autocomplete: "off" %>
           <div style="margin-top: 20px">
             <% for role in User::ROLES %>
-                <%= check_box_tag "user[roles][#{role}]", role, @user.roles.include?(role), {:name => "user[roles][]"}%>
+                <%= check_box_tag "user[roles][#{role}]", role, role==:user ? :true : @user.roles.include?(role), {:name => "user[roles][]"}%>
                 <%= label_tag "user_roles_#{role}", role.to_s.humanize, style: "margin-right:20px"%>
             <% end %>
             <%= hidden_field_tag "user[roles][]", "" %>
