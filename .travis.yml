@@ -20,4 +20,5 @@ deploy:
   run:
    - "rake db:migrate"
    - "rake cleanup"
+   - "rake assets:precompile"
 
