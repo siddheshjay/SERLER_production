@@ -18,5 +18,6 @@ deploy:
     all_branches: true
     repo: SDM2016AUT/SERLER_production
   run:
-    - heroku run rake db:migrate
+    - bundle exec rake db:create:all
+    - bundle exec rake db:migrate RAILS_ENV=production
 
