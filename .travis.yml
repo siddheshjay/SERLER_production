@@ -1,8 +1,6 @@
 language: ruby
 rvm:
   - 2.3.0
-  - jruby
-  - rbx-2
 script:
  - bundle exec rake db:create
  - bundle exec rake db:migrate
