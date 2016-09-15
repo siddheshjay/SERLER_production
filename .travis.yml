@@ -5,8 +5,8 @@ script:
  - bundle exec rake db:create
  - bundle exec rake db:migrate
  - bundle exec rake db:seed
- -  bundle exec rake spec
- -  bundle exec rake cucumber
+ - bundle exec rake spec
+ - bundle exec rake cucumber
 deploy:
   provider: heroku
   api_key:
@@ -14,6 +14,8 @@ deploy:
   app:
     Sprint1: serler-sprint1
   on:
+    - Sprint1
+    - Master
     repo: SDM2016AUT/SERLER_production
 
 
