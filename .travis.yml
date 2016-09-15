@@ -2,9 +2,6 @@ language: ruby
 rvm:
 - 2.3.0
 script:
-- bundle exec rake db:create
-- bundle exec rake db:migrate
-- bundle exec rake db:seed
 - bundle exec rake spec
 - bundle exec rake cucumber
 deploy:
@@ -17,3 +14,7 @@ deploy:
   on:
     all_branches: true
     repo: SDM2016AUT/SERLER_production
+  run:
+    - bundle exec rake db:create
+    - bundle exec rake db:migrate
+    - bundle exec rake db:seed
