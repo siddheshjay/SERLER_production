@@ -7,6 +7,10 @@ script:
     - bundle exec rake db:seed
     - bundle exec rake spec
     - bundle exec rake cucumber
+branches:
+  only:
+    - master
+    - Sprint1
 deploy:
   provider: heroku
   api_key:
@@ -15,10 +19,9 @@ deploy:
     Sprint1: serler-sprint1
     master: serler-production
   on:
-    all_branches: true
     repo: SDM2016AUT/SERLER_production
   run:
    - "rake db:migrate"
    - "rake cleanup"
-   - "rake assets:precompile"
+   - "RAILS_ENV=production rake assets:precompile"
 
