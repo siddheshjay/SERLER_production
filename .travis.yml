@@ -7,12 +7,6 @@ script:
     - bundle exec rake db:seed
     - bundle exec rake spec
     - bundle exec rake cucumber
-branches:
-  only:
-    - master
-    - Sprint1
-    - Sprint2
-    - Sprint3
 deploy:
   provider: heroku
   api_key:
