@@ -2,11 +2,11 @@ language: ruby
 rvm:
 - 2.3.0
 script:
-- bundle exec rake db:create
-- bundle exec rake db:migrate
-- bundle exec rake db:seed
-- bundle exec rake spec
-- bundle exec rake cucumber
+    - bundle exec rake db:create
+    - bundle exec rake db:migrate
+    - bundle exec rake db:seed
+    - bundle exec rake spec
+    - bundle exec rake cucumber
 deploy:
   provider: heroku
   api_key:
@@ -15,5 +15,9 @@ deploy:
     master: serler-production
     Sprint1: serler-sprint1
   on:
-    all_branches: true
     repo: SDM2016AUT/SERLER_production
+  run:
+   - "rake db:migrate"
+   - "rake cleanup"
+   - "RAILS_ENV=production rake assets:precompile"
+

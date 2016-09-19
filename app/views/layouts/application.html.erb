@@ -9,10 +9,29 @@
   </head>
 
   <body>
-    <% if user_signed_in? %>
-        <%= link_to "sign out",destroy_user_session_path, method: :delete   %>
-    <% end %>
+
+    <header id = "app_header" class="container-fluid" >
+      <%= image_tag "app_logo", size: 10*10, class: "img-circle"%>
+      <h1 class ="header">SERLER</h1>
+
+      <div id="roles_links" class="container-fluid">
+        <%= link_to "User", user_session_path, method: :post%>
+        <%= link_to "Moderator" %>
+        <%= link_to "Analyst" %>
+        <%= link_to "Admin" %>
+        <% if user_signed_in? %>
+            <%= link_to "sign out",destroy_user_session_path, method: :delete   %>
+        <% end %>
+      </div>
+    </header>
     <br>
-    <%= yield %>
+      <div id="app_content">
+        <%= yield %>
+      </div>
+    <br>
+    <footer id = "app_footer" class="modal-footer" >
+      <p style="text-align: center; width: 100%;">SDM 2016</p>
+    </footer>
+
   </body>
 </html>

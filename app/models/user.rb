@@ -9,7 +9,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  ROLES = %i[admin user moderator analyst]
+  ROLES = %i[user moderator analyst]
 
   def roles=(roles)
     roles = [*roles].map { |r| r.to_sym }
@@ -23,6 +23,6 @@ class User < ApplicationRecord
   end
 
   def has_role?(role)
-    roles.include?(role)
+    ROLES.include?(role)
   end
 end

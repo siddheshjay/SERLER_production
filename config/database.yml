@@ -81,7 +81,7 @@ test: &test
 production:
   <<: *default
   database: serler_production_production
-  username: serler_production
+  #username: serler_production
   password: <%= ENV['SERLER_PRODUCTION_DATABASE_PASSWORD'] %>
 
 cucumber:
