@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root  'papers#index'
   resources :methodologies
   resources :se_methods
   resources :evidence_items
