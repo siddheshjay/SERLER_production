@@ -1,23 +1,31 @@
 language: ruby
 rvm:
-- 2.3.0
+  - "2.3.0"
+before_script:
+- bundle install --path vendor/bundle
+- bundle exec rake db:create
+- bundle exec rake db:migrate
+
 script:
-    - bundle exec rake db:create
-    - bundle exec rake db:migrate
-    - bundle exec rake db:seed
-    - bundle exec rake spec
-    - bundle exec rake cucumber
+- bundle exec cucumber
+- bundle exec rspec
+
 deploy:
   provider: heroku
   api_key:
-    secure: fgEmDSsyHcSedHgJrPt4UxotAXZMXJjSvTnXmJjIQEC7KbYyAr8hU/4P3fFielr5rsibOuoISHWuwBnrMGLLYCouXR26DZfSZOra+DqZMsoNfythJCxFIQSnqSjfAW3G4MMUv+mSgaLP5Hkdpn3o5O3QgTQLLb52vWQ8xLSATM8nhMz4Y3vCxO4TpmquaogfWANS39G2negGAmLi9TQdTPeuN0qlpm7VfMPdnpix0EyjIYz9VUHlZhYsWCtSZMfJL/qvnqUD+42W3FVgDzmMcLyseFMYFrq7CoNtL/Bf7ata2p+hP5MdeumwzYdTTJMWUN8tc4oztK0si6zuyc5pzt6N0zeZXKKwV2K+WObn0y/QrRMDiGv7eF7VYRRbaR3uYjFcl/+paIPHzH8+URePVuebu9s+lfrJE/elhb8FqTk51TZayfvFvhxX3O4y07EhHbJD88sgIUzomQnAsGPEX/eiFWRgEMA7483drWeXQjzUrWt3AxYEhOMrNqJun0DnknH8+f1/56gSPrY/AzP2rHqODNPcjAS0N7h/VlNEvbn9dXIPIMHIu7v8pUvnG14dejOYoTICfilYZ0TSapsL6NRaWphLfw7GD92VEZ8aVHhTmBzLBINXw/EYUiOqiultkxoBGDnXQkmUH0I2f30wm4zPk3bmTCE+FZrrX2XZAW4=
-  app:
-    master: serler-production
-    Sprint1: serler-sprint1
-  on:
-    repo: SDM2016AUT/SERLER_production
-  run:
-   - "rake db:migrate"
-   - "rake cleanup"
-   - "RAILS_ENV=production rake assets:precompile"
+    secure: ${API_KEY}
 
+  app:
+    master: ${APP_NAME}
+    Sprint1: ${TESTAPP_NAME}
+    Sprint2: ${TESTAPP_NAME}
+    Sprint3: ${TESTAPP_NAME}
+    Sprint4: ${TESTAPP_NAME}
+
+ # on:
+ #     all_branches: true
+
+  run:
+    - "rake heroku:secrets RAILS_ENV=production"
+    - "rake db:migrate"
+    - "rake assets:precompile"

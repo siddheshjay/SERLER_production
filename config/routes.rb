@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  root  'papers#index'
+
+  get 'search/show'
+  root 'search#search'
+
   resources :methodologies
   resources :se_methods
   resources :evidence_items
