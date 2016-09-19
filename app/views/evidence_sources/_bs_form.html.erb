@@ -1,0 +1,13 @@
+<%= bootstrap_form_for :evidence_source, url: evidence_sources_path do |f| %>
+  <%= f.text_field :category %>
+  <%= f.text_field :title %>
+  <%= f.text_field :year %>
+  <%= f.text_field :author %>
+  <%= f.text_field :source_title %>
+  <%= f.text_field :publisher %>
+  <%= f.text_field :volume_number %>
+  <%= f.text_field :issue_number %>
+  <%= f.text_field :page %>
+  <%= f.text_field :DOI %>
+  <%= f.submit "SUBMIT", class: "btn btn-success btn-block" %>
+<% end %>

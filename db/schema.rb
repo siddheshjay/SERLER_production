@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160912033043) do
+ActiveRecord::Schema.define(version: 20160919085122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,60 @@ ActiveRecord::Schema.define(version: 20160912033043) do
   create_table "evidence_method", id: false, force: :cascade do |t|
     t.integer "evidence_item_id", null: false
     t.integer "se_method_id",     null: false
+  end
+
+  create_table "evidence_source_authors", force: :cascade do |t|
+    t.integer  "evidence_source_id"
+    t.string   "name"
+    t.string   "name_abbr"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.index ["evidence_source_id"], name: "index_evidence_source_authors_on_evidence_source_id", using: :btree
+    t.index ["name"], name: "index_evidence_source_authors_on_name", using: :btree
+    t.index ["name_abbr"], name: "index_evidence_source_authors_on_name_abbr", using: :btree
+  end
+
+  create_table "evidence_sources", force: :cascade do |t|
+    t.string   "status",                 null: false
+    t.integer  "submitter_id",           null: false
+    t.string   "submitter_email",        null: false
+    t.integer  "moderator_id"
+    t.string   "moderator_email"
+    t.integer  "analyst_id"
+    t.string   "analyst_email"
+    t.datetime "moderated_time"
+    t.datetime "published_time"
+    t.string   "category"
+    t.string   "title",                  null: false
+    t.integer  "year"
+    t.string   "month"
+    t.string   "source_title"
+    t.string   "publisher"
+    t.string   "URL"
+    t.string   "DOI"
+    t.integer  "volume_number"
+    t.integer  "issue_number"
+    t.string   "page_str"
+    t.integer  "page_begin"
+    t.integer  "page_cease"
+    t.integer  "rating_tenth"
+    t.integer  "rating_tenth_avg"
+    t.integer  "rating_tenth_moderated"
+    t.text     "research_aim"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["DOI"], name: "index_evidence_sources_on_DOI", using: :btree
+    t.index ["analyst_id"], name: "index_evidence_sources_on_analyst_id", using: :btree
+    t.index ["moderator_id"], name: "index_evidence_sources_on_moderator_id", using: :btree
+    t.index ["page_begin"], name: "index_evidence_sources_on_page_begin", using: :btree
+    t.index ["page_cease"], name: "index_evidence_sources_on_page_cease", using: :btree
+    t.index ["publisher"], name: "index_evidence_sources_on_publisher", using: :btree
+    t.index ["rating_tenth"], name: "index_evidence_sources_on_rating_tenth", using: :btree
+    t.index ["source_title"], name: "index_evidence_sources_on_source_title", using: :btree
+    t.index ["status"], name: "index_evidence_sources_on_status", using: :btree
+    t.index ["submitter_id"], name: "index_evidence_sources_on_submitter_id", using: :btree
+    t.index ["title"], name: "index_evidence_sources_on_title", using: :btree
+    t.index ["year"], name: "index_evidence_sources_on_year", using: :btree
   end
 
   create_table "methodologies", primary_key: "methodology_id", force: :cascade do |t|
@@ -145,6 +199,7 @@ ActiveRecord::Schema.define(version: 20160912033043) do
   end
 
   add_foreign_key "evidence_items", "papers", primary_key: "paper_id"
+  add_foreign_key "evidence_source_authors", "evidence_sources"
   add_foreign_key "papers", "users", column: "analyst_id"
   add_foreign_key "papers", "users", column: "moderator_id"
   add_foreign_key "se_methods", "methodologies", primary_key: "methodology_id"
