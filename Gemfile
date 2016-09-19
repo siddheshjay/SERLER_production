@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '2.3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
@@ -37,6 +38,10 @@ gem 'autoprefixer-rails'
 # Use Font-awesome-rails
 gem "font-awesome-rails"
 
+gem 'bootstrap_form'
+gem "nested_form"
+
+
 # Use cancancan and devise for authentication
 gem 'cancancan'
 gem 'devise'
@@ -61,6 +66,7 @@ group :test do
   gem 'faker'
   gem 'rspec-rails'
   gem "factory_girl_rails"
+  gem 'rails-controller-testing'
   gem 'cucumber-rails', require: false
 
   gem 'database_cleaner'
