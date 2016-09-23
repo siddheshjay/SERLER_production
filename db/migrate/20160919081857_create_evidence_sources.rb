@@ -4,16 +4,16 @@ class CreateEvidenceSources < ActiveRecord::Migration[5.0]
       t.string :status,           null: false
       
       t.integer :submitter_id,      null: false
-      t.string  :submitter_email,   null: false
       t.integer :moderator_id
-      t.string  :moderator_email
       t.integer :analyst_id
-      t.string  :analyst_email
       
       t.timestamp :moderated_time
       t.timestamp :published_time
       
       t.string :category
+      
+      t.string  :raw_bib
+      t.string  :raw_apa
       
       t.string :title,            null: false
       t.integer :year
@@ -36,6 +36,10 @@ class CreateEvidenceSources < ActiveRecord::Migration[5.0]
       t.timestamps
     end
     
+    add_foreign_key :evidence_sources, :users, column: :submitter_id
+    add_foreign_key :evidence_sources, :users, column: :moderator_id
+    add_foreign_key :evidence_sources, :users, column: :analyst_id
+
     add_index :evidence_sources, :status
     
     add_index :evidence_sources, :submitter_id

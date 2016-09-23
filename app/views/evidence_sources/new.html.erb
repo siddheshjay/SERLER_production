@@ -6,7 +6,61 @@
         </div>
     
         <div class="modal-body" style="padding:40px 50px;">
-            <%= render 'bs_form' %>
+            <div id="citation-div">
+                <div class="form-group">
+                    <label for="citation">Paste BibTeX or APA citation:</label>
+                    <textarea class="form-control" style="resize:vertical" rows="10" id="citation"></textarea>
+                </div>
+                <!--
+                <div class="row">
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-primary btn-block" id="btn-parse-bib">Parse BibTex</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info btn-block" id="btn-parse-apa">Parse APA</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-warning btn-block" id="manually-input">Manually Input</button>
+                    </div>
+                </div>
+                -->
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" id="btn-parse-bib">Parse BibTex</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info" id="btn-parse-apa">Parse APA</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning" id="manually-input">Manually Input</button>
+                    </div>
+                </div>
+                
+            </div>
+            <div id="form-div" style="display:none">
+                <%= render 'bs_form' %>
+            </div>
+            
+            <script>
+                $().ready(function(){
+                    console.log('Hello, there!');
+                    $('#btn-parse-bib').click(function(){
+                        
+                    });
+                    $('#btn-parse-apa').click(function(){
+                        
+                    });
+                    $('#manually-input').click(function(){
+                        $('#form-div').show();
+                        $('#citation-div').hide();
+                    });
+                    
+                    $('#btn-discard').click(function(){
+                        $('#citation-div').show();
+                        $('#form-div').hide();
+                    });
+                });
+            </script>
         </div>
     </div>
 </div>

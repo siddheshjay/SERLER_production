@@ -66,7 +66,6 @@ class EvidenceSourcesController < ApplicationController
         
         _user = current_user
         @evidence_source.submitter_id = _user.id
-        @evidence_source.submitter_email = _user.email
         
         unless page_str.nil?
             (b, c) = page_str.split('-')
