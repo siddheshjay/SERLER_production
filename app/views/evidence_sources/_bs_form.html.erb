@@ -1,7 +1,52 @@
 <%= bootstrap_form_for :evidence_source, url: evidence_sources_path do |f| %>
+
+  <input type="hidden" name="evidence_source[raw_bib]" id="input-raw-bib">
+  <input type="hidden" name="evidence_source[raw_apa]" id="input-raw-apa">
+
   <%= f.text_field :title %>
   <%= f.text_field :year %>
-  <%= f.text_field :author %>
+
+  <div class="form-group">
+    <label class="control-label">Author</label>
+    <div class="row">
+      <!--
+      <div class="col-sm-4">
+        <input class="form-control" type="text" name="evidence_source[author][]" value="">
+      </div>
+      -->
+      <div class="col-sm-1">
+        <button class="btn btn-success" id="add-author"><span class="glyphicon glyphicon-plus"></span></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var _new_author = function(user_name) {
+      var str = '<div class="col-sm-4"><input class="form-control" type="text" name="evidence_source[author][]" value="' + user_name  + '"></div>';
+      $(str).insertBefore($('#add-author').parent());
+    };
+    
+    var _add_author = function(user_name) {
+      var al = $('input:text[name="evidence_source[author]"][value=""]');
+      if (al.length == 0) {
+        _new_author(user_name);
+      } else {
+        $(al[0]).val(user_name);
+      }
+    };
+    
+    var _clear_authors = function() {
+      $('input[name="evidence_source[author]"]').parent().remove();
+    };
+    
+    $().ready(function(){
+      $('#add-author').click(function(){
+        _new_author('');
+        return false;
+      });
+    });
+  </script>
+  
   <%= f.text_field :source_title %>
   <%= f.text_field :publisher %>
   <div class="row">
@@ -17,7 +62,7 @@
   </div>
   <%= f.text_field :DOI %>
   <div class="row">
-    <div class="col-sm-6"><%= f.submit "SUBMIT", class: "btn btn-success btn-block" %></div>
-    <div class="col-sm-6"><%= f.button "DISCARD", type: "reset", class: "btn btn-danger btn-block", id: "btn-discard" %></div>
+    <div class="col-sm-6"><%= f.button "SUBMIT", type:"submit", class: "btn btn-success btn-block", id: "btn-submit" %></div>
+    <div class="col-sm-6"><%= f.button "DISCARD", type:"reset", class: "btn btn-danger btn-block", id: "btn-discard" %></div>
   </div>
 <% end %>

@@ -55,9 +55,9 @@ class EvidenceSourcesController < ApplicationController
     end
     
     def create
+        puts "========================================="
         puts "this is EvidenceSourcesController::create"
 
-        authors = params.require(:evidence_source)[:author]
         page_str = params.require(:evidence_source)[:page]
         
         @evidence_source = EvidenceSource.new(evidence_source_params)
@@ -78,28 +78,51 @@ class EvidenceSourcesController < ApplicationController
             end
         end
         
-        puts '*************'
-        puts authors
-        puts page_str
-        puts @evidence_source
-
-        puts '$$$$$$$$$$$$$$$$$$$$'
+        # puts '*************'
+        # puts page_str
+        # puts @evidence_source
+        # puts '$$$$$$$$$$$$$$$$$$$$'
+        # puts 'ID: ' + @evidence_source.id.to_s
         
-        puts 'ID: ' + @evidence_source.id.to_s
         @evidence_source.save
         puts 'ID: ' + @evidence_source.id.to_s
         
-        author = @evidence_source.evidence_source_authors.create
-        author.name = 'Junshu Wang'
-        author.name_abbr = 'J. Wang'
-        author.save
-        
-        author = @evidence_source.evidence_source_authors.create
-        author.name = 'Lina Meng'
-        author.name_abbr = 'L. Meng'
-        author.save
+        begin
+            authors = params.require(:evidence_source)[:author]
+            authors.each do |a|
+                puts "==> " + a.to_s
+                
+                g = ''
+                f = ''
+                if a.include? ','
+                    c = a.index ','
+                    g = a[c+1..-1].strip
+                    f = a[0..c-1].strip
+                else
+                    c = a.rindex ' '
+                    g = a[0..c].strip
+                    f = a[c..-1].strip
+                end
+                
+                # puts '***** |' + a + '| ==> _' + g + '_' + f + '_'
+                
+                g_abbr = ''
+                begin
+                    g.split(' ').each do |s|
+                        g_abbr += s.strip()[0] + '. '
+                    end
+                end
+                
+                name = g + ' ' + f
+                name_abbr = g_abbr + f
+                
+                author = @evidence_source.evidence_source_authors.create({
+                    name: name, name_abbr: name_abbr
+                })
+            end
+        end
 
-        redirect_to evidence_sources_path
+        redirect_to evidence_sources_my_submissions_url
     end
     
     def show
@@ -113,7 +136,7 @@ class EvidenceSourcesController < ApplicationController
     
     private def evidence_source_params
         params.require(:evidence_source).permit(
-            :category, :title, :year, :source_title,
+            :category, :raw_bib, :raw_apa, :title, :year, :source_title,
             :publisher, :volume_number, :issue_number, :URL, :DOI)
     end
 end

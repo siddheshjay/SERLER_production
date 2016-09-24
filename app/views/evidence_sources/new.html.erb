@@ -45,17 +45,70 @@
                 $().ready(function(){
                     console.log('Hello, there!');
                     $('#btn-parse-bib').click(function(){
+                        var s = $('#citation').val();
+                        console.log(s);
+                        var b = new BibtexParser();
+                        b.setInput(s);
+                        b.bibtex();
+                        var es = b.getEntries();
+                        console.log(es);
                         
+                        for (var ek in es) {
+                            var obj = es[ek];
+                            
+                            console.log(obj);
+                            
+                            $('#evidence_source_title').val(obj['TITLE']);
+                            $('#evidence_source_publisher').val(obj['PUBLISHER']);
+                            
+                            var authors = obj['AUTHOR'].split('and');
+                            $.each(authors, function(ak){
+                                author = $.trim(authors[ak]);
+                                console.info('author: ' + author);
+                                _new_author(author);
+                            });
+                            
+                            $('#evidence_source_author').val(obj['AUTHOR']);
+                            
+                            $('#evidence_source_year').val(obj['YEAR']);
+                            $('#evidence_source_DOI').val(obj['DOI']);
+                            $('#evidence_source_volume_number').val(obj['VOLUME']);
+                            $('#evidence_source_issue_number').val(obj['NUMBER']);
+                            $('#evidence_source_page').val(obj['PAGES']);
+                            // only one object currently
+                            
+                            var book_title = obj['BOOKTITLE'];
+                            var journal = obj['JOURNAL'];
+                            if (book_title !== undefined && book_title.length > 0) {
+                                $('#evidence_source_source_title').val(book_title);
+                            } else if (journal !== undefined && journal.length > 0) {
+                                $('#evidence_source_source_title').val(journal);
+                            }
+
+                            for (var k in obj) {
+                                console.log('==> ' + k);
+                            }
+                            
+                            break;
+                        }
+                        
+                        $('#input-raw-bib').val(s);
+                        
+                        $('#form-div').show();
+                        $('#citation-div').hide();
                     });
                     $('#btn-parse-apa').click(function(){
                         
                     });
                     $('#manually-input').click(function(){
+                        _new_author('');
                         $('#form-div').show();
                         $('#citation-div').hide();
                     });
                     
                     $('#btn-discard').click(function(){
+                        $('input[id]').val('');
+                        _clear_authors();
                         $('#citation-div').show();
                         $('#form-div').hide();
                     });
