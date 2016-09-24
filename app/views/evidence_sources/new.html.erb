@@ -1,0 +1,119 @@
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header" style="padding:35px 50px;">
+            <h4><span class="glyphicon glyphicon-plus"></span> NEW EVIDENCE SOURCE</h4>
+        </div>
+    
+        <div class="modal-body" style="padding:40px 50px;">
+            <div id="citation-div">
+                <div class="form-group">
+                    <label for="citation">Paste BibTeX or APA citation:</label>
+                    <textarea class="form-control" style="resize:vertical" rows="10" id="citation"></textarea>
+                </div>
+                <!--
+                <div class="row">
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-primary btn-block" id="btn-parse-bib">Parse BibTex</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info btn-block" id="btn-parse-apa">Parse APA</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-warning btn-block" id="manually-input">Manually Input</button>
+                    </div>
+                </div>
+                -->
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" id="btn-parse-bib">Parse BibTex</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info" id="btn-parse-apa">Parse APA</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning" id="manually-input">Manually Input</button>
+                    </div>
+                </div>
+                
+            </div>
+            <div id="form-div" style="display:none">
+                <%= render 'bs_form' %>
+            </div>
+            
+            <script>
+                $().ready(function(){
+                    console.log('Hello, there!');
+                    $('#btn-parse-bib').click(function(){
+                        var s = $('#citation').val();
+                        console.log(s);
+                        var b = new BibtexParser();
+                        b.setInput(s);
+                        b.bibtex();
+                        var es = b.getEntries();
+                        console.log(es);
+                        
+                        for (var ek in es) {
+                            var obj = es[ek];
+                            
+                            console.log(obj);
+                            
+                            $('#evidence_source_title').val(obj['TITLE']);
+                            $('#evidence_source_publisher').val(obj['PUBLISHER']);
+                            
+                            var authors = obj['AUTHOR'].split('and');
+                            $.each(authors, function(ak){
+                                author = $.trim(authors[ak]);
+                                console.info('author: ' + author);
+                                _new_author(author);
+                            });
+                            
+                            $('#evidence_source_author').val(obj['AUTHOR']);
+                            
+                            $('#evidence_source_year').val(obj['YEAR']);
+                            $('#evidence_source_DOI').val(obj['DOI']);
+                            $('#evidence_source_volume_number').val(obj['VOLUME']);
+                            $('#evidence_source_issue_number').val(obj['NUMBER']);
+                            $('#evidence_source_page').val(obj['PAGES']);
+                            // only one object currently
+                            
+                            var book_title = obj['BOOKTITLE'];
+                            var journal = obj['JOURNAL'];
+                            if (book_title !== undefined && book_title.length > 0) {
+                                $('#evidence_source_source_title').val(book_title);
+                            } else if (journal !== undefined && journal.length > 0) {
+                                $('#evidence_source_source_title').val(journal);
+                            }
+
+                            for (var k in obj) {
+                                console.log('==> ' + k);
+                            }
+                            
+                            break;
+                        }
+                        
+                        $('#input-raw-bib').val(s);
+                        
+                        $('#form-div').show();
+                        $('#citation-div').hide();
+                    });
+                    $('#btn-parse-apa').click(function(){
+                        
+                    });
+                    $('#manually-input').click(function(){
+                        _new_author('');
+                        $('#form-div').show();
+                        $('#citation-div').hide();
+                    });
+                    
+                    $('#btn-discard').click(function(){
+                        $('input[id]').val('');
+                        _clear_authors();
+                        $('#citation-div').show();
+                        $('#form-div').hide();
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>

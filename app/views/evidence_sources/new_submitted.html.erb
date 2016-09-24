@@ -1,0 +1,93 @@
+<div class="container">
+<h2>LIST OF NEW SUBMITTED</h2>
+<div>
+    <p></P>USER ID: <%= current_user.id %></p>
+    <p>EMAIL: <%= current_user.email %></p>
+</div>
+<div class="list-group">
+    <script>
+        $().ready(function(){
+            console.log('page ready.');
+
+            var on_click = function(event) {
+                new_status = $(event.target).data('new-status')
+                esid = $(event.target).parents('div[data-esid]').data('esid')
+                console.log('evidence source :' + esid);
+                console.log('new status ' + new_status);
+                
+                $.ajax({
+                    url: '/evidence_sources/' + esid,
+                    type: 'PATCH',
+                    data: {status: new_status},
+                    success: function() {
+                        console.log('patch success');
+                        $('#message').text('DONE.');
+                        $('#message-box').modal();
+                    },
+                    error: function() {
+                        console.log('ERROR.');
+                        $('#message').text('Please refresh the page.');
+                        $('#message-box').modal();
+                    },
+                    complete: function() {
+                        console.log('patch complete');
+                        $('#message').text('Please refresh the page.');
+                        $('#message-box').modal();
+                    }
+                });
+            }
+            
+            $('.accept-btn').click(on_click);
+            $('.reject-btn').click(on_click);
+        });
+    </script>
+    <% @evidence_sources.each do |es| %>
+        <div class="list-group-item">
+            <table class="table table-stripped">
+                <tr>
+                    <th>title</th>
+                    <td>
+                        <div class="row" data-esid="<%= es.id %>">
+                            <div class="col-sm-8">
+                                <%= es.title %>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="accept-btn btn btn-success" data-new-status="ACCEPTED">ACCEPT</button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="reject-btn btn btn-danger" data-new-status="REJECTED">REJECT</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>misc</th>
+                    <td> ID:<%=es.id%> | status:<%=es.status%>&nbsp;
+                            | year:<%=es.year%>&nbsp;
+                            | volume:<%=es.volume_number%>&nbsp;
+                            | issue:<%=es.issue_number%>&nbsp;
+                            | page:<%=es.page_str%>&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <th>authors</th>
+                    <td>
+                        <% es.evidence_source_authors.each do |author| %>
+                            <%=author.name_abbr%> |
+                        <% end %>
+                    </td>
+                </tr>
+                <tr>
+                    <th>source</th>
+                    <td><%=es.source_title%></td>
+                </tr>
+                <tr><th>DOI</th><td><%=es.DOI%></td></tr>
+                
+            </table>
+        </div>
+    <% end %>
+</div>
+
+</div>
+<%= render 'message_box' %>
+

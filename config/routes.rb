@@ -1,7 +1,19 @@
 Rails.application.routes.draw do
 
+  get 'welcome/landing'
+  root 'welcome#landing'
+  
+  get 'evidence_sources/my_submissions'
+  get 'evidence_sources/new_submitted'
+  get 'evidence_sources/rejected'
+  get 'evidence_sources/accepted'
+  get 'evidence_sources/published'
+  get 'evidence_sources/all'
+
+  resources :evidence_sources
+
   get 'search/show'
-  root 'search#search'
+  #root 'search#search'
 
   resources :methodologies
   resources :se_methods

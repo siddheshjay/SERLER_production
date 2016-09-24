@@ -1,0 +1,2 @@
+class ResearchDesign < ApplicationRecord
+end
