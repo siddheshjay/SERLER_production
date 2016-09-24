@@ -1,0 +1,66 @@
+<div class="container">
+    <script>
+        $().ready(function(){
+            console.log("page load down");
+            $('#new-evidence-item').click(function(){
+                console.log("to create new evience item!");
+                $('#new-evidence-item-modal').modal();
+            });
+        });
+    </script>
+    <h2>EDIT EVIDENCE SOURCE</h2>
+    <div>
+        <table class="table table-stripped">
+            <tr>
+                <th>title</th>
+                <td><%= @evidence_source.title %></td>
+            </tr>
+            <tr>
+                <th>misc</th>
+                <td> ID:<%=@evidence_source.id%> | <%=@evidence_source.status%>&nbsp;
+                        | category:<%=@evidence_source.category%>&nbsp;
+                        | year:<%=@evidence_source.year%>&nbsp;
+                        | volume:<%=@evidence_source.volume_number%>&nbsp;
+                        | issue:<%=@evidence_source.issue_number%>&nbsp;
+                        | page:<%=@evidence_source.page_str%>&nbsp;
+                </td>
+            </tr>
+            <tr>
+                <th>authors</th>
+                <td>
+                    <% @evidence_source.evidence_source_authors.each do |author| %>
+                        <%=author.name_abbr%> |
+                    <% end %>
+                </td>
+            </tr>
+            <tr>
+                <th>source</th>
+                <td><%=@evidence_source.source_title%></td>
+            </tr>
+            <tr><th>DOI</th><td><%=@evidence_source.DOI%></td></tr>
+            <tr><td></td><td></td></tr>
+        </table>
+    </div>
+    <hr/>
+    <div>
+        <h2>research design</h2>
+        <p>research question or aim</p>
+        <p>research method: Case Study, Field Observatin, Experiment, Interview, Survey</p>
+        <p>research metrics(measurements)</p>
+        <p>research participants: undergraduate students, postgraduate students, practitioners</p>
+    </div>
+    <hr/>
+    <div>
+        <div><h2>evidence items</h2><button id="new-evidence-item" class="btn btn-success">Create New</button></div>
+        <div class="modal fade" id="new-evidence-item-modal" role="dialog">
+            <%= render 'new_evidence_item' %>
+        </div>
+    </div>
+</div>
+
+<hr/>
+<hr/>
+<hr/>
+<div>
+    <%= render 'new_evidence_item' %>
+</div>

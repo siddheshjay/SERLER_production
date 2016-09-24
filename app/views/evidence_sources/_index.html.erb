@@ -1,0 +1,39 @@
+<div>
+    <p></P>USER ID: <%= current_user.id %></p>
+    <p>EMAIL: <%= current_user.email %></p>
+</div>
+<div class="list-group">
+    <% @evidence_sources.each do |es| %>
+        <div class="list-group-item">
+            <table class="table table-stripped">
+                <tr>
+                    <th>title</th>
+                    <td><%= es.title %></td>
+                </tr>
+                <tr>
+                    <th>misc</th>
+                    <td> ID:<%=es.id%> | status:<%=es.status%>&nbsp;
+                            | year:<%=es.year%>&nbsp;
+                            | volume:<%=es.volume_number%>&nbsp;
+                            | issue:<%=es.issue_number%>&nbsp;
+                            | page:<%=es.page_str%>&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <th>authors</th>
+                    <td>
+                        <% es.evidence_source_authors.each do |author| %>
+                            <%=author.name_abbr%> |
+                        <% end %>
+                    </td>
+                </tr>
+                <tr>
+                    <th>source</th>
+                    <td><%=es.source_title%></td>
+                </tr>
+                <tr><th>DOI</th><td><%=es.DOI%></td></tr>
+                
+            </table>
+        </div>
+    <% end %>
+</div>

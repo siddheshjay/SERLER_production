@@ -1,0 +1,2 @@
+class EvidenceItemRating < ApplicationRecord
+end
