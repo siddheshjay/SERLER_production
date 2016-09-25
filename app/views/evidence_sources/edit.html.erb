@@ -50,6 +50,7 @@
         
         <table class="table table-stripped">
             <script>
+                
                 var _research_design = [
                     <% rd_list = ResearchDesign.where(evidence_source_id: @evidence_source.id) %>
                     <% rd_list.each do |rd| %>
@@ -73,6 +74,8 @@
                     });
                     
                     $('#btn-edit-research-design').click(function(){
+                        var _research_desing_aim = "<%= @evidence_source.research_aim %>";
+                        _reset_edit_research_design_form(_research_desing_aim, _research_design);
                         $('#edit-research-design-modal').modal();
                     });
                 });

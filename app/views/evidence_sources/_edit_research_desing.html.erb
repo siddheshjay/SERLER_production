@@ -9,7 +9,7 @@
                 <input type="hidden" value="<%=@evidence_source.id%>" name="research_design[evidence_source_id]"/>
                 <div class="form-group">
                     <label class="control-label">Research question (aim)</label>
-                    <textarea class="form-control" style="resize:vertical" name="research_design[aim]"><%= @evidence_source.research_aim %></textarea>
+                    <textarea class="form-control" style="resize:vertical" name="research_design[aim]" id="edit-research-design-aim"><%= @evidence_source.research_aim %></textarea>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Research methods</label>
@@ -72,6 +72,36 @@
                             item.find('input:text').val(text);
                             item.appendTo($('#research-design-metric-list'));
                         };
+                        
+                        var _reset_edit_research_design_form = function(_research_desing_aim, _research_design) {
+                            $('#edit-research-design-aim').val(_research_desing_aim);
+                            
+                            $('input:checkbox[name^=research_design]').prop('checked', false);
+                            
+                            var metric_template = $('#research-design-metric-template').clone(true, true);
+                            $('#research-design-metric-list').children().remove();
+                            // $('input:text[name="research_design[metric][]"]').parent().parent().remove();
+                            metric_template.appendTo($('#research-design-metric-list'));
+                            
+                            $.each(_research_design, function(index){
+                                var obj = _research_design[index];
+                                if (obj['category'] === 'METHOD') {
+                                    var selector = '#research-design-method-' + obj.ref_id;
+                                    console.log("method " + selector);
+                                    $(selector).prop('checked', true);
+                                    
+                                } else if (obj['category'] === 'PARTICIPANT') {
+                                    var selector = '#research-design-participant-' + obj.ref_id;
+                                    console.log("participant " + selector);
+                                    $(selector).prop('checked', true);
+ 
+                                } else if (obj['category'] === 'METRIC') {
+                                    var metric = obj['text'];
+                                    _new_research_design_metric_item(metric);
+                                }
+                            });
+                        };
+                        
                         $().ready(function(){
                             $('#btn-new-research-metric').click(function(){
                                 console.log('#btn-new-research-metric clcked');
