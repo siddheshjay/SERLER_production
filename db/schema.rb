@@ -146,6 +146,8 @@ ActiveRecord::Schema.define(version: 20160925124441) do
   end
 
   add_foreign_key "evidence_items", "papers", primary_key: "paper_id"
+  add_foreign_key "papers", "users", column: "analyst_id"
+  add_foreign_key "papers", "users", column: "moderator_id"
   add_foreign_key "se_methods", "methodologies", primary_key: "methodology_id"
   add_foreign_key "search_fields", "searches"
 end
