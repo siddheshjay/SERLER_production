@@ -16,52 +16,50 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
+@import 'bootstrap-datetimepicker';
 
-h1.header
-{
+
+html {
+  height: 100%;
+
+}
+
+body {
+  position: relative;
+  padding-bottom: 6rem;
+  min-height: 100%;
+  background-color: #eeeeee;
+}
+
+h1.header {
   position: absolute;
   left: 200px;
   top: 15px;
 }
 
-body
-{
-  background-color: #eeeeee;
-}
-
-
-
-#app_header
-{
+#app_header {
   position: relative;
-  top: 0px;
-  width: 100%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background-color: beige;
-}
-#app_content
-{
-  position: relative;
-}
-#app_footer
-{
-  position: relative;
-  width: 100%;
-  padding-top: 5px;
-  padding-bottom: 5px;
+
   background-color: beige;
 }
 
-#roles_links
-{
+#app_footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: beige;
+  text-align: center;
+}
+
+#roles_links{
   position: absolute;
   right: 10px;
   top: 10px;
 }
 
-.form-horizontal
-{
+.form-horizontal {
   padding-left: 20px;
   padding-right: 20px;
 }

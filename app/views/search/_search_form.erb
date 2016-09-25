@@ -2,31 +2,58 @@
 <%= javascript_include_tag 'search_form'%>
 
 <% init = true %>
-<%= bootstrap_nested_form_for(@search,layout: :inline, url: {action: "show"}, :html => { :method => 'GET',:class => "search_form" }) do |f| %>
 
-    <%=f.fields_for :search_fields,nil,{ :class => 'temperary'} do |builder|  %>
+<%= nested_form_for(@search, url: {action: "show"},
+                    :html => { :id=> "search_form",:method => 'GET',:class => "form-inline search_form",:onsubmit => "return validateForm()" }) do |f| %>
+
+    <%=label :from_date, 'From: '%>
+      <div class="input-group date" id="fromdate">
+        <%=f.text_field :from_date, size: 10 ,:value=>@search.from_date,class: 'form-control' %>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+      </div>
+
+      <%= label_tag :to_date, 'To:' %>
+      <div class="input-group date" id="todate">
+        <%=f.text_field :to_date,  size: 10 , :value=>@search.to_date,class: 'form-control' %>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+      </div>
+
+    <%=f.fields_for :search_fields,nil,{ :class => 'search_fields'} do |builder|  %>
         <div class ="search_field">
 
           <%unless init == true %>
               <%= builder.select :op1,
-                                 options_for_select([["OR", "or" ], ["AND", "and"]],["OR", "or" ]),
-                                 {hide_label: true }
-                  %>
+                                 options_for_select([["OR", "or" ], ["AND", "and"]], builder.object[:op1]),
+                                 {},{:class=>"form-control"}
+
+              %>
           <%end%>
 
           <%= builder.select :field,
-                             options_for_select([["Title", "title" ], ["Author", "authors"],["Journal","journal"]],["Title", "title" ]),
-                             {hide_label: true}
+                             options_for_select([["Title", "title" ],
+                                                 ["Author", "authors"],
+                                                 ["Journal","journal"],
+                                                 ["Rearch Aim","research_aim"],
+                                                 ["Credibility Rate","credibility_rate"],
+                                                ],
+                                                builder.object[:field]),
+                             {},{:class=>"form-control search_field_option"}
+
           %>
 
           <%= builder.select :op2,
-                             options_for_select([["Contain", "ILIKE" ], ["Does not contain", "NOT ILIKE"]],["Contain", "ILIKE" ]) ,
-                             {hide_label: true}
+                             options_for_select([["Contain", "ILIKE" ],
+                                                 ["Does not contain", "NOT ILIKE"],
+                                                 ["Is equal to", "="],
+                                                 ["Is less than", "<"],
+                                                 ["Is more than", ">"],
+                                                ],
+                                                builder.object[:op2]) ,
+                             {},:class=>"form-control search_operation"
+
           %>
 
-
-
-          <%= builder.text_field :content,hide_label: true,:autofocus=>true %>
+          <%= builder.text_field :content,:class=>"form-control",:autofocus=>true %>
 
 
           <% unless init == true %>
@@ -38,6 +65,10 @@
 
     <div>
       <%= f.link_to_add "Add a Field", :search_fields,:class => 'btn btn-info btn-sm' %>
-      <%= f.submit "Search", :class => 'btn btn-info btn-sm' %>
+      <input type="submit" value="Search" class = "btn btn-info btn-sm">
     </div>
+
 <% end %>
+
+
+<%= render 'popup'%>

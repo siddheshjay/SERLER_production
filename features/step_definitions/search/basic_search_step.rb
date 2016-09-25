@@ -23,7 +23,7 @@ Given(/^There are (\d+) papers in DB\$$/) do |arg1|
     paper = Paper.create!({
       authors: "Bob#{i}",
       title: "Test#{i}",
-      year: "200#{i}"
+      journal: "AUT#{i}"
     })
     paper.save!
   end
