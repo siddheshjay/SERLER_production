@@ -134,6 +134,139 @@ class EvidenceSourcesController < ApplicationController
         @evidence_source = EvidenceSource.find(params[:id])
     end
     
+    def research_design
+        rd = params.require(:research_design)
+        esid = rd['evidence_source_id']
+        aim = rd['aim']
+        methods = rd['method']
+        participants = rd['participant']
+        metrics = rd['metric']
+        
+        puts "###############################"
+        puts esid
+        puts aim
+        puts methods
+        puts participants
+        puts metrics
+        
+        evidence_source = EvidenceSource.find(esid)
+        if evidence_source.research_aim != aim
+            evidence_source.research_aim = aim
+            evidence_source.save()
+        end
+        
+        puts ResearchDesign.all
+        puts "********************************"
+        
+        begin
+            rd_list = ResearchDesign.where(evidence_source_id: esid)
+            
+            # old sets
+            method_set_old = Set.new
+            participant_set_old = Set.new
+            metric_set_old = Set.new
+            
+            rd_list.each do |rd|
+                puts rd.category
+                if rd.category == 'METHOD'
+                    method_set_old << rd.ref_id
+                elsif rd.category == 'PARTICIPANT'
+                    participant_set_old << rd.ref_id
+                elsif rd.category == 'METRIC'
+                    metric_set_old << rd.ref_text
+                else
+                end
+            end
+            
+            # new sets
+            method_set_new = Set.new
+            participant_set_new = Set.new
+            metric_set_new = Set.new metrics
+            
+            # puts method_set_old
+            # method_set_old.each do |m|
+            #     puts 'method=> ' + m.to_s
+            # end
+            # puts participant_set_old
+            # puts metric_set_old
+        
+            new_rd_list = []
+            if not methods.nil?
+                methods.each do |m|
+                    if not method_set_old.include? m.to_i
+                        new_rd_list << {
+                            evidence_source_id: esid,
+                            category: :METHOD,
+                            ref_id: m,
+                            ref_text: methods[m],
+                        }
+                    else
+                        method_set_new << m
+                    end
+                end
+            end
+            if not participants.nil?
+                participants.each do |p|
+                    if not participant_set_old.include? p.to_i
+                        new_rd_list << {
+                            evidence_source_id: esid,
+                            category: :PARTICIPANT,
+                            ref_id: p,
+                            ref_text: participants[p],
+                        }
+                    else
+                        participant_set_new << p
+                    end
+                end
+            end
+            if not metrics.nil?
+                metrics.each do |m|
+                    if (not m.empty?) and (not metric_set_old.include? m)
+                        new_rd_list << {
+                            evidence_source_id: esid,
+                            category: :METRIC,
+                            ref_text: m
+                        }
+                    else
+                        metric_set_new << m
+                    end
+                end
+            end
+            
+            # insert new reseach-designs
+            puts 'new_rd_list'
+            puts new_rd_list
+            ResearchDesign.create(new_rd_list)
+            
+            method_set_new.each do |m|
+                puts "new: " + m
+            end
+            
+            # remove old reseach-designs
+            rd_list.each do |rd|
+                puts 'rd -> ' + rd.category.to_s + ' | ' + rd.ref_id.to_s
+                if rd.category == 'METHOD'
+                    if not method_set_new.include? rd.ref_id.to_s
+                        puts "to delete " + rd.id.to_s
+                        rd.delete
+                    end
+                elsif rd.category == 'PARTICIPANT'
+                    if not participant_set_new.include? rd.ref_id.to_s
+                        puts "to delete " + rd.id.to_s
+                        rd.delete
+                    end
+                elsif rd.category == 'METRIC'
+                    if not metric_set_new.include? rd.ref_text
+                        rd.delete
+                    end
+                else
+                end
+            end
+        end
+        
+        redirect_to edit_evidence_source_path esid
+    end
+    
     private def evidence_source_params
         params.require(:evidence_source).permit(
             :category, :raw_bib, :raw_apa, :title, :year, :source_title,
