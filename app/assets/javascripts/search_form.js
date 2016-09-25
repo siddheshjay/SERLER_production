@@ -39,12 +39,20 @@ function validateForm() {
     for ( i = 0; i < search_option_list.length; i++) {
         var search_option_val = $(search_option_list[i]).val();
         var search_operation_val = $(search_operation_list[i]).val();
-        if("credibility_rate"== search_option_val) {
+        if("credibility_rate"== search_option_val) { //interger
             if( "ILIKE" == search_operation_val || "NOT ILIKE" == search_operation_val ) {
                 ret_val = false;
                 break;
             }
+        } else {  //incase of not integer
+            if( "<" == search_operation_val || ">" == search_operation_val ) {
+                ret_val = false;
+                break;
+            }
         }
+    }
+    if(false == ret_val) {
+        $("#invalid_pop").modal();
     }
     return ret_val;
 }
