@@ -10,9 +10,14 @@
   </head>
 
   <body>
+<div id="page-container">
 
-    <header id = "app_header" class="container-fluid" >
-      <%= image_tag "app_logo", size: 10*10, class: "img-circle"%>
+<!-- begin Header -->
+ <div id = "app_header" class="header navbar navbar-default navbar-fixed-top" >
+
+      <div class="container-fluid">
+    
+     <%= image_tag "app_logo", size: 10*10, class: "img-circle"%>
       <h1 class ="header">SERLER</h1>
 
       <div id="roles_links" class="container-fluid">
@@ -25,7 +30,13 @@
         <% end %>
       </div>
 
-      <nav class="navbar navbar-inverse">
+      </div>
+
+    </div>
+
+    <div class="top-menu">
+
+ <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">SERLLER</a>
@@ -72,9 +83,15 @@
        
     </ul>
   </div>
-</nav>
-    </header>
+
+  </nav>
+  </div>
+<!-- End header -->
+
+</div>
+
    
+
       <div id="app_content" >
     
         <%= yield %>
