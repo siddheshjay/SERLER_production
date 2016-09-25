@@ -2,31 +2,45 @@
 <%= javascript_include_tag 'search_form'%>
 
 <% init = true %>
-<%= bootstrap_nested_form_for(@search,layout: :inline, url: {action: "show"}, :html => { :method => 'GET',:class => "search_form" }) do |f| %>
+
+<%= nested_form_for(@search, url: {action: "show"}, :html => { :method => 'GET',:class => "form-inline search_form" }) do |f| %>
+
+    <%=label :from_year, 'From: '%>
+      <div class="input-group date" id="fromyear">
+        <%=f.text_field :from_year, size: 10 ,:value=>@search.from_year,:readonly => true,class: 'form-control' %>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+      </div>
+
+      <%= label_tag :to_year, 'To:' %>
+      <div class="input-group date" id="toyear">
+        <%=f.text_field :to_year,  size: 10 , :value=>@search.to_year,:readonly => true,class: 'form-control' %>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+      </div>
 
     <%=f.fields_for :search_fields,nil,{ :class => 'temperary'} do |builder|  %>
         <div class ="search_field">
 
           <%unless init == true %>
               <%= builder.select :op1,
-                                 options_for_select([["OR", "or" ], ["AND", "and"]],["OR", "or" ]),
-                                 {hide_label: true }
-                  %>
+                                 options_for_select([["OR", "or" ], ["AND", "and"]], builder.object[:op1]),
+                                 {},{:class=>"form-control"}
+
+              %>
           <%end%>
 
           <%= builder.select :field,
-                             options_for_select([["Title", "title" ], ["Author", "authors"],["Journal","journal"]],["Title", "title" ]),
-                             {hide_label: true}
+                             options_for_select([["Title", "title" ], ["Author", "authors"],["Journal","journal"]], builder.object[:field]),
+                             {},{:class=>"form-control"}
+
           %>
 
           <%= builder.select :op2,
-                             options_for_select([["Contain", "ILIKE" ], ["Does not contain", "NOT ILIKE"]],["Contain", "ILIKE" ]) ,
-                             {hide_label: true}
+                             options_for_select([["Contain", "ILIKE" ], ["Does not contain", "NOT ILIKE"]],builder.object[:op2]) ,
+                             {},:class=>"form-control"
+
           %>
 
-
-
-          <%= builder.text_field :content,hide_label: true,:autofocus=>true %>
+          <%= builder.text_field :content,:class=>"form-control",:autofocus=>true %>
 
 
           <% unless init == true %>
