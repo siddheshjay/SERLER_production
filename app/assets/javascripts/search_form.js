@@ -21,12 +21,30 @@ $( document ).ready(function() {
 
     var datetime_mode = {
         viewMode: 'days',
-        format: 'YYYY-MM-DD',
-        ignoreReadonly: true
+        format: 'YYYY-MM-DD'
     };
 
-    $('#fromyear').datetimepicker(datetime_mode);
-    $('#toyear').datetimepicker(datetime_mode);
-    
+    $('#fromdate').datetimepicker(datetime_mode);
+    $('#todate').datetimepicker(datetime_mode);
+
 
 });
+
+function validateForm() {
+    var ret_val = true;
+
+    var search_option_list = $(".search_field_option");
+    var search_operation_list = $(".search_operation");
+
+    for ( i = 0; i < search_option_list.length; i++) {
+        var search_option_val = $(search_option_list[i]).val();
+        var search_operation_val = $(search_operation_list[i]).val();
+        if("credibility_rate"== search_option_val) {
+            if( "ILIKE" == search_operation_val || "NOT ILIKE" == search_operation_val ) {
+                ret_val = false;
+                break;
+            }
+        }
+    }
+    return ret_val;
+}

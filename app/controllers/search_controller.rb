@@ -16,6 +16,7 @@ class SearchController < ApplicationController
     puts query_string
 
     @papers = Paper.where(query_string)
+
   end
 
   private
@@ -36,7 +37,12 @@ class SearchController < ApplicationController
         query_string << "#{search_field[:op1]} " unless query_string.blank?
         query_string << "#{search_field[:field]} "
         query_string << "#{search_field[:op2]} "
-        query_string << "'%#{search_field[:content]}%' "
+
+        if search_field[:op2] == "=" || search_field[:op2] == ">" || search_field[:op2] == "<"
+          query_string << "'#{search_field[:content]}' "
+        else
+          query_string << "'%#{search_field[:content]}%' "
+        end
       end
     end
 
