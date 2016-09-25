@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160912033043) do
+ActiveRecord::Schema.define(version: 20160925053243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,15 +63,14 @@ ActiveRecord::Schema.define(version: 20160912033043) do
     t.text     "authors"
     t.text     "title"
     t.text     "journal"
-    t.text     "year"
     t.text     "volume"
     t.text     "pages"
-    t.text     "month"
     t.integer  "credibility_rate"
     t.text     "research_metrix"
     t.text     "research_aim"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.date     "release_date"
   end
 
   create_table "participants", primary_key: "participate_id", force: :cascade do |t|
@@ -145,8 +144,6 @@ ActiveRecord::Schema.define(version: 20160912033043) do
   end
 
   add_foreign_key "evidence_items", "papers", primary_key: "paper_id"
-  add_foreign_key "papers", "users", column: "analyst_id"
-  add_foreign_key "papers", "users", column: "moderator_id"
   add_foreign_key "se_methods", "methodologies", primary_key: "methodology_id"
   add_foreign_key "search_fields", "searches"
 end

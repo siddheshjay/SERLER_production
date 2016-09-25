@@ -5,15 +5,15 @@
 
 <%= nested_form_for(@search, url: {action: "show"}, :html => { :method => 'GET',:class => "form-inline search_form" }) do |f| %>
 
-    <%=label :from_year, 'From: '%>
+    <%=label :from_date, 'From: '%>
       <div class="input-group date" id="fromyear">
-        <%=f.text_field :from_year, size: 10 ,:value=>@search.from_year,:readonly => true,class: 'form-control' %>
+        <%=f.text_field :from_date, size: 10 ,:value=>@search.from_date,class: 'form-control' %>
         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
       </div>
 
-      <%= label_tag :to_year, 'To:' %>
+      <%= label_tag :to_date, 'To:' %>
       <div class="input-group date" id="toyear">
-        <%=f.text_field :to_year,  size: 10 , :value=>@search.to_year,:readonly => true,class: 'form-control' %>
+        <%=f.text_field :to_date,  size: 10 , :value=>@search.to_date,class: 'form-control' %>
         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
       </div>
 

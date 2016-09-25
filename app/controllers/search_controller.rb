@@ -21,7 +21,7 @@ class SearchController < ApplicationController
   private
 
   def search_params
-    params.require(:search).permit(:from_year,:to_year,:name, :saved_on,
+    params.require(:search).permit(:from_date,:to_date,:name, :saved_on,
                                    :search_fields_attributes => [:content,:field,:op1,:op2,:_destroy]);
   end
 
@@ -40,16 +40,17 @@ class SearchController < ApplicationController
       end
     end
 
- #   unless params[:search][:from_year].blank?
- #     query_string << "AND " unless query_string.blank?
- #     query_string << "year >= "
- #     query_string << "#{params[:search][:from_year]} "
- #   end
-  #  unless params[:search][:to_year].blank?
-  #    query_string << "AND " unless query_string.blank?
-  #    query_string << "year <= "
-  #    query_string << "#{params[:search][:to_year]} "
-  #  end
+    unless params[:search][:from_date].blank?
+      query_string << "AND " unless query_string.blank?
+      query_string << "release_date >= "
+      query_string << "'#{params[:search][:from_date]}' "
+    end
+
+    unless params[:search][:to_date].blank?
+      query_string << "AND " unless query_string.blank?
+      query_string << "release_date <= "
+      query_string << "'#{params[:search][:to_date]}' "
+    end
 
     query_string
   end
