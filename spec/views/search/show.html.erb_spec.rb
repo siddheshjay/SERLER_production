@@ -8,9 +8,9 @@ RSpec.describe "search/show.html.erb", type: :view do
         content: 'You'
     ]))
 
-    assign(:papers, [
-        Paper.new(:title => "How to live"),
-        Paper.new(:title => "What to do")
+    assign(:results, [
+        EvidenceSource.new(:source_title => "How to live"),
+        EvidenceSource.new(:source_title => "What to do")
     ])
 
     render

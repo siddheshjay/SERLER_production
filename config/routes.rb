@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :evidence_sources
 
   get 'search/show'
+  match 'search' => "search#search", via: [:post, :get]
   root 'search#search'
 
   resources :methodologies

@@ -20,12 +20,16 @@ end
 
 Given(/^There are (\d+) papers in DB\$$/) do |arg1|
   arg1.to_i.times do |i|
-    paper = Paper.create!({
-      authors: "Bob#{i}",
-      title: "Test#{i}",
-      journal: "AUT#{i}"
+    evidence = EvidenceSource.create!(
+    {
+      status: 'NEW', submitter_id: 1,
+      title: 'From CMMI and Isolation to Scrum, Agile, Lean and Collaboration',
+      source_title: 'Agile Conference, 2009. AGILE \'09.',
+      year: 2009, volume_number: nil, issue_number: nil,
+      page_str: '283-288', page_begin: 283, page_cease: 288,
+      DOI: '10.1109/AGILE.2009.18',
     })
-    paper.save!
+    evidence.save!
   end
 end
 
@@ -36,11 +40,10 @@ Given(/^I'm on search page$/) do
 end
 
 When(/^I type specific keywords and click search button$/) do
-  fill_in 'search[search_fields_attributes][0][content]', with: 'Test'
+  fill_in 'search[search_fields_attributes][0][content]', with: 'Agile'
   click_button 'Search'
 end
 
 Then(/^I should get specific results$/) do
-  expect(page).to have_content('Paper')
-  expect(page).to have_content('Test')
+  expect(page).to have_content('Agile')
 end
