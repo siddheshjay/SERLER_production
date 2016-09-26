@@ -1,0 +1,59 @@
+<div class="container">
+    <h1>LIST OF ACCEPTED EVIDENCE SOURCES.</h1>
+    
+    <div class="list-group">
+        <% @evidence_sources.each do |es| %>
+            <div class="list-group-item">
+                <table class="table table-stripped">
+                    <tr>
+                        <th>title</th>
+                        <td>
+                            <div class="row" data-esid="<%= es.id %>">
+                                <div class="col-sm-9">
+                                    <%= es.title %>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a href="/evidence_sources/<%=es.id%>" target="_blank">SHOW</a>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a href="/evidence_sources/<%=es.id%>/edit" target="_blank">EDIT</a>
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>misc</th>
+                        <td> ID:<%=es.id%> | <%=es.status%>&nbsp;
+                                | category:<%=es.category%>&nbsp;
+                                | year:<%=es.year%>&nbsp;
+                                | volume:<%=es.volume_number%>&nbsp;
+                                | issue:<%=es.issue_number%>&nbsp;
+                                | page:<%=es.page_str%>&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>authors</th>
+                        <td>
+                            <% es.evidence_source_authors.each do |author| %>
+                                <%=author.name_abbr%> |
+                            <% end %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>source</th>
+                        <td><%=es.source_title%></td>
+                    </tr>
+                    <tr>
+                        <th>URL</th>
+                        <td>TODO: REMOVE THIS LINE? <%=es.URL%></td>
+                    </tr>
+                    <tr><th>DOI</th><td><%=es.DOI%></td></tr>
+                    
+                </table>
+            </div>
+        <% end %>
+    </div>
+    
+</div>

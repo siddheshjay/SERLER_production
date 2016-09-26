@@ -1,0 +1,2 @@
+class EvidenceSoureRating < ApplicationRecord
+end

@@ -1,0 +1,28 @@
+
+<div class="container">
+<h1>Welcome</h1>
+<hr/>
+<p>user-id: <%= @the_user.id %></p>
+<p>user-email: <%= @the_user.email %></p>
+<hr/>
+
+<h2>links for user</h2>
+<%= link_to 'LIST OF MY SUBMISSIONS', evidence_sources_my_submissions_path, target: :_blank %><br/>
+<%= link_to 'LIST OF PUBLISHED', evidence_sources_published_path, target: :_blank %><br/>
+<%= link_to 'NEW EVIDENCE SOURCE', new_evidence_source_path, target: :_blank %><br/>
+<a>SEARCH</a><br/>
+<hr/>
+
+<h2>links for moderator</h2>
+<%= link_to 'LIST OF NEW SUBMITTED', evidence_sources_new_submitted_path, target: :_blank %><br/>
+<hr/>
+
+<h2>links for analyst</h2>
+<%= link_to 'LIST OF ACCEPTED', evidence_sources_accepted_path, target: :_blank %><br/>
+<hr/>
+
+<h2>links for admistrator</h2>
+<%= link_to 'ALL EVIDENC SOURCES', evidence_sources_all_path, target: :_blank %><br/>
+<%= link_to 'LIST OF REJECTED', evidence_sources_rejected_path, target: :_blank %><br/>
+<hr/>
+</div>
