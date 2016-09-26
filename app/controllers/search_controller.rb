@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-
+  skip_before_filter :authenticate_user!
   def search
     @search = Search.new
     @search.search_fields.build
@@ -15,7 +15,7 @@ class SearchController < ApplicationController
 
     puts query_string
 
-    @papers = Paper.where(query_string)
+    @results = EvidenceSource.where(query_string)
 
   end
 
