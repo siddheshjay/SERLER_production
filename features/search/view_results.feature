@@ -6,9 +6,6 @@ Feature: View the results of a search
     Background:
         Given I'm logged in as a user
         Given I'm on search page
-        Given I search related information
-        Given I get results of the search
-        Given I'm on search result page
         Given There are 3 papers in DB
 
     Scenario: User type basic keywords to search and view
