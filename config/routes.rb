@@ -9,8 +9,14 @@ Rails.application.routes.draw do
   get 'evidence_sources/accepted'
   get 'evidence_sources/published'
   get 'evidence_sources/all'
+  
+  post 'evidence_sources/research_design'
+  post 'evidence_sources/evidence_item'
 
-  resources :evidence_sources
+  resources :evidence_sources do
+    # resource :research_design
+  end
+  # resources :research_design
 
   get 'search/show'
   #root 'search#search'
