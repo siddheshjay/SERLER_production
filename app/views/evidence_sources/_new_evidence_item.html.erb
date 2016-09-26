@@ -29,6 +29,10 @@
                     $('#evidence_item_whom').val(obj['ctx_who']);
                     $('#evidence_item_how').val(obj['ctx_how']);
                     
+                    $('#evidence_item_integrity').val(obj['integrity']);
+                    
+                    $('#evidence_item_rating').val(obj['rating']); // FIXME
+                    
                     if (obj["status"] !== "DRAFT") {
                         $('[name="evidence_item[draft]"]').parent().hide();
                     }
@@ -57,9 +61,25 @@
                     <%= f.text_field :what %>
                 </div>
                 
-                <div class="form-group">
-                    <a type="button" class="btn btn-danger form-control">TODO: Integrity & Rating</a>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="control-label" for="evidence_source_integrity">Integrity</label>
+                        <select id="evidence_item_integrity" name="evidence_item[integrity]" class="form-control text-center">
+                            <% [1,2,3,4,5].each do |i| %>
+                                <option value="<%=i%>"><%=i%></option>
+                            <% end %>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="control-label" for="evidence_source_rating">Integrity</label>
+                        <select id="evidence_item_rating" name="evidence_item[rating]" class="form-control text-center">
+                            <% [1,2,3,4,5].each do |i| %>
+                                <option value="<%=i%>"><%=i%></option>
+                            <% end %>
+                        </select>
+                    </div>
                 </div>
+                
                 <div class="form-group">
                     <a type="button" class="btn btn-danger form-control">TODO: methods and methodologies</a>
                 </div>

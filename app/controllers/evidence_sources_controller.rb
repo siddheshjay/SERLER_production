@@ -281,6 +281,8 @@ class EvidenceSourcesController < ApplicationController
         ctx_what = ei['what']
         submit = ei['submit']
         draft = ei['draft']
+        integrity = ei['integrity']
+        rating_tenth = ei['rating'].to_i * 10
         
         puts "xxxxxxxxxxxxxxx"
         status = 'DRAFT'
@@ -300,8 +302,11 @@ class EvidenceSourcesController < ApplicationController
                 ctx_where: ctx_where,
                 ctx_when: ctx_when,
                 ctx_how: ctx_how,
-                # TODO integrity, rating_tenth
+                integrity: integrity,
+                rating_tenth: rating_tenth,   # FIXME
             })
+            
+            # TODO update the rating
         else
             ei_entry = G2EvidenceItem.find(eiid)
             ei_entry.status = status
@@ -312,8 +317,12 @@ class EvidenceSourcesController < ApplicationController
             ei_entry.ctx_where = ctx_where,
             ei_entry.ctx_when = ctx_when,
             ei_entry.ctx_how = ctx_how,
+            ei_entry.integrity = integrity,
+            ei_entry.rating_tenth = rating_tenth,  # FIXME
             
             ei_entry.save
+            
+            # TODO update the rating
         end
         
         redirect_to edit_evidence_source_path esid

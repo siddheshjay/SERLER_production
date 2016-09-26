@@ -122,6 +122,7 @@
                             "status": "<%= ei.status %>", "benefit": "<%= ei.benefit_under_test %>", "result": "<%= ei.result %>",
                             "ctx_what": "<%= ei.ctx_what %>", "ctx_when": "<%= ei.ctx_when %>", "ctx_where": "<%= ei.ctx_where %>",
                             "ctx_who": "<%= ei.ctx_who %>", "ctx_how": "<%= ei.ctx_how %>",
+                            "integrity": "<%=ei.integrity%>", "rating_tenth": "<%= ei.rating_tenth %>", "rating": "<%= ei.rating_tenth.to_i / 10 %>"
                         },
                     <% end %>
                 };
@@ -159,8 +160,8 @@
             <div class="list-group-item" data-serler-eiid="<%=ei.id%>">
                 <div class="row text-right text-uppercase">
                     <dov class="col-sm-6"></dov>
-                    <div class="col-sm-2"><em>Integrity: TODO</emd></div>
-                    <div class="col-sm-2"><em>Rating: TODO</em></div>
+                    <div class="col-sm-2"><em>Integrity: <%= ei.integrity %></emd></div>
+                    <div class="col-sm-2"><em>Rating: <%= ei.rating_tenth.to_i / 10 %></em></div>
                     <!--
                     <div class="col-sm-1">
                         <code><em><%= draft ? "DRAFT"  : "" %></em></code>
