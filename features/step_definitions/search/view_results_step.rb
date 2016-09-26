@@ -1,7 +1,15 @@
-Given(/^There is an login page$/) do
-  visit '/users/sign_in'
+Given(/^I search related information$/) do
+  pending # Write code here that turns the phrase above into concrete actions
 end
 
-Then(/^I can view it$/) do
-  expect(page).to have_content 'Log in'
+Given(/^I get results of the search$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^I'm on search result page$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^I should get specific results and I can view them in a tabular format$/) do
+  pending # Write code here that turns the phrase above into concrete actions
 end
