@@ -4,6 +4,7 @@
             console.log("page load down");
             $('#new-evidence-item').click(function(){
                 console.log("to create new evience item!");
+                _evidence_item_modal(<%=@evidence_source.id%>, -1, null);
                 $('#new-evidence-item-modal').modal();
             });
         });
@@ -84,7 +85,6 @@
                 <th>Question (Aim)</th>
                 <td><p class="text-warning"><%= @evidence_source.research_aim %></p></td>
             </tr>
-            <% rd_list = ResearchDesign.where(evidence_source_id: @evidence_source.id) %>
             <tr>
                 <th>Method(s)</th>
                 <td><div id="research-design-table-methods-div"></div></td>
@@ -104,7 +104,7 @@
         </table>
     </div>
     <div class="modal fade" id="edit-research-design-modal" role="dialog" data-backdrop="static">
-        <%= render 'edit_research_desing' %>
+        <%= render 'edit_research_design' %>
     </div>
     <hr/>
     <div>
@@ -112,12 +112,85 @@
         <div class="modal fade" id="new-evidence-item-modal" role="dialog" data-backdrop="static">
             <%= render 'new_evidence_item' %>
         </div>
+        <hr/>
+        <div class="list-group">
+            <% g2ei_list = G2EvidenceItem.where(evidence_source_id: @evidence_source.id) %>
+            <script>
+                var _evidence_item_list = {
+                    <% g2ei_list.each do |ei| %>
+                        <%= ei.id %>: {
+                            "status": "<%= ei.status %>", "benefit": "<%= ei.benefit_under_test %>", "result": "<%= ei.result %>",
+                            "ctx_what": "<%= ei.ctx_what %>", "ctx_when": "<%= ei.ctx_when %>", "ctx_where": "<%= ei.ctx_where %>",
+                            "ctx_who": "<%= ei.ctx_who %>", "ctx_how": "<%= ei.ctx_how %>",
+                        },
+                    <% end %>
+                };
+                    
+                $().ready(function(){
+                    $('[data-serler-ei]').click(function(event){
+                        var btn = $(event.toElement);
+                        var action = btn.data('serler-ei');
+                        var esid = <%= @evidence_source.id %>;
+                        var eiid = btn.parents('div[data-serler-eiid]').data('serler-eiid');
+                        
+                        console.log("wwwwwwwwwwwwwwwwwwwww");
+                        console.log(btn);
+                        console.log(action);
+                        console.log(esid);
+                        console.log(eiid);
+                        
+                        if (action == "edit") {
+                            _evidence_item_modal(esid, eiid, _evidence_item_list[eiid]);
+                            $('#new-evidence-item-modal').modal();
+                            
+                        } else if (action == "x") {
+                            
+                        } else {
+                            
+                        }
+                    });
+                });
+            </script>
+            
+            <% g2ei_list.each do |ei| %>
+            <% draft = ei.status == 'DRAFT' %>
+            <div class="list-group-item" data-serler-eiid="<%=ei.id%>">
+                <div class="row text-right text-uppercase">
+                    <dov class="col-sm-6"></dov>
+                    <div class="col-sm-2"><em>Integrity: TODO</emd></div>
+                    <div class="col-sm-2"><em>Rating: TODO</em></div>
+                    <!--
+                    <div class="col-sm-1">
+                        <code><em><%= draft ? "DRAFT"  : "" %></em></code>
+                    </div>
+                    -->
+                    <div class="col-sm-2">
+                        <button class="btn <%= draft ? "btn-primary" : "btn-warning" %> btn-xs" data-serler-ei="edit">
+                        <span class="glyphicon glyphicon-edit"></span>&nbsp;EDIT&nbsp;</button>
+                        <button class="btn <%= draft ? "btn-warning" : "btn-danger" %> btn-xs" data-serler-ei="x">&nbsp;X&nbsp;</button>
+                    </div>
+                </div><div>&nbsp;</div>
+                <div>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Benefit under test <code><em> <%= draft ? "DRAFT" : "" %></em></code></th>
+                            <td><%=ei.benefit_under_test%></td>
+                            <td></td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr><th>Result</th><td><%=ei.result%></td><td></td><td></td></tr>
+                        <tr><th>Context</th><td>
+                            | What: <%=ei.ctx_what%> | Where: <%=ei.ctx_where%> | When: <%=ei.ctx_when%> | How: <%=ei.ctx_how%>| Who: <%=ei.ctx_who%> |
+                        </td><td></td><td></td></tr>
+                        <tr><th></th><td></td><td></td><td></td></tr>
+                    </table>
+                </div>
+            </div>
+            <% end %>
+        </div>
     </div>
-</div>
-
-<hr/>
-<hr/>
-<hr/>
-<div>
-    <%= render 'new_evidence_item' %>
+    
+    <hr/>
 </div>
