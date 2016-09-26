@@ -303,18 +303,17 @@ class EvidenceSourcesController < ApplicationController
                 # TODO integrity, rating_tenth
             })
         else
-            # TODO
+            ei_entry = G2EvidenceItem.find(eiid)
+            ei_entry.status = status
+            ei_entry.benefit_under_test = benefit
+            ei_entry.result = result,
+            ei_entry.ctx_who = ctx_whom,
+            ei_entry.ctx_what = ctx_what,
+            ei_entry.ctx_where = ctx_where,
+            ei_entry.ctx_when = ctx_when,
+            ei_entry.ctx_how = ctx_how,
             
-            # ei_entry = G2EvienceItem.find(eiid)
-            # ei_entry.benefit_under_test = benefit,
-            # ei_entry.result = result,
-            # ei_entry.ctx_who = ctx_whom,
-            # ei_entry.ctx_what = ctx_what,
-            # ei_entry.ctx_where = ctx_where,
-            # ei_entry.ctx_when = ctx_when,
-            # ei_entry.ctx_how = ctx_how,
-            
-            # ei_entry.save
+            ei_entry.save
         end
         
         redirect_to edit_evidence_source_path esid
