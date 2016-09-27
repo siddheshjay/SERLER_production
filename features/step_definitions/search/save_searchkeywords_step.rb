@@ -1,12 +1,12 @@
-Given(/^I’m logged in as a user$/) do
+Given(/^I'm logged in as a user save search test$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Given(/^I’m on search page$/) do
+Given(/^I'm on search page for save search test$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Given(/^There is ‘Save’ button on search page$/) do
+Given(/^There is 'Save' button on search page for save search test$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 

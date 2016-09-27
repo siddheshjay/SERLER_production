@@ -4,8 +4,8 @@ Feature: Select what columns are visible
     So that I can experiment with what is visible
 
     Background:
-        Given I’m logged in as a user
-        Given I’m on search result page
+        Given I'm logged in as a user at select result test
+        Given I'm on search result page at select result test
         Given The result is shown according to different columns
         Given Each column has its own checklist
         Given There are 3 papers in DB
