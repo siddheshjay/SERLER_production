@@ -1,6 +1,6 @@
 class SearchController < ApplicationController
   before_action :set_search, only: [:search]
-  skip_before_filter :authenticate_user!
+  skip_before_action :authenticate_user!
   def search
   end
 
