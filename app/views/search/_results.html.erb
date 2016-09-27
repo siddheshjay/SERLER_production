@@ -8,7 +8,7 @@
     <% @results.each_with_index do |evidence, index| %>
       <tr>
         <td class="row">
-          <div class="row">
+          <div class="row title">
             <div class="col-sm-1 col-md-1">
               <small><%= index + 1 %>. </small>
             </div>
@@ -16,21 +16,84 @@
               <strong><%= evidence.title%></strong>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-offset-1 col-sm-9 col-md-offset-1 col-md-9">
-              <small> <%= evidence.evidence_source_authors.join(", ") %> </small>
-              <small><%= evidence.year %></small>
+          <div class="row description">
+            <div class="col-sm-9 col-md-9 text-left">
+              <dl class="dl-horizontal">
+                <dt>Authors</dt>
+                <dd>
+                  <%= evidence.evidence_source_authors.join(", ") %>
+                </dd>
+              </dl>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-offset-1 col-sm-9 col-md-offset-1 col-md-9">
-              <strong>Source:</strong> <small> <%= evidence.source_title%> </small>
+            <div class="col-sm-9 col-md-9">
+              <dl class="dl-horizontal">
+                <dt>Year</dt>
+                <dd>
+                  <%= evidence.year %>
+                </dd>
+              </dl>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-offset-1 col-sm-9 col-md-offset-1 col-md-9">
-              <strong>URL:</strong><small> <%= evidence.URL %> </small>
-              <strong>DOI:</strong><small><%= evidence.DOI%></small>
+            <div class="col-sm-9 col-md-9">
+              <dl class="dl-horizontal">
+                <dt>Source</dt>
+                <dd>
+                  <%= evidence.source_title%>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-9 col-md-9">
+              <dl class="dl-horizontal">
+                <dt>Research Aim</dt>
+                <dd>
+                  <%= evidence.research_aim%>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-9 col-md-9">
+              <dl class="dl-horizontal">
+                <dt>Publisher</dt>
+                <dd>
+                  <%= evidence.publisher%>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-9 col-md-9">
+              <dl class="dl-horizontal">
+                <dt>Published At</dt>
+                <dd>
+                  <%= evidence.published_time%>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-9 col-md-9">
+              <dl class="dl-horizontal">
+                <dt>Url</dt>
+                <dd>
+                  <%= evidence.URL%>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-9 col-md-9">
+              <dl class="dl-horizontal">
+                <dt>Doi</dt>
+                <dd>
+                  <%= evidence.DOI%>
+                </dd>
+              </dl>
             </div>
           </div>
         </td>
