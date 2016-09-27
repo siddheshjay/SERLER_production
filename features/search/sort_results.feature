@@ -4,8 +4,8 @@ Feature: Sort the displayed results of a search
     So that I can experiment with what is useful
 
     Background:
-        Given I’m logged in as a user
-        Given I’m on search result page
+        Given I'm logged in as a user at sort test
+        Given I'm on search result page at sort test
         Given There are several fields of results can be chose and the results can be sorted by these fields
         Given Each field has its own checklist
         Given There are 3 papers in DB

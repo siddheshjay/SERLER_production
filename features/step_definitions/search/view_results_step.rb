@@ -5,10 +5,10 @@
 
 Given(/^I'm logged in as a user at vr case$/) do
   @user = User.create!({
-                           email: 'admin@admin.com',
-                           password: '12345678',
-                           password_confirmation: '12345678'
-                       })
+    email: 'admin@admin.com',
+    password: '12345678',
+    password_confirmation: '12345678'
+  })
   @user.save!
   visit new_user_session_path
   expect(page).to have_content('Log in')
@@ -27,14 +27,14 @@ end
 And(/^There are (\d+) papers in DataBase at vr case$/) do |arg1|
   arg1.to_i.times do |i|
     evidence = EvidenceSource.create!(
-        {
-            status: 'NEW', submitter_id: 1,
-            title: 'From CMMI and Isolation to Scrum, Agile, Lean and Collaboration',
-            source_title: 'Agile Conference, 2009. AGILE \'09.',
-            year: 2009, volume_number: nil, issue_number: nil,
-            page_str: '283-288', page_begin: 283, page_cease: 288,
-            DOI: '10.1109/AGILE.2009.18',
-        })
+      {
+        status: 'NEW', submitter_id: 1,
+        title: 'From CMMI and Isolation to Scrum, Agile, Lean and Collaboration',
+        source_title: 'Agile Conference, 2009. AGILE \'09.',
+        year: 2009, volume_number: nil, issue_number: nil,
+        page_str: '283-288', page_begin: 283, page_cease: 288,
+        DOI: '10.1109/AGILE.2009.18',
+      })
     evidence.save!
   end
 end

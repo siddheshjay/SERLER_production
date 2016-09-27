@@ -1,8 +1,8 @@
-Given(/^I’m logged in as a user$/) do
+Given(/^I'm logged in as a user for browse results test$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Given(/^I’m on search page$/) do
+Given(/^I'm on search page for browse results test$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 

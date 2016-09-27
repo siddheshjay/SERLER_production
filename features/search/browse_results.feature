@@ -4,8 +4,8 @@ Feature: Browse the repository by information
     So that I can familiarize myself with the data
 
     Background:
-        Given I’m logged in as a user
-        Given I’m on search page
+        Given I'm logged in as a user at browse results test
+        Given I'm on search page at browse results test
         Given I search repository by information like date or SE method
         Given I get related repository
         Given There are 3 papers in DB

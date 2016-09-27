@@ -4,8 +4,8 @@ Feature: Save searches
     So that I can easily run them again later to save time
 
     Background:
-        Given I’m logged in as a user
-        Given I’m on search page
+        Given I'm logged in as a user at save search test
+        Given I'm on search page at save search test
         Given There is ‘Save’ button on search page
         Given There are 3 papers in DB
 
