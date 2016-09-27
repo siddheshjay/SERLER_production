@@ -2,7 +2,6 @@ Rails.application.routes.draw do
 
   get 'welcome/landing'
   #root 'welcome#landing'
-  
   get 'evidence_sources/my_submissions'
   get 'evidence_sources/new_submitted'
   get 'evidence_sources/rejected'
@@ -12,9 +11,9 @@ Rails.application.routes.draw do
 
   resources :evidence_sources
 
-  get 'search/show'
-  match 'search' => "search#search", via: [:post, :get]
-  root 'search#search'
+  resources :search
+
+  root 'search#index'
 
   resources :methodologies
   resources :se_methods

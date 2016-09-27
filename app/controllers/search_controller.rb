@@ -1,8 +1,8 @@
 class SearchController < ApplicationController
   helper_method :sort_column, :sort_direction
-  before_action :set_search, only: [:search]
+  before_action :set_search, only: [:index]
   skip_before_action :authenticate_user!
-  def search
+  def index
   end
 
   private

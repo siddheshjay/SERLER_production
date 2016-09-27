@@ -1,5 +1,5 @@
 <% init = true %>
-<%= nested_form_for(@search, url: search_path,
+<%= nested_form_for(@search, url: search_index_path,
                     :html => { :id=> "search_form",:method => 'GET',:class => "form-inline search_form" }) do |f| %>
 
                     <%=f.fields_for :search_fields,nil,{ :class => 'search_fields'} do |builder|  %>
