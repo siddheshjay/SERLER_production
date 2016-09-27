@@ -5,9 +5,38 @@
   margin:0px 5px !important;
 }
 
-
 .search_field  {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.results {
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
+
+  .left {
+    margin-top: 40px;
+  }
+  .right{
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    .description {
+      margin-top: 10px;
+    }
+    @media (min-width: 768px){
+      .dl-horizontal dt {
+        width: 130px;
+      }
+      .dl-horizontal dd {
+        margin-left: 150px;
+      }
+    }
+    dl {
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+  }
 
 }
+
+

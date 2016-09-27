@@ -3,71 +3,77 @@
 
 <% init = true %>
 
-<%= nested_form_for(@search, url: {action: "show"},
+<%= nested_form_for(@search, url: search_path,
                     :html => { :id=> "search_form",:method => 'GET',:class => "form-inline search_form",:onsubmit => "return validateForm()" }) do |f| %>
 
-    <%=label :from_date, 'From: '%>
-      <div class="input-group date" id="fromdate">
-        <%=f.text_field :from_date, size: 10 ,:value=>@search.from_date,class: 'form-control' %>
-        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-      </div>
+                    <%=f.fields_for :search_fields,nil,{ :class => 'search_fields'} do |builder|  %>
+                      <div class ="search_field">
 
-      <%= label_tag :to_date, 'To:' %>
-      <div class="input-group date" id="todate">
-        <%=f.text_field :to_date,  size: 10 , :value=>@search.to_date,class: 'form-control' %>
-        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-      </div>
+                        <%unless init == true %>
+                          <%= builder.select :op1,
+                            options_for_select([["OR", "or" ], ["AND", "and"]], builder.object[:op1]),
+                            {},{:class=>"form-control"}
 
-    <%=f.fields_for :search_fields,nil,{ :class => 'search_fields'} do |builder|  %>
-        <div class ="search_field">
+                          %>
+                      <%end%>
 
-          <%unless init == true %>
-              <%= builder.select :op1,
-                                 options_for_select([["OR", "or" ], ["AND", "and"]], builder.object[:op1]),
-                                 {},{:class=>"form-control"}
+                      <%= builder.select :field,
+                        options_for_select([["Source Title", "source_title" ],
+                                            ["Author", "name"],
+                                            ["Author Abbr.", "name_abbr"],
+                                            ["Category","category"],
+                                            ["Publisher","publisher"],
+                                            ["URL","URL"],
+                                            ["DOI","DOI"],
+                                            ["Research Aim","research_aim"],
+                                            ["Year","year"],
+                                            ["Raw Bib","raw_bib"],
+                                            ["Raw APA","raw_apa"],
+                      ],
+                      builder.object[:field]),
+                        {},{:class=>"form-control search_field_option"}
 
-              %>
-          <%end%>
+                      %>
 
-          <%= builder.select :field,
-                             options_for_select([["Source Title", "source_title" ],
-                                                 ["Journal","journal"],
-                                                 ["Rearch Aim","research_aim"],
-                                                 ["Credibility Rate","credibility_rate"],
-                                                ],
-                                                builder.object[:field]),
-                             {},{:class=>"form-control search_field_option"}
+                    <%= builder.select :op2,
+                      options_for_select([["Contain", "ILIKE" ],
+                                          ["Does not contain", "NOT ILIKE"],
+                                          ["Is equal to", "="],
+                                          ["Is less than", "<"],
+                                          ["Is more than", ">"],
+                    ],
+                    builder.object[:op2]) ,
+                      {},:class=>"form-control search_operation"
 
-          %>
+                    %>
 
-          <%= builder.select :op2,
-                             options_for_select([["Contain", "ILIKE" ],
-                                                 ["Does not contain", "NOT ILIKE"],
-                                                 ["Is equal to", "="],
-                                                 ["Is less than", "<"],
-                                                 ["Is more than", ">"],
-                                                ],
-                                                builder.object[:op2]) ,
-                             {},:class=>"form-control search_operation"
-
-          %>
-
-          <%= builder.text_field :content,:class=>"form-control",:autofocus=>true %>
+                  <%= builder.text_field :content,:class=>"form-control",:autofocus=>true %>
 
 
-          <% unless init == true %>
-              <%= builder.link_to_remove "Remove Field",:class => 'btn btn-danger btn-sm'%>
-          <%end%>
-          <% init = false%>
-        </div>
-    <% end %>
+                  <% unless init == true %>
+                    <%= builder.link_to_remove "Remove Field",:class => 'btn btn-danger btn-sm'%>
+                  <%end%>
+                  <% init = false%>
+                      </div>
+                    <% end %>
 
-    <div>
-      <%= f.link_to_add "Add a Field", :search_fields,:class => 'btn btn-info btn-sm' %>
-      <input type="submit" value="Search" class = "btn btn-info btn-sm">
-    </div>
-
-<% end %>
+                    <div class="button-group">
+                      <%= f.link_to_add "Add a Field", :search_fields,:class => 'btn btn-info btn-sm' %>
+                      <%= f.submit "Search", class: "btn btn-info btn-sm" %>
+                    </div>
 
 
-<%= render 'popup'%>
+                    <div class="container">
+                      <div class="row results">
+                        <div class="left col-sm-3 col-md-3">
+                          <%= render 'left_search_form', f: f %>
+                        </div>
+                        <div class="right col-sm-9 col-md-9">
+                          <%= render 'results' if @results%>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+
+
+                  <%= render 'popup'%>
