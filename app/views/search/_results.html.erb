@@ -1,3 +1,5 @@
+
+<h4>Search Result: <%= @results.count if @result%> </h4>
 <table class="table">
   <thead>
     <tr>
@@ -23,6 +25,6 @@
         <td> <%= evidence.published_time %> </td>
         <td> <%= evidence.DOI %> </td>
       </tr>
-      <% end %>
+    <% end %>
   </tbody>
 </table>
