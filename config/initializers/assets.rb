@@ -12,3 +12,4 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w( search_form.js )
 
 Rails.application.config.assets.precompile += %w( bibtex_js.js )
+Rails.application.config.assets.precompile += %w( sign_up.js )
