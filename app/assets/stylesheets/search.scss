@@ -23,20 +23,26 @@
     .description {
       margin-top: 10px;
     }
-    @media (min-width: 768px){
-      .dl-horizontal dt {
-        width: 130px;
-      }
-      .dl-horizontal dd {
-        margin-left: 150px;
-      }
+    a.current{
+      padding-right: 16px;
+      position: relative;
     }
-    dl {
-      margin-bottom: 5px;
-      font-size: 12px;
+    a.current.asc:after {
+      content:'\f062';
+      font-family: "FontAwesome";
+      right:-5px;
+      position:absolute;
+      top:0;
+
+    }
+    a.current.desc:after {
+      content:'\f063';
+      font-family: "FontAwesome";
+      right:-5px;
+      position:absolute;
+      top:0;
     }
   }
-
 }
 
 

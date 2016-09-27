@@ -1,103 +1,28 @@
 <table class="table">
   <thead>
-    <td>
-      <h4>Search Result: <%= @results.count %> </h4>
-    </td>
+    <tr>
+      <td><%= sort_link "Title", "title" %></td>
+      <td><%= sort_link "Authors", "evidence_source_authors" %></td>
+      <td><%= sort_link "Year", "year" %></td>
+      <td><%= sort_link "Source", "source_title" %></td>
+      <td><%= sort_link "Research Aim", "research_aim"%></td>
+      <td><%= sort_link "Publisher", "publisher"%></td>
+      <td><%= sort_link "Published At", "published_time"%></td>
+      <td><%= sort_link "DOI", "doi"%></td>
+    </tr>
   </thead>
   <tbody>
     <% @results.each_with_index do |evidence, index| %>
       <tr>
-        <td class="row">
-          <div class="row title">
-            <div class="col-sm-1 col-md-1">
-              <small><%= index + 1 %>. </small>
-            </div>
-            <div class="col-sm-10 col-md-10">
-              <strong><%= evidence.title%></strong>
-            </div>
-          </div>
-          <div class="row description">
-            <div class="col-sm-9 col-md-9 text-left">
-              <dl class="dl-horizontal">
-                <dt>Authors</dt>
-                <dd>
-                  <%= evidence.evidence_source_authors.join(", ") %>
-                </dd>
-              </dl>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-9 col-md-9">
-              <dl class="dl-horizontal">
-                <dt>Year</dt>
-                <dd>
-                  <%= evidence.year %>
-                </dd>
-              </dl>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-9 col-md-9">
-              <dl class="dl-horizontal">
-                <dt>Source</dt>
-                <dd>
-                  <%= evidence.source_title%>
-                </dd>
-              </dl>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-9 col-md-9">
-              <dl class="dl-horizontal">
-                <dt>Research Aim</dt>
-                <dd>
-                  <%= evidence.research_aim%>
-                </dd>
-              </dl>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-9 col-md-9">
-              <dl class="dl-horizontal">
-                <dt>Publisher</dt>
-                <dd>
-                  <%= evidence.publisher%>
-                </dd>
-              </dl>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-9 col-md-9">
-              <dl class="dl-horizontal">
-                <dt>Published At</dt>
-                <dd>
-                  <%= evidence.published_time%>
-                </dd>
-              </dl>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-9 col-md-9">
-              <dl class="dl-horizontal">
-                <dt>Url</dt>
-                <dd>
-                  <%= evidence.URL%>
-                </dd>
-              </dl>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-9 col-md-9">
-              <dl class="dl-horizontal">
-                <dt>Doi</dt>
-                <dd>
-                  <%= evidence.DOI%>
-                </dd>
-              </dl>
-            </div>
-          </div>
-        </td>
+        <td> <%= link_to evidence.title, evidence.URL %> </td>
+        <td> <%= evidence.authors %>  </td>
+        <td> <%= evidence.year %> </td>
+        <td> <%= evidence.source_title %>  </td>
+        <td> <%= evidence.research_aim %> </td>
+        <td> <%= evidence.publisher %> </td>
+        <td> <%= evidence.published_time %> </td>
+        <td> <%= evidence.DOI %> </td>
       </tr>
-    <% end %>
+      <% end %>
   </tbody>
 </table>

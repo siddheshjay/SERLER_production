@@ -1,10 +1,6 @@
-
-<%= javascript_include_tag 'search_form'%>
-
 <% init = true %>
-
 <%= nested_form_for(@search, url: search_path,
-                    :html => { :id=> "search_form",:method => 'GET',:class => "form-inline search_form",:onsubmit => "return validateForm()" }) do |f| %>
+                    :html => { :id=> "search_form",:method => 'GET',:class => "form-inline search_form" }) do |f| %>
 
                     <%=f.fields_for :search_fields,nil,{ :class => 'search_fields'} do |builder|  %>
                       <div class ="search_field">
@@ -17,8 +13,7 @@
                           %>
                       <%end%>
 
-                      <%= builder.select :field,
-                        options_for_select([["Source Title", "source_title" ],
+                      <%= builder.select :field, options_for_select([["Source Title", "source_title" ],
                                             ["Author", "name"],
                                             ["Author Abbr.", "name_abbr"],
                                             ["Category","category"],
@@ -65,11 +60,14 @@
 
                     <div class="container">
                       <div class="row results">
-                        <div class="left col-sm-3 col-md-3">
+                        <div class="left col-sm-2 col-md-2">
                           <%= render 'left_search_form', f: f %>
                         </div>
-                        <div class="right col-sm-9 col-md-9">
-                          <%= render 'results' if @results%>
+                        <div class="right col-sm-10 col-md-10">
+                          <h4>Search Result: <%= @results.count %> </h4>
+                          <div class="table-responsive">
+                            <%= render 'results' if @results%>
+                          </div>
                         </div>
                       </div>
                     </div>
