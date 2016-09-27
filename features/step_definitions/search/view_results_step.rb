@@ -3,7 +3,7 @@
 #     I want to be able to view the results of a search in a tabular format
 #     So that I can view a lot of information easily.
 
-Given(/^I'm logged in as a user$/) do
+Given(/^I'm logged in as a user at vr case$/) do
   @user = User.create!({
                            email: 'admin@admin.com',
                            password: '12345678',
@@ -18,13 +18,13 @@ Given(/^I'm logged in as a user$/) do
   click_button 'Log in'
 end
 
-Given(/^I'm on search page$/) do
+And(/^I'm on search page at vr case$/) do
   visit root_path
   #pending # Write code here that turns the phrase above into concrete actions
   expect(page).to have_button("Search")
 end
 
-Given(/^There are (\d+) papers in DataBase$/) do |arg1|
+And(/^There are (\d+) papers in DataBase at vr case$/) do |arg1|
   arg1.to_i.times do |i|
     evidence = EvidenceSource.create!(
         {
@@ -39,11 +39,11 @@ Given(/^There are (\d+) papers in DataBase$/) do |arg1|
   end
 end
 
-When(/^I type specific keywords and click search button$/) do
+When(/^I type specific keywords and click search button at vr case$/) do
   fill_in 'search[search_fields_attributes][0][content]', with: 'Agile'
   click_button 'Search'
 end
 
-Then(/^I should get specific results and I can view them in a tabular format$/) do
+Then(/^I should get specific results and I can view them in a tabular format at vr case$/) do
   expect(page).to have_selector("table.table")
 end
