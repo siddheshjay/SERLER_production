@@ -31,6 +31,8 @@ class SearchController < ApplicationController
   end
 
   def sort_column
+    return params[:sort] if params[:sort] == "name"
+
     EvidenceSource.column_names.include?(params[:sort]) ? params[:sort] : "title"
   end
 
@@ -80,9 +82,11 @@ class SearchController < ApplicationController
   def search_scope(query_string, query_author=false)
     hash = {sort_column.to_sym => sort_direction.to_sym}
     if query_author
-      -> (model) { model.order(hash).joins(:evidence_source_authors).where(query_string)}
+      -> (model) { model.joins(:evidence_source_authors).where(query_string).order(hash)}
+    elsif sort_column == "name"
+      -> (model) { model.joins(:evidence_source_authors).where(query_string).order("evidence_source_authors.#{sort_column} #{sort_direction}")}
     else
-      -> (model) { model.order(hash).where(query_string) }
+      -> (model) { model.where(query_string).order(hash)}
     end
   end
 end
