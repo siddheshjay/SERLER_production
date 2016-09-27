@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'browse/index'
+
   get 'welcome/landing'
   #root 'welcome#landing'
   
