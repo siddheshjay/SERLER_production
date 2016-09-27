@@ -122,6 +122,7 @@
                             "status": "<%= ei.status %>", "benefit": "<%= ei.benefit_under_test %>", "result": "<%= ei.result %>",
                             "ctx_what": "<%= ei.ctx_what %>", "ctx_when": "<%= ei.ctx_when %>", "ctx_where": "<%= ei.ctx_where %>",
                             "ctx_who": "<%= ei.ctx_who %>", "ctx_how": "<%= ei.ctx_how %>",
+                            "integrity": "<%=ei.integrity%>", "rating_tenth": "<%= ei.rating_tenth %>", "rating": "<%= ei.rating_tenth.to_i / 10 %>"
                         },
                     <% end %>
                 };
@@ -144,7 +145,9 @@
                             $('#new-evidence-item-modal').modal();
                             
                         } else if (action == "x") {
-                            
+                            console.log("to delete evidence item: " + eiid);
+                            $('#btn-delete-evidence-item').data("serler-eiid", eiid);
+                            $('#confirm-box').modal();
                         } else {
                             
                         }
@@ -157,8 +160,8 @@
             <div class="list-group-item" data-serler-eiid="<%=ei.id%>">
                 <div class="row text-right text-uppercase">
                     <dov class="col-sm-6"></dov>
-                    <div class="col-sm-2"><em>Integrity: TODO</emd></div>
-                    <div class="col-sm-2"><em>Rating: TODO</em></div>
+                    <div class="col-sm-2"><em>Integrity: <%= ei.integrity %></emd></div>
+                    <div class="col-sm-2"><em>Rating: <%= ei.rating_tenth.to_i / 10 %></em></div>
                     <!--
                     <div class="col-sm-1">
                         <code><em><%= draft ? "DRAFT"  : "" %></em></code>
@@ -193,4 +196,56 @@
     </div>
     
     <hr/>
+    <div class="modal fade" id="confirm-box" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                -->
+                <div class="modal-body">
+                    <div class="text-center"><h3>Sure to delete the evidence item?</h3></div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button class="btn btn-danger btn-block" id="btn-delete-evidence-item" data-serler-eiid="-1">DELETE</button>
+                            <script>
+                                $().ready(function(){
+                                    $('#btn-delete-evidence-item').click(function(){
+                                        console.log(this);
+                                        console.log($(this).data("serler-eiid"));
+                                        
+                                        var eiid = $(this).data("serler-eiid");
+                                        
+                                        $.ajax({
+                                            url: "/evidence_sources/<%=@evidence_source.id%>/g2_evidence_items/" + eiid,
+                                            // <%= evidence_source_g2_evidence_item_path @evidence_source.id, 0 %>
+                                            type: "DELETE",
+                                            
+                                            success: function() {
+                                                console.log('delete success');
+                                            },
+                                            error: function() {
+                                                console.log('delete error');
+                                            },
+                                            complete: function() {
+                                                location.reload();
+                                            },
+                                        });
+                                        return true;
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="btn btn-default btn-block" data-dismiss="modal">CANCEL</button>
+                        </div>
+                    </div>
+                </div>
+          </div>
+        </div>
+    </div>
 </div>
