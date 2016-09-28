@@ -11,8 +11,11 @@ Rails.application.routes.draw do
   get 'evidence_sources/published'
   get 'evidence_sources/all'
 
+  get "search/history"
+  resources :search do
+  end
+
   resources :evidence_sources
-  resources :search
   resources :methodologies
   resources :se_methods
   resources :evidence_items
