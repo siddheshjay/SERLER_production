@@ -28,15 +28,26 @@ ready = ->
   $('#fromdate').datetimepicker datetime_mode
   $('#todate').datetimepicker datetime_mode
 
-  save_search = ()->
+  change_form_post = ()->
     form = $("#search_form")
     form.attr("method", "post")
-    form.attr("action", "/search")
+    return
+
+  change_form_get = ()->
+    form = $("#search_form")
+    form.attr("method", "get")
+    return
+
+  save_search = ()->
+    form = $("#search_form")
+    change_form_post()
     posting = $.post("/search", form.serialize())
     posting.done (data)->
         alert("Search Saved")
     posting.fail ()->
         alert("Search Save Failed")
+    posting.always ()->
+        change_form_get()
     return
 
   export_results = (obj)->

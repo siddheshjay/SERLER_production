@@ -22,7 +22,7 @@
         <td> <%= evidence.source_title %>  </td>
         <td> <%= evidence.research_aim %> </td>
         <td> <%= evidence.publisher %> </td>
-        <td> <%= evidence.published_time %> </td>
+        <td> <%= evidence.published_time.strftime("%v") %> </td>
         <td> <%= evidence.DOI %> </td>
       </tr>
     <% end %>

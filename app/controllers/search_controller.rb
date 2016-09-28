@@ -88,13 +88,13 @@ class SearchController < ApplicationController
 
     unless params[:search][:from_date].blank?
       query_string << "AND " unless query_string.blank?
-      query_string << "release_date >= "
+      query_string << "published_time >= "
       query_string << "'#{params[:search][:from_date]}' "
     end
 
     unless params[:search][:to_date].blank?
       query_string << "AND " unless query_string.blank?
-      query_string << "release_date <= "
+      query_string << "published_time <= "
       query_string << "'#{params[:search][:to_date]}' "
     end
 
