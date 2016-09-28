@@ -1,7 +1,8 @@
 class SearchController < ApplicationController
-  before_action :set_search, only: [:search]
+  helper_method :sort_column, :sort_direction
+  before_action :set_search, only: [:index]
   skip_before_action :authenticate_user!
-  def search
+  def index
   end
 
   private
@@ -27,6 +28,16 @@ class SearchController < ApplicationController
       @search.search_fields.build
       @results = []
     end
+  end
+
+  def sort_column
+    return params[:sort] if params[:sort] == "name"
+
+    EvidenceSource.column_names.include?(params[:sort]) ? params[:sort] : "title"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ?  params[:direction] : "asc"
   end
 
   #make query string for PG
@@ -69,10 +80,13 @@ class SearchController < ApplicationController
   end
 
   def search_scope(query_string, query_author=false)
+    hash = {sort_column.to_sym => sort_direction.to_sym}
     if query_author
-      -> (model) { model.joins(:evidence_source_authors).where(query_string)}
+      -> (model) { model.joins(:evidence_source_authors).where(query_string).order(hash)}
+    elsif sort_column == "name"
+      -> (model) { model.joins(:evidence_source_authors).where(query_string).order("evidence_source_authors.#{sort_column} #{sort_direction}")}
     else
-      -> (model) { model.where(query_string) }
+      -> (model) { model.where(query_string).order(hash)}
     end
   end
 end

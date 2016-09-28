@@ -19,7 +19,7 @@ Given(/^I'm logged in as a user at vr case$/) do
 end
 
 And(/^I'm on search page at vr case$/) do
-  visit root_path
+  visit search_index_path
   #pending # Write code here that turns the phrase above into concrete actions
   expect(page).to have_button("Search")
 end

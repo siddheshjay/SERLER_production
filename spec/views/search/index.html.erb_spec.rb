@@ -1,6 +1,20 @@
 require 'rails_helper'
 
-RSpec.describe "search/search.html.erb", type: :view do
+RSpec.describe "search/index.html.erb", type: :view do
+  before do
+    controller.singleton_class.class_eval do
+      protected
+      def sort_column
+        "title"
+      end
+
+      def sort_direction
+        "desc"
+      end
+
+      helper_method :sort_column, :sort_direction
+    end
+  end
   it 'displays search details correctly' do
     assign(:search, Search.new(search_fields_attributes: [
       field: 'title',
