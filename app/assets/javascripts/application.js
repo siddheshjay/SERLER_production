@@ -20,3 +20,4 @@
 //= require search
 //= require browse
 //= require jquery.infinitescroll
+//= require bootstrap-multiselect
