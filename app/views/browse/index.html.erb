@@ -1,2 +1,20 @@
-<h1>Browse#index</h1>
-<p>Find me in app/views/browse/index.html.erb</p>
+<div class="table-responsive">
+  <table id="evidence_sources" class="table table-striped">
+    <thead>
+      <tr>
+        <td>Title</td>
+        <td>Authors</td>
+        <td>Year</td>
+        <td>Source</td>
+        <td>Research Aim</td>
+        <td>Publisher</td>
+        <td>Published At</td>
+        <td>DOI</td>
+      </tr>
+    </thead>
+    <tbody class="page">
+      <%= render @evidence_sources %>
+    </tbody>
+  </table>
+  <%= paginate @evidence_sources %>
+</div>

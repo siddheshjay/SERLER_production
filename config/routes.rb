@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
 
-  get 'browse/index'
+
+  match "browse" => "browse#index", via: [:get]
 
   get 'welcome/landing'
   #root 'welcome#landing'
-  
   get 'evidence_sources/my_submissions'
   get 'evidence_sources/new_submitted'
   get 'evidence_sources/rejected'
