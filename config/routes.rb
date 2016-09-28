@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  root 'browse#index'
   match "browse" => "browse#index", via: [:get]
 
   get 'welcome/landing'
@@ -16,7 +17,6 @@ Rails.application.routes.draw do
 
   get 'search/show'
   match 'search' => "search#search", via: [:post, :get]
-  root 'search#search'
 
   resources :methodologies
   resources :se_methods
