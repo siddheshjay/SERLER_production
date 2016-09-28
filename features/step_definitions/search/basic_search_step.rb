@@ -34,7 +34,7 @@ Given(/^There are (\d+) papers in DB\$$/) do |arg1|
 end
 
 Given(/^I'm on search page$/) do
-  visit root_path
+  visit search_index_path
   #pending # Write code here that turns the phrase above into concrete actions
   expect(page).to have_button("Search")
 end
