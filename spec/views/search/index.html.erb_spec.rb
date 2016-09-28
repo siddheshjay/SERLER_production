@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "search/search.html.erb", type: :view do
-
+RSpec.describe "search/index.html.erb", type: :view do
   before do
     controller.singleton_class.class_eval do
       protected
