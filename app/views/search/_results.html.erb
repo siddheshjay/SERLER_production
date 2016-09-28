@@ -16,7 +16,7 @@
   <tbody>
     <% @results.each_with_index do |evidence, index| %>
       <tr>
-        <td> <%= link_to evidence.title, evidence.URL %> </td>
+        <td> <%= evidence.title %> </td>
         <td> <%= evidence.authors %>  </td>
         <td> <%= evidence.year %> </td>
         <td> <%= evidence.source_title %>  </td>
