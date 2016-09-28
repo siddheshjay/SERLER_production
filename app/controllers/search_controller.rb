@@ -2,7 +2,25 @@ class SearchController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_action :set_search, only: [:index]
   skip_before_action :authenticate_user!
+
   def index
+  end
+
+  def create
+    @search = Search.new()
+    @search.name = search_params[:name] if search_params[:name]
+
+    fields_params.keys.each do |key|
+      fields = fields_params[key]
+      fields.delete_if {|x| x.to_s == "_destroy" }
+      @search.search_fields.build(fields)
+    end
+
+    if @search.save!
+      render json: {success: true}
+    else
+      render json: {success: false}, status: 400
+    end
   end
 
   private
@@ -11,6 +29,10 @@ class SearchController < ApplicationController
       params.require(:search).permit(:from_date,:to_date,:name, :saved_on,
                                      :search_fields_attributes => [:content,:field,:op1,:op2,:_destroy]);
     end
+  end
+
+  def fields_params
+    search_params[:search_fields_attributes]
   end
 
   def set_search
