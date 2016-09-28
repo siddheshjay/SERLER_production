@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-
-
   root 'browse#index'
   match "browse" => "browse#index", via: [:get]
 
@@ -14,10 +12,7 @@ Rails.application.routes.draw do
   get 'evidence_sources/all'
 
   resources :evidence_sources
-
-  get 'search/show'
-  match 'search' => "search#search", via: [:post, :get]
-
+  resources :search
   resources :methodologies
   resources :se_methods
   resources :evidence_items
