@@ -26,21 +26,25 @@ end
 
 And(/^There are (\d+) papers in DataBase at vr case$/) do |arg1|
   arg1.to_i.times do |i|
-    evidence = EvidenceSource.create!(
-      {
-        status: 'NEW', submitter_id: 1,
-        title: 'From CMMI and Isolation to Scrum, Agile, Lean and Collaboration',
-        source_title: 'Agile Conference, 2009. AGILE \'09.',
-        year: 2009, volume_number: nil, issue_number: nil,
-        page_str: '283-288', page_begin: 283, page_cease: 288,
-        DOI: '10.1109/AGILE.2009.18',
-      })
-    evidence.save!
+    EvidenceSource.create!(
+        {
+          status: 'NEW', submitter_id: 1,
+          title: 'How Colors in Business Dashboards Affect Users Decision Making.',
+          source_title: 'ommunications of the ACM. Apr2016, Vol. 59 Issue 4, p50-57. 8p. 1 Color Photograph, 4 Charts, 6 Graphs.',
+          year: 2008, volume_number: 100, issue_number: 4,
+          page_str: '274a-274a', page_begin: 100, page_cease: 300,
+          DOI: '10.1145/2818993',
+          category: 'Books',
+          publisher: 'Atlanta, Ga. : Big Nerd Ranch, [1922]',
+          published_time: DateTime.new(2008,12,12),
+          rating_tenth: 9,
+          research_aim: 'Ads.',
+        })
   end
 end
 
 When(/^I type specific keywords and click search button at vr case$/) do
-  fill_in 'search[search_fields_attributes][0][content]', with: 'Agile'
+  fill_in 'search[search_fields_attributes][0][content]', with: 'ACM'
   within(".button-group") do
     click_button 'Search'
   end

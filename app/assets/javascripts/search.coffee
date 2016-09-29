@@ -1,30 +1,25 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
-
-###*
-# Created by chandler on 2016. 9. 10..
-###
-
-
-$(document).on 'nested:fieldAdded', (event) ->
-  # this field was just inserted into your form
-  field = event.field
-  return
-$(document).on 'nested:fieldRemoved', (event) ->
-  # this field was just inserted into your form
-  field = event.field
-  # it's a jQuery object already! Now you can find date input
-  event.target.remove()
-  return
-
 ready = ->
   $("a[data-sort]").click (event)->
       sort_column(event.target)
 
+  $("a[data-action]").click (event)->
+      save_search()
+      return
 
-  $("#search_form").on 'submit', ()->
-      validateForm()
+  $("button[data-modal]").click (event)->
+      $("#save_search_modal").on 'show.bs.modal', ()->
+        $("#save_search_modal input").focus()
+        return
+      return
+
+  $("#search_form").on 'submit', (event)->
+      data_action = $("button[data-action]")
+      if data_action == "save"
+        save_search()
+        #export_results()
+      else
+        validateForm()
+      return
 
 
   datetime_mode =
@@ -33,6 +28,30 @@ ready = ->
   $('#fromdate').datetimepicker datetime_mode
   $('#todate').datetimepicker datetime_mode
 
+  change_form_post = ()->
+    form = $("#search_form")
+    form.attr("method", "post")
+    return
+
+  change_form_get = ()->
+    form = $("#search_form")
+    form.attr("method", "get")
+    return
+
+  save_search = ()->
+    form = $("#search_form")
+    change_form_post()
+    posting = $.post("/search", form.serialize())
+    posting.done (data)->
+        alert("Search Saved")
+    posting.fail ()->
+        alert("Search Save Failed")
+    posting.always ()->
+        change_form_get()
+    return
+
+  export_results = (obj)->
+    return
 
   sort_column = (obj)->
     form = $("#search_form")
@@ -69,3 +88,14 @@ ready = ->
 
 $(document).ready ready
 $(document).on "page:load", ready
+$(document).on 'nested:fieldAdded', (event) ->
+  # this field was just inserted into your form
+  field = event.field
+  return
+
+$(document).on 'nested:fieldRemoved', (event) ->
+  # this field was just inserted into your form
+  field = event.field
+  # it's a jQuery object already! Now you can find date input
+  event.target.remove()
+  return
