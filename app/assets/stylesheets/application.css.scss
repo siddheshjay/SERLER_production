@@ -16,6 +16,8 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
+@import 'bootstrap-sprockets';
+@import 'bootstrap-datetimepicker';
 
 h1.header
 {
@@ -46,10 +48,6 @@ body
 }
 #app_footer
 {
-  position: relative;
-  width: 100%;
-  padding-top: 5px;
-  padding-bottom: 5px;
   background-color: #00306a;
 }
 
