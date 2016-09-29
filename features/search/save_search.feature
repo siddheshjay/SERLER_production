@@ -8,6 +8,7 @@ Feature: Save Search
     Given I'm on search page
     Given There are 3 papers in DB$
 
+  @javascript
   Scenario: User can save and view search
     When I type specific keywords and click search button
     Then I should get specific results
