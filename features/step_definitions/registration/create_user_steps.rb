@@ -28,41 +28,41 @@ When /^I visit registration page$/ do
 end
 
 Then /^I should be able to input my email$/ do
-  fill_in "Title", :with => "Caddyshack"
+  fill_in "user_email", :with => "123@123.com"
 end
 
 And /^I should be able to input my password$/ do
-  pending
+  fill_in "user_password", :with => "123123"
 end
 
 But /^My password should be minimum 6 characters$/ do
-  pending
+  fill_in "user_password", :with => "123123"
 end
 
 And /^I should be able to input my confirmation of password$/ do
-  pending
+  fill_in "user_password_confirmation", :with => "123123"
 end
 
 But /^My confirmation of password should be same with the password$/ do
-  pending
+  find_field("user_password").value.should ==  find_field("user_password_confirmation").value
 end
 
-And /^I should be able to chose my gender$/ do
-  pending
+And /^I should be able to choose my gender$/ do
+  choose "user[gender]"
 end
 
 And /^I should be able to input my first name$/ do
-  pending
+  fill_in "user_first_name", :with => "FirstName"
 end
 
 And /^I should be able to input my middle name$/ do
-  pending
+  fill_in "user_middle_name", :with => "MiddleName"
 end
 
 And /^I should be able to input my last name$/ do
-  pending
+  fill_in "user_last_name", :with => "lastName"
 end
 
 And /^I should be able to click "submit" button after filling all fields$/ do
-  pending
+  click_button "Sign up"
 end

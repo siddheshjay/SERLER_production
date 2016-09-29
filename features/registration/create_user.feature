@@ -11,8 +11,11 @@ Feature: Regist new user
     But My password should be minimum 6 characters
     And I should be able to input my confirmation of password
     But My confirmation of password should be same with the password
-    And I should be able to chose my gender
+    And I should be able to choose my gender
     And I should be able to input my first name
     And I should be able to input my middle name
     And I should be able to input my last name
     And I should be able to click "submit" button after filling all fields
+
+
+
