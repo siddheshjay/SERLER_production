@@ -43,6 +43,8 @@ gem "nested_form"
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.42'
 
+#paginator
+gem 'kaminari'
 
 # Use cancancan and devise for authentication
 gem 'cancancan'
@@ -65,6 +67,7 @@ end
 group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
+  gem 'headless'
   gem 'faker'
   gem 'rspec-rails'
   gem "factory_girl_rails"
