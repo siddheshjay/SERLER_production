@@ -22,7 +22,7 @@ ready = ->
       return
 
   change_column = (value, checked)->
-    header = $("##{value}_header")
+    header = $(".#{value}_header")
     if checked
       header.show()
     else
