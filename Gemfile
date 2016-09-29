@@ -67,6 +67,7 @@ end
 group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
+  #gem 'headless'
   gem 'faker'
   gem 'rspec-rails'
   gem "factory_girl_rails"
