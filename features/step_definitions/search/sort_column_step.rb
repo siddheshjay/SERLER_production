@@ -19,7 +19,7 @@ Given(/^I'm logged in as a user on sort_column case$/) do
 end
 
 Given(/^I'm on search page on sort_column case$/) do
-  visit root_path
+  visit search_index_path
   expect(page).to have_button("Search")
 end
 
