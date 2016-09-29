@@ -17,20 +17,20 @@ deploy:
   api_key:
     secure: ${API_KEY}
 
-  app:
-    master: ${APP_NAME}
-    Sprint1: ${TESTAPP_NAME}
-    Sprint2: ${TESTAPP_NAME}
-    Sprint3: ${TESTAPP_NAME}
-    Sprint4: ${TESTAPP_NAME}
+  app: ${TESTAPP_NAME}
+    #master: ${APP_NAME}
+    #Sprint1: ${TESTAPP_NAME}
+    #Sprint2: ${TESTAPP_NAME}
+    #Sprint3: ${TESTAPP_NAME}
+    #Sprint4: ${TESTAPP_NAME}
 
- # on:
- #     all_branches: true
+  on:
+      all_branches: true
 
-    run:
-      - "rake heroku:secrets RAILS_ENV=production"
-      - "rake db:drop"
-      - "rake db:create"
-      - "rake db:migrate"
-      - "rake db:seed"
-      - "rake assets:precompile"
+  run:
+    - "rake heroku:secrets RAILS_ENV=production"
+    - "rake db:drop"
+    - "rake db:create"
+    - "rake db:migrate"
+    - "rake db:seed"
+    - "rake assets:precompile"
