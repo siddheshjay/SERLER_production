@@ -39,7 +39,7 @@ And /^I should be able to input my confirmation of password$/ do
 end
 
 But /^My confirmation of password should be same with the password$/ do
-  find_field("user_password").value.should ==  find_field("user_password_confirmation").value
+  find_field("user_password").value.should == find_field("user_password_confirmation").value
 end
 
 And /^I should be able to choose my gender$/ do
@@ -72,7 +72,7 @@ When /^My password is less 6 characters$/ do
 end
 
 Then /^The page should remind me "Password is too short minimum is 6 characters"$/ do
-  page.has_content?("Password is too short (minimum is 6 characters)")
+  page.has_content?("Password is too short (minimum is 6 characters)").should == true
 end
 
 # Scenario: passwords inputted twice are different
@@ -85,7 +85,7 @@ When /^My confirmation of password is different from password inputted first tim
 end
 
 Then /^The page should remind me "Password confirmation doesn't match Password"$/ do
-  page.has_content?("Password confirmation doesn't match Password")
+  page.has_content?("Password confirmation doesn't match Password").should ==true
 end
 
 # Scenario: Email is empty
@@ -94,11 +94,11 @@ end
 # Then The page should remind me "Email can't be blank"
 
 When /^I did not input email$/ do
-  fill_in "user_password_confirmation", :with => ""
+  fill_in "user_email", :with => ""
 end
 
 Then /^The page should remind me "Email can't be blank"$/ do
-  page.has_content?("Email can't be blank")
+  page.has_content?("Email can't be blank").should ==true
 end
 
 # Scenario: First name is empty
@@ -107,11 +107,11 @@ end
 # Then The page should remind me "First name can't be blank"
 
 When /^I did not input first name$/ do
-  fill_in "user_password_confirmation", :with => ""
+  fill_in "user_first_name", :with => ""
 end
 
 Then /^The page should remind me "First name can't be blank"$/ do
-  page.has_content?("First name can't be blank")
+  page.has_content?("First name can't be blank").should==true
 end
 
 # Scenario: Middle name is empty
@@ -120,11 +120,11 @@ end
 # Then The page should remind me "Middle name can't be blank"
 
 When /^I did not input middle name$/ do
-  fill_in "user_password_confirmation", :with => ""
+  fill_in "user_middle_name", :with => ""
 end
 
 Then /^The page should remind me "Middle name can't be blank"$/ do
-  page.has_content?("First name can't be blank")
+  page.has_content?("Middle name can't be blank").should == true
 end
 
 # Scenario: Last name is empty
@@ -133,9 +133,10 @@ end
 # Then The page should remind me "Last name can't be blank"
 
 When /^I did not input last name$/ do
-  fill_in "user_password_confirmation", :with => ""
+  fill_in "user_last_name", :with => ""
 end
 
 Then /^The page should remind me "Last name can't be blank"$/ do
-  page.has_content?("First name can't be blank")
+  puts find_field("user_last_name").value
+  page.has_content?("Last name can't be blank").should == true
 end
