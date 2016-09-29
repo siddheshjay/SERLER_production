@@ -6,9 +6,11 @@ before_script:
 - bundle install --path vendor/bundle
 - bundle exec rake db:create
 - bundle exec rake db:migrate
+- "export DISPLAY=:99.0"
+- "sh -e /etc/init.d/xvfb start"
 
 script:
-- bundle exec cucumber
+- xvfb-run bundle exec cucumber
 - bundle exec rspec
 
 deploy:
