@@ -43,3 +43,7 @@ Feature: Regist new user
     When I did not input last name
     And I should be able to click "submit" button after filling all fields
     Then The page should remind me "Last name can't be blank"
+
+  Scenario: Register successfully
+    When I should be able to click "submit" button after filling all fields
+    Then A link of Sign out is displayed

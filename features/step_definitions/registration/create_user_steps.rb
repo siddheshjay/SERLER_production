@@ -111,7 +111,7 @@ When /^I did not input first name$/ do
 end
 
 Then /^The page should remind me "First name can't be blank"$/ do
-  page.has_content?("First name can't be blank").should==true
+  page.should have_content("First name can't be blank")
 end
 
 # Scenario: Middle name is empty
@@ -124,7 +124,7 @@ When /^I did not input middle name$/ do
 end
 
 Then /^The page should remind me "Middle name can't be blank"$/ do
-  page.has_content?("Middle name can't be blank").should == true
+  page.should have_content("Middle name can't be blank")
 end
 
 # Scenario: Last name is empty
@@ -138,5 +138,13 @@ end
 
 Then /^The page should remind me "Last name can't be blank"$/ do
   puts find_field("user_last_name").value
-  page.has_content?("Last name can't be blank").should == true
+  page.should have_content("Last name can't be blank")
+end
+
+# Scenario: Register successfully
+# When I should be able to click "submit" button after filling all fields
+# Then A link of Sign out is displayed
+
+Then /^A link of Sign out is displayed$/ do
+ page.should have_link("sign out")
 end
