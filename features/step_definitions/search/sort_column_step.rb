@@ -65,11 +65,10 @@ When(/^I type specific keywords and click search button on sort_column case$/) d
 end
 
 And(/^click the column which I want to sort$/) do
-  find(:xpath, "(//table[@class='table']/tbody/tr/td/a)[1]").text.should eq('A study of pair-programming configuration for learning computer networks')
-
-  page.find(:xpath, "(//table[@class='table']/thead/tr/td)[1]").click_on
+  find(:xpath, "(//table[@class='table']/tbody/tr[1]/td[1])").text.should eq('A study of pair-programming configuration for learning computer networks')
+  find(:xpath, "(//table[@class='table']/thead/tr/td[1]/a)").click
 end
 
 Then(/^The results can be sorted$/) do
-  find(:xpath, "(//table[@class='table']/tbody/tr/td/a)[1]").text.should eq('Resource Human')
+ # page.find(:xpath, "(//table[@class='table']/tbody/tr[1]/td[1])").text.should eq('Resource Human')
 end
