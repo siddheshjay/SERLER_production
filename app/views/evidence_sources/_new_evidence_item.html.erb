@@ -1,11 +1,56 @@
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
+        <script>
+            var _evidence_item_modal = function(esid, eiid, obj) {
+                console.log("set evidence-item-modal");
+                
+                $('#evidence_item_esid').val(esid);
+                $('#evidence_item_eiid').val(eiid);
+                
+                $('input:text[name^="evidence_item"]').val('');
+                $('textarea[name^="evidence_item"]').val('');
+                
+                
+                $('[name="evidence_item[draft]"]').parent().show();
+                
+                if (eiid < 0) {
+                    $('#evidence-item-new-header').show();
+                    $('#evidence-item-edit-header').hide();
+                    
+                } else {
+                    $('#evidence-item-new-header').hide();
+                    $('#evidence-item-edit-header').show();
+                    
+                    $('#evidence_item_benefit').val(obj['benefit']);
+                    $('#evidence_item_result').val(obj['result']);
+                    $('#evidence_item_where').val(obj['ctx_where']);
+                    $('#evidence_item_what').val(obj['ctx_what']);
+                    $('#evidence_item_when').val(obj['ctx_when']);
+                    $('#evidence_item_whom').val(obj['ctx_who']);
+                    $('#evidence_item_how').val(obj['ctx_how']);
+                    
+                    $('#evidence_item_integrity').val(obj['integrity']);
+                    
+                    $('#evidence_item_rating').val(obj['rating']); // FIXME
+                    
+                    if (obj["status"] !== "DRAFT") {
+                        $('[name="evidence_item[draft]"]').parent().hide();
+                    }
+                }
+                
+                // TODO object
+            };
+        </script>
+        
         <div class="modal-header" style="padding:35px 50px;">
-            <h4><span class="glyphicon glyphicon-plus"></span> NEW EVIDENCE ITEM</h4>
+            <h4 id="evidence-item-new-header"><span class="glyphicon glyphicon-plus"></span> NEW EVIDENCE ITEM</h4>
+            <h4 id="evidence-item-edit-header"><span class="glyphicon glyphicon-edit"></span> EDIT EVIDENCE ITEM</h4>
         </div>
     
         <div class="modal-body" style="padding:40px 50px;">
-            <%= bootstrap_form_for :evidence_item, url: welcome_landing_path do |f| %>
+            <%= bootstrap_form_for :evidence_item, url: evidence_sources_evidence_item_path do |f| %>
+                <input type="hidden" id="evidence_item_esid" name="evidence_item[esid]" value=""/>
+                <input type="hidden" id="evidence_item_eiid" name="evidence_item[eiid]" value=""/>
                 <%= f.text_area :benefit %>
                 <%= f.text_area :result %>
                 <div id="new_evidence_item_context">
@@ -15,23 +60,45 @@
                     <%= f.text_field :whom %>
                     <%= f.text_field :what %>
                 </div>
-                <%= f.text_field :xxx %>
+                
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="control-label" for="evidence_source_integrity">Integrity</label>
+                        <select id="evidence_item_integrity" name="evidence_item[integrity]" class="form-control text-center">
+                            <% [1,2,3,4,5].each do |i| %>
+                                <option value="<%=i%>"><%=i%></option>
+                            <% end %>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="control-label" for="evidence_source_rating">Integrity</label>
+                        <select id="evidence_item_rating" name="evidence_item[rating]" class="form-control text-center">
+                            <% [1,2,3,4,5].each do |i| %>
+                                <option value="<%=i%>"><%=i%></option>
+                            <% end %>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <a type="button" class="btn btn-danger form-control">TODO: methods and methodologies</a>
+                </div>
     
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
-                        <button type="submit" class="btn btn-success">
-                            <span class="glyphicon glyphicon-plus"></span>
-                            Create
+                        <button type="submit" class="btn btn-success" name="evidence_item[submit]">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            SAVE
                         </button>
                     </div>
                     <div class="btn-group">
-                        <button class="btn btn-warning">
+                        <button class="btn btn-warning" name="evidence_item[draft]">
                             <span class="glyphicon glyphicon-save"></span>
                             SAVE DRAFT
                         </button>
                     </div>
                     <div class="btn-group">
-                        <button class="btn btn-danger">
+                        <button class="btn btn-danger" data-dismiss="modal">
                             <span class="glyphicon glyphicon-trash"></span>
                             DISCARD
                         </button>

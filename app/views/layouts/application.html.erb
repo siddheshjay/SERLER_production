@@ -25,9 +25,60 @@
         <% end %>
       </div>
     </header>
-      <div id="app_content">
+         <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">SERLLER</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">User
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+        <li><%= link_to 'LIST OF MY SUBMISSIONS', evidence_sources_my_submissions_path, target: :_blank %></li>
+        <li><%= link_to 'LIST OF PUBLISHED', evidence_sources_published_path, target: :_blank %></li>
+        <li><%= link_to 'NEW EVIDENCE SOURCE', new_evidence_source_path, target: :_blank %></li>
+        <li><a href="#">SEARCH</a></li>
+
+        </ul>
+      </li>
+      <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Moderator
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+        <li><%= link_to 'LIST OF NEW SUBMITTED', evidence_sources_new_submitted_path, target: :_blank %>  </li>
+        </ul>
+        </li>
+
+        <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Analyst
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+        <li><%= link_to 'LIST OF ACCEPTED', evidence_sources_accepted_path, target: :_blank %></li>
+        </ul>
+        </li>
+
+
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administrator
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+        <li><%= link_to 'ALL EVIDENC SOURCES', evidence_sources_all_path, target: :_blank %></li>
+        <li><%= link_to 'LIST OF REJECTED', evidence_sources_rejected_path, target: :_blank %></li>
+        </ul>
+    </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      <div id="app_content" >
+
         <%= yield %>
       </div>
+    <br>
     <footer id = "app_footer" class="modal-footer" >
       <p style="text-align: center; width: 100%;">SDM 2016</p>
     </footer>

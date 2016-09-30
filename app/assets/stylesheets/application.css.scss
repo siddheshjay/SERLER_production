@@ -13,18 +13,21 @@
  *= require_tree .
  *= require_self
  */
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
 @import 'bootstrap-sprockets';
 @import 'bootstrap-datetimepicker';
 
-h1.header
-{
-  position: absolute;
-  left: 200px;
-  top: 15px;
+h1.header {
+    position: absolute;
+    left: 200px;
+    top: 15px;
+    color: navajowhite;
 }
+
+
 /*
 body
 {
@@ -46,9 +49,13 @@ body
 {
   position: relative;
 }
-#app_footer
-{
-  background-color: #00306a;
+
+#app_footer {
+    position: relative;
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #00306a;
 }
 
 #roles_links

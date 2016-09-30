@@ -1,0 +1,150 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header" style="padding:35px 50px;">
+            <h4><span class="glyphicon glyphicon-edit"></span> EDIT RESEARCH DESIGN </h4>
+        </div>
+    
+        <div class="modal-body" style="padding:40px 50px;">
+            <%= bootstrap_form_for :research_design, url: evidence_sources_research_design_path do |f| %>
+                <input type="hidden" value="<%=@evidence_source.id%>" name="research_design[evidence_source_id]"/>
+                <div class="form-group">
+                    <label class="control-label">Research question (aim)</label>
+                    <textarea class="form-control" style="resize:vertical" name="research_design[aim]" id="edit-research-design-aim"><%= @evidence_source.research_aim %></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Research methods</label>
+                    
+                    <div class="row">
+                    <% ResearchMethod.all.each do |m| %>
+                    <div class="check_box col-sm-4">
+                        <label for="research-design-method-<%=m.id%>">
+                            <!--<input name="research_desing[]" type="hidden" value="0">-->
+                            <input type="checkbox" value="<%=m.method_name%>" name="research_design[method][<%=m.id%>]" id="research-design-method-<%=m.id%>">
+                            <%= m.method_name %>
+                        </label>
+                    </div>
+                    <% end %>
+                    </div>
+                    <hr/>
+                    
+                    <!--
+                    <%= f.check_box :method, label: "Case Study" %>
+                    <%= f.check_box :method, label: "Field Observation" %>
+                    <%= f.check_box :method_experiment, label: "Experiment" %>
+                    <%= f.check_box :method_interview, label: "Interview" %>
+                    <%= f.check_box :method_survey, label: "Survey" %>
+                    -->
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label">Participants</label>
+                    <div class="row">
+                    <% Participant.all.each do |p| %>
+                    <div class="check_box col-sm-4">
+                        <label for="research-design-participant-<%=p.id%>">
+                            <input type="checkbox" value="<%=p.participate_name%>" name="research_design[participant][<%=p.id%>]" id="research-design-participant-<%=p.id%>">
+                            <%= p.participate_name %>
+                        </label>
+                    </div>
+                    <% end %>
+                    </div>
+                    <!--
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <%= f.check_box :participants_undergraduate_students, label: "Undergraduage studnets"%>
+                        </div>
+                    </div>
+                    -->
+                </div>
+                
+                <hr/>
+                
+                <div class="form-group">
+                    <label class="control-label">Research metrics</label>
+                    <button class="btn btn-success btn-xs" id="btn-new-research-metric">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                    
+                    <script>
+                        var _new_research_design_metric_item = function(text) {
+                            var item = $('#research-design-metric-template').clone(true, true);
+                            item.attr('id', '').attr('style', '');
+                            item.find('input:text').val(text);
+                            item.appendTo($('#research-design-metric-list'));
+                        };
+                        
+                        var _reset_edit_research_design_form = function(_research_desing_aim, _research_design) {
+                            $('#edit-research-design-aim').val(_research_desing_aim);
+                            
+                            $('input:checkbox[name^=research_design]').prop('checked', false);
+                            
+                            var metric_template = $('#research-design-metric-template').clone(true, true);
+                            $('#research-design-metric-list').children().remove();
+                            // $('input:text[name="research_design[metric][]"]').parent().parent().remove();
+                            metric_template.appendTo($('#research-design-metric-list'));
+                            
+                            $.each(_research_design, function(index){
+                                var obj = _research_design[index];
+                                if (obj['category'] === 'METHOD') {
+                                    var selector = '#research-design-method-' + obj.ref_id;
+                                    console.log("method " + selector);
+                                    $(selector).prop('checked', true);
+                                    
+                                } else if (obj['category'] === 'PARTICIPANT') {
+                                    var selector = '#research-design-participant-' + obj.ref_id;
+                                    console.log("participant " + selector);
+                                    $(selector).prop('checked', true);
+ 
+                                } else if (obj['category'] === 'METRIC') {
+                                    var metric = obj['text'];
+                                    _new_research_design_metric_item(metric);
+                                }
+                            });
+                        };
+                        
+                        $().ready(function(){
+                            $('#btn-new-research-metric').click(function(){
+                                console.log('#btn-new-research-metric clcked');
+                                _new_research_design_metric_item('');
+                                return false;
+                            });
+                            
+                            $('[data-serler-remove-metric-item]').click(function(event){
+                                var b = $(event.toElement);
+                                b.parents('.form-group')[0].remove();
+                                return false;
+                            });
+                        });
+                    </script>
+                    
+                    <div class="list-group" id="research-design-metric-list">
+                        <div class="row form-group" id="research-design-metric-template" style="display:none">
+                            <div class="col-sm-11">
+                                <input class="form-control" type="text" name="research_design[metric][]" value="">
+                            </div>
+                            <div class="col-sm-1">
+                                <button class="btn btn-danger " data-serler-remove-metric-item>X</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            SUBMIT
+                        </button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="reset" class="btn btn-warning" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            DISCARD
+                        </button>
+                    </div>
+                 </div>
+    
+            <% end %>
+        </div>
+    </div>
+</div>
