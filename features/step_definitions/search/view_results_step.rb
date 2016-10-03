@@ -1,9 +1,9 @@
-#Feature: Search For Empirical Evidence
-  #As a registered user
-  #I want to be able to search for empirical evidence on different methods based on different constraints
-  #So that I can make informed decisions
+# Feature: View the results of a search
+#     As a registered user
+#     I want to be able to view the results of a search in a tabular format
+#     So that I can view a lot of information easily.
 
-Given(/^I'm logged in as a user$/) do
+Given(/^I'm logged in as a user at vr case$/) do
   @user = User.create!({
     email: 'admin@admin.com',
     password: '12345678',
@@ -18,9 +18,15 @@ Given(/^I'm logged in as a user$/) do
   click_button 'Log in'
 end
 
-Given(/^There are (\d+) papers in DB\$$/) do |arg1|
+And(/^I'm on search page at vr case$/) do
+  visit search_index_path
+  #pending # Write code here that turns the phrase above into concrete actions
+  expect(page).to have_button("Search")
+end
+
+And(/^There are (\d+) papers in DataBase at vr case$/) do |arg1|
   arg1.to_i.times do |i|
-    evidence = EvidenceSource.create!(
+    EvidenceSource.create!(
         {
           status: 'NEW', submitter_id: 1,
           title: 'How Colors in Business Dashboards Affect Users Decision Making.',
@@ -34,23 +40,16 @@ Given(/^There are (\d+) papers in DB\$$/) do |arg1|
           rating_tenth: 9,
           research_aim: 'Ads.',
         })
-    evidence.save!
   end
 end
 
-Given(/^I'm on search page$/) do
-  visit search_index_path
-  #pending # Write code here that turns the phrase above into concrete actions
-  expect(page).to have_button("Search")
-end
-
-When(/^I type specific keywords and click search button$/) do
+When(/^I type specific keywords and click search button at vr case$/) do
   fill_in 'search[search_fields_attributes][0][content]', with: 'ACM'
   within(".button-group") do
     click_button 'Search'
   end
 end
 
-Then(/^I should get specific results$/) do
-  expect(page).to have_content('How Colors')
+Then(/^I should get specific results and I can view them in a tabular format at vr case$/) do
+  expect(page).to have_selector("table.table")
 end

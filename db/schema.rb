@@ -165,15 +165,14 @@ ActiveRecord::Schema.define(version: 20160927063911) do
     t.text     "authors"
     t.text     "title"
     t.text     "journal"
-    t.text     "year"
     t.text     "volume"
     t.text     "pages"
-    t.text     "month"
     t.integer  "credibility_rate"
     t.text     "research_metrix"
     t.text     "research_aim"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.date     "release_date"
   end
 
   create_table "participants", primary_key: "participate_id", force: :cascade do |t|
@@ -236,6 +235,8 @@ ActiveRecord::Schema.define(version: 20160927063911) do
     t.datetime "updated_at", null: false
     t.string   "name"
     t.date     "saved_on"
+    t.date     "from_date"
+    t.date     "to_date"
   end
 
   create_table "users", force: :cascade do |t|
