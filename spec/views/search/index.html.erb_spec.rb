@@ -1,8 +1,6 @@
-
 require 'rails_helper'
 
-RSpec.describe "search/show.html.erb", type: :view do
-
+RSpec.describe "search/index.html.erb", type: :view do
   before do
     controller.singleton_class.class_eval do
       protected
@@ -17,6 +15,18 @@ RSpec.describe "search/show.html.erb", type: :view do
       helper_method :sort_column, :sort_direction
     end
   end
+  it 'displays search details correctly' do
+    assign(:search, Search.create!({
+      name: "Test",
+      search_fields_attributes: [
+        field: 'title',
+        op2: 'ILIKE',
+        content: 'How'
+      ]}))
+    render
+    expect(rendered).to match /Title/
+  end
+
   it 'displays show details correctly' do
     assign(:search, Search.new(search_fields_attributes: [
       field: 'title',
@@ -63,6 +73,6 @@ RSpec.describe "search/show.html.erb", type: :view do
           })
     ])
     render
-    expect(response).to match /How Colors/
+    expect(response).to match /Communications/
   end
 end
