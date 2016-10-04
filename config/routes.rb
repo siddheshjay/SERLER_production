@@ -14,16 +14,15 @@ Rails.application.routes.draw do
   post 'evidence_sources/evidence_item'
 
   resources :evidence_sources do
-    # resource :research_design
+    resources :g2_evidence_items
   end
-  # resources :research_design
 
   get 'search/show'
   #root 'search#search'
 
   resources :methodologies
   resources :se_methods
-  resources :evidence_items
+  # resources :evidence_items
   resources :research_methods
   resources :participants
   resources :notifications
