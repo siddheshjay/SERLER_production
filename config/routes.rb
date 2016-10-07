@@ -4,6 +4,9 @@ Rails.application.routes.draw do
 
   get 'welcome/landing'
   #root 'welcome#landing'
+  get 'welcome/admin'
+  
+  
   get 'evidence_sources/my_submissions'
   get 'evidence_sources/new_submitted'
   get 'evidence_sources/rejected'

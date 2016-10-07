@@ -41,8 +41,12 @@ h1.header {
 
 #app_header {
   position: relative;
+  color: white;
+  background-color: #00539f; // beige;
+}
 
-  background-color: beige;
+#app_header a:hover {
+  color: white;
 }
 
 #app_footer {
@@ -51,7 +55,8 @@ h1.header {
   bottom: 0;
   left: 0;
   padding: 1rem;
-  background-color: beige;
+  color: white;
+  background-color: #00539f; // beige;
   text-align: center;
 }
 

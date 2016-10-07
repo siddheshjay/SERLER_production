@@ -11,37 +11,87 @@
 
   <body>
 
-    <header id = "app_header" class="container-fluid" >
-      <%= image_tag "app_logo", size: 10*10, class: "img-circle"%>
-      <h1 class ="header">SERLER</h1>
-
+    <header id = "app_header" class="container-fluid" style="min-height:3rem">
+      <!--<%= image_tag "app_logo", size: 48, class: "img-circle"%>-->
+      <!--<h1 class ="header">SERLER</h1>-->
       <div id="roles_links" class="container-fluid">
-        <%= link_to "User", user_session_path, method: :post%>
-        <%= link_to "Moderator" %>
-        <%= link_to "Analyst" %>
-        <%= link_to "Admin" %>
-        <% if user_signed_in? %>
-            <%= link_to "sign out",destroy_user_session_path, method: :delete   %>
+        <% if false %>
+          <%= link_to "User", user_session_path, method: :post%>
+          <%= link_to "Moderator" %>
+          <%= link_to "Analyst" %>
+          <%= link_to "Admin" %>
+        <% end %>
+        
+        <% if not current_user.nil? %>
+          <%= current_user.email %>
+          
+          &nbsp; &nbsp;
+          
+          <% if user_signed_in? %>
+            <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
+          <% end %>
+        <% else %>
+          <%= link_to "Sign In", new_user_session_path %>
         <% end %>
       </div>
     </header>
-
-         <nav class="navbar navbar-inverse">
+    
+<% if true %>
+<nav class="navbar navbar-default" style="border-radius:0">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">SERLLER</a>
+      <a class="navbar-brand" style="padding-top:0" href="/welcome/landing">
+        <%= image_tag "app_logo", size: 50, class: "img-circle"%>
+      </a>
+    </div>
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/welcome/landing">SERLLER</a>
     </div>
     <ul class="nav navbar-nav">
+      
+      <%
+        roles = []
+        if not current_user.nil?
+          roles = current_user.roles
+        end
+      %>
+      
+      <% if roles.include? :user %>
+        <li> <%= link_to 'Search', search_index_path %> </li>
+        <li> <%= link_to 'Saved Search', search_history_path %> </li>
+        <li> <%= link_to 'Browse', browse_path %> </li>
+        <li> <%= link_to 'New Article', new_evidence_source_path %> </li>
+        <li> <a href='#'> Messages </a></li>
+        <li> <a href='#'> Feedback </a></li>
+      <% end %>
+
+      <% if roles.include? :moderator or roles.include? :administrator%>
+        <li> <%= link_to 'New Submitted Articles', evidence_sources_new_submitted_path %> </li>
+      <% end %>
+      
+      <% if roles.include? :moderator or roles.include? :analyst or roles.include? :administrator %>
+        <li> <%= link_to 'Accepted Articles', evidence_sources_accepted_path %> </li>
+      <% end %>
+      
+      <% if roles.include? :moderator or roles.include? :administrator %>
+        <li> <%= link_to 'Rejected Articles', evidence_sources_rejected_path %> </li>
+      <% end %>
+      
+      <% if roles.include? :administrator %>
+        <li> <%= link_to 'Published Articles', evidence_sources_published_path %> </li>
+        <li> <%= link_to 'ADMIN', welcome_admin_path %> </li>
+      <% end %>
+      
+      <% if false %>
       <li class="active"><a href="#">Home</a></li>
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">User
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-        <li><%= link_to 'LIST OF MY SUBMISSIONS', evidence_sources_my_submissions_path %></li>
-        <li><%= link_to 'LIST OF PUBLISHED', evidence_sources_published_path%></li>
-        <li><%= link_to 'NEW EVIDENCE SOURCE', new_evidence_source_path%></li>
-        <li><a href="#">SEARCH</a></li>
- 
+          <li><%= link_to 'LIST OF MY SUBMISSIONS', evidence_sources_my_submissions_path %></li>
+          <li><%= link_to 'LIST OF PUBLISHED', evidence_sources_published_path%></li>
+          <li><%= link_to 'NEW EVIDENCE SOURCE', new_evidence_source_path%></li>
+          <li><a href="#">SEARCH</a></li>
         </ul>
       </li>
       <li class="dropdown">
@@ -61,22 +111,21 @@
         </li>
 
      
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administrator
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-        <li><%= link_to 'ALL EVIDENC SOURCES', evidence_sources_all_path%></li>
-        <li><%= link_to 'LIST OF REJECTED', evidence_sources_rejected_path%></li>
-        <li><%= link_to 'CREATE NEWS', headlines_news_path%></li>
-        <li><%= link_to 'CREATE RECENT-ARTICLES', headlines_recent_articles_path%></li>
-        </ul>
-    </li>
-
-       
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administrator
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          <li><%= link_to 'ALL EVIDENC SOURCES', evidence_sources_all_path%></li>
+          <li><%= link_to 'LIST OF REJECTED', evidence_sources_rejected_path%></li>
+          <li><%= link_to 'CREATE NEWS', headlines_news_path%></li>
+          <li><%= link_to 'CREATE RECENT-ARTICLES', headlines_recent_articles_path%></li>
+          </ul>
+      </li>
+      <% end %>
     </ul>
   </div>
 </nav>
-   
+<% end %>
       <div id="app_content" >
     
         <%= yield %>
