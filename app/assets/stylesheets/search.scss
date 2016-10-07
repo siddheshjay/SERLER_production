@@ -1,16 +1,53 @@
 // Place all the styles related to the Search controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
-.search_form {
-
-  margin:10px;
-
+.search_form > *{
+  margin:0px 5px !important;
 }
 
 .search_field  {
   margin-top: 10px;
   margin-bottom: 10px;
-
 }
+
+.columns-select {
+  position: absolute;
+  right: 100px;
+}
+
+.results {
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
+  height: 300px;
+  .left {
+    margin-top: 40px;
+  }
+  .right{
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    .description {
+      margin-top: 10px;
+    }
+    a.current{
+      padding-right: 16px;
+      position: relative;
+    }
+    a.current.asc:after {
+      content:'\f062';
+      font-family: "FontAwesome";
+      right:-5px;
+      position:absolute;
+      top:0;
+
+    }
+    a.current.desc:after {
+      content:'\f063';
+      font-family: "FontAwesome";
+      right:-5px;
+      position:absolute;
+      top:0;
+    }
+  }
+}
+
 

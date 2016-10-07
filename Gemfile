@@ -40,7 +40,11 @@ gem "font-awesome-rails"
 
 gem 'bootstrap_form'
 gem "nested_form"
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.42'
 
+#paginator
+gem 'kaminari'
 
 # Use cancancan and devise for authentication
 gem 'cancancan'

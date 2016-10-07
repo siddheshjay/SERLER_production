@@ -1,15 +1,16 @@
 Rails.application.routes.draw do
+  root 'browse#index'
+  match "browse" => "browse#index", via: [:get]
 
   get 'welcome/landing'
-  root 'welcome#landing'
-  
+  #root 'welcome#landing'
   get 'evidence_sources/my_submissions'
   get 'evidence_sources/new_submitted'
   get 'evidence_sources/rejected'
   get 'evidence_sources/accepted'
   get 'evidence_sources/published'
   get 'evidence_sources/all'
-  
+
   post 'evidence_sources/research_design'
   post 'evidence_sources/evidence_item'
 
@@ -22,8 +23,9 @@ Rails.application.routes.draw do
   get 'headlines/recent_articles', to: 'headlines#recent_articles'
   post 'headlines/recent_articles', to: 'headlines#create_recent_articles'
 
-  get 'search/show'
-  #root 'search#search'
+  get "search/history"
+  resources :search do
+  end
 
   resources :methodologies
   resources :se_methods
