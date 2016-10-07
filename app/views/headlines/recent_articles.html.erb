@@ -1,0 +1,185 @@
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header" style="padding:35px 50px;">
+            <h4><span class="glyphicon glyphicon-plus"></span> RECENT ARTICLES TO INFORM USERS</h4>
+        </div>
+    
+        <div class="modal-body" style="padding:40px 50px;">
+            <div id="citation-div">
+                <div class="form-group">
+                    <label class="control-label" for="description">Description</label>
+                    <textarea class="form-control" style="resize:vertical" rows="10" id="description"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-warning btn-xs" id="btn-add-article"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;ADD ARTICLES</button>
+                </div>
+                <div class="form-group" id="selected-article-list">
+                    <div class="list-group">
+                        <a class="list-group-item selected-article-item" id="selected-article-item-template" style="display:none">
+                            <div class="row">
+                                <div class="col-sm-11 selected-article-title"></div>
+                                <div class="col-sm-1"><button class="btn btn-danger btn-xs">X</button></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-success btn-block" type="submit" id="btn-publish">PUBLISH</button>
+                </div>
+            </div>
+
+            <script>
+                $().ready(function(){
+                    
+                    $('#btn-add-article').click(function(){
+                        _reset_article_list();
+                        $('#recent-articles').modal();
+                    });
+                    
+                    $('#btn-publish').click(function(){
+                        console.log('@_@');
+                        
+                        var description = $('#description').val();
+                        console.log(description);
+                        
+                        if (description.length === 0) {
+                            $('#message').text('Description wanted.');
+                            $('#message-box').modal();
+                            return false;
+                        }
+                        
+                        var selected_articles = $('a.selected-article-item');
+                        if (selected_articles.length < 1) {
+                            $('#message').text('Plesea select at least one article.');
+                            $('#message-box').modal();
+                            return false;
+                        }
+                        
+                        var _sa = []
+                        $.each(_articles, function(index){
+                            var a = _articles[index];
+                            if (a['selected']) {
+                                console.log('==> ' + a['title']);
+                                _sa.push({
+                                    'aid': a['aid'],
+                                    'title': a['title'],
+                                })
+                            }
+                        });
+                        
+                        console.log(_sa);
+
+                        
+                        $(this).addClass('btn-disabled').prop('disabled', true);
+                        $('button').addClass('btn-disabled').prop('disabled', true);
+                        $('#description').attr('disabled', true);
+                        
+                        $.post({
+                            url: '/headlines/recent_articles',
+                            data: {
+                                description: description,
+                                articles: _sa,
+                            },
+                            success: function() {
+                                console.log('patch success');
+                                $('#message').text('Successfully published.');
+                                $('#message-box').modal();
+                            },
+                            error: function() {
+                                console.log('ERROR.');
+                                $('#message').text('Error happened when publish.');
+                                $('#message-box').modal();
+                            },
+                            complete: function() {
+                                // console.log('patch complete');
+                                // $('#message').text('Please refresh the page.');
+                                // $('#message-box').modal();
+                            }
+                        });
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>
+<!-- ---------------------------------------------- -->
+<script>
+    var _articles = [
+        <% @recent_evidence_sources.each do |es| %>
+        {aid:<%=es.id%>, title:'<%=es.title%>', selected:false}, // <%=es%>
+        <% end%>
+    ];
+    
+    var _reset_article_list = function(){
+        var list = $('#recent-article-list');
+        list.empty();
+        $.each(_articles, function(index){
+            var a = _articles[index];
+            console.log(a);
+            var item = $('<a class="list-group-item" data-serler-a-index="' + index + '">' + a['title'] + '</a>');
+            if (a['selected']) {
+                item.addClass('list-group-item-success');
+            }
+            list.append(item);
+        });
+        
+        list.find('a').click(function(){
+            console.log("item clicked:" + $(this).data('serler-a-index'));
+            $(this).toggleClass('list-group-item-success');
+            _on_article($(this).data('serler-a-index'), $(this).hasClass("list-group-item-success"));
+        });
+    };
+    
+    var _on_article = function(index, selected){
+        console.log("article: " + index + "|" + selected);
+        _articles[index]['selected'] = selected;
+        
+        if (selected) {
+            var ai = $('#selected-article-item-template').clone();
+            ai.prop('id', 'selected-article-' + index);
+            ai.data('serler-a-index', index);
+            ai.find('.selected-article-title').text(_articles[index]['title']);
+            ai.appendTo($('#selected-article-list'));
+            ai.show();
+            ai.find('button').attr('data-serler-a-index', index).click(function(){
+                console.log('button clicked!');
+                console.log($(this));
+                console.log($(this).data('serler-a-index'));
+                
+                var index = $(this).data('serler-a-index');
+                _articles[index]['selected'] = false;
+                var ai = $(this).parents('a.selected-article-item');
+                ai.remove();
+            });
+        } else {
+            var ai = $('a#selected-article-' + index);
+            console.log(ai);
+            ai.remove();
+        }
+    };
+    
+</script>
+<div class="modal fade" id="recent-articles" role="dialog">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <h4 class="text-center">add recent articles</h4>
+    <div class="modal-body">
+      <div class="list-group" id="recent-article-list">
+          <a class="list-group-item list-group-item-success">First Article</a>
+          <a class="list-group-item">Second Article</a>
+      </div>
+      
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">RETURN</button>
+    </div>
+  </div>
+</div>
+</div>
+<!-- ---------------------------------------------- -->
+
+
+<%= render 'message_box' %>

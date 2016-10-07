@@ -41,6 +41,7 @@
         
         var ppp = raw.indexOf('(pp.');
         var dotp = raw.indexOf('.');
+        var edsp = raw.indexOf('(Eds.),');
         
         if (dotp === -1) {
             var apa = {
@@ -59,10 +60,13 @@
             return apa;
         }
         
-        if (ppp !== -1 && ppp < dotp) {
+        if ((ppp !== -1 && ppp < dotp) || edsp !== -1) {
             // Source (pp. pages).
             source = $.trim(raw.slice(0, ppp));
-            if (source.startsWith('In Proceedings of ')) {
+            edsp = source.indexOf('(Eds.),');
+            if (edsp !== -1) {
+                source = $.trim(source.slice(edsp + '(Eds.),'.length))
+            } else if (source.startsWith('In Proceedings of ')) {
                 source = $.trim(source.slice('In Proceedings of '.length));
             } else if (source.startsWith('In ')) {
                 source = $.trim(source.slice('In '.length));
@@ -132,18 +136,26 @@
             });
             return al;
         };
+        
+        // fix publisher
+        if (publisher !== null) {
+            p = publisher.indexOf(':');
+            if (p !== -1) {
+                publisher = $.trim(publisher.slice(p + 1));
+            }
+        }
 
         var apa = {
-            title: title,
-            year: year,
-            month: month,
-            authors: _split_authors(authors),
-            publisher: publisher,
-            source: source,
-            pages: pages,
-            volume: volume,
-            issue: issue,
-            doi: doi,
+            TITLE: title,
+            YEAR: year,
+            MONTH: month,
+            AUTHORS: _split_authors(authors),
+            PUBLISHER: publisher,
+            SOURCE: source,
+            PAGES: pages,
+            VOLUME: volume,
+            NUMBER: issue,
+            DOI: doi,
         };
         
         return apa;
@@ -165,6 +177,20 @@
             "Paasivaara, M., Lassenius, C., Damian, D., Räty, P., & Schröter, A. (2013, May). Teaching "
                 + "students global software engineering skills using distributed scrum. In 2013 35th International "
                 + "Conference on Software Engineering (ICSE) (pp. 1128-1137). IEEE.",
+                
+            "Peres, A. L., & Meira, S. L. (2015, June). Towards a framework that promotes integration "
+                + "between the UX design and SCRUM, Aligned to CMMI. In 2015 10th Iberian Conference on "
+                + "Information Systems and Technologies (CISTI) (pp. 1-4). IEEE.",
+            "Alliance, S. (2013). The state of scrum: benchmarks and guidelines. Orlando, FL: Kim, D.",
+            "Mahnic, V. (2012). A capstone course on agile software development "
+                + "using Scrum. IEEE Transactions on Education, 55(1), 99-106.",
+                
+            "Sikes, P., & Potts, A. (Eds.). (2008). Researching education from the inside: "
+                + "Investigations from within. London, England: Routledge.",
+            // an edited book
+            "Easton, B. (2008). Does poverty affect health?. In K. Dew & A. Matheson (Eds.), "
+                + "Understanding health inequalities in Aotearoa New Zealand (pp. 97-106). "
+                + "Dunedin, New Zealand: Otago University Press."
         ];
         
         $.each(apa_strs, function(index){
@@ -178,5 +204,5 @@
         
     };
     
-    $().ready(function(){ _test_apa(); });
+    // $().ready(function(){ _test_apa(); });
 </script>
