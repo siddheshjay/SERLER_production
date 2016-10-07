@@ -1,0 +1,27 @@
+.navbar.navbar-default {
+    background: #fff;
+}
+
+.navbar {
+    border: none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, .3);
+    box-shadow: 0 0 2px rgba(0, 0, 0, .3);
+}
+
+.header {
+    z-index: 1020;
+    margin-bottom: 0;
+}
+
+.top-menu {
+    background: #2d353c;
+    height: 40px;
+    position: fixed;
+    top: 54px;
+    left: 0;
+    right: 0;
+    z-index: 1015;
+}

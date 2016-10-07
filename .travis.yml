@@ -1,6 +1,8 @@
 language: ruby
 rvm:
   - "2.3.0"
+  - jruby
+  - rbx-2
 before_script:
 - bundle install --path vendor/bundle
 - bundle exec rake db:create
