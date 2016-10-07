@@ -9,6 +9,7 @@
                 
                 $('input:text[name^="evidence_item"]').val('');
                 $('textarea[name^="evidence_item"]').val('');
+                $('input:checkbox[name^="evidence_item[method]"]').prop('checked', false);
                 
                 
                 $('[name="evidence_item[draft]"]').parent().show();
@@ -32,6 +33,13 @@
                     $('#evidence_item_integrity').val(obj['integrity']);
                     
                     $('#evidence_item_rating').val(obj['rating']); // FIXME
+                    
+                    console.log(obj['se_methods']);
+                    $.each(obj['se_methods'], function(index){
+                        var mid = obj['se_methods'][index];
+                        var selector = '#evidence-item-method-' + mid;
+                        $(selector).prop('checked', true);
+                    });
                     
                     if (obj["status"] !== "DRAFT") {
                         $('[name="evidence_item[draft]"]').parent().hide();
@@ -80,9 +88,21 @@
                     </div>
                 </div>
                 
+                <hr/>
                 <div class="form-group">
-                    <a type="button" class="btn btn-danger form-control">TODO: methods and methodologies</a>
+                    <label class="control-label">Software Development Methods</label>
+                    <div class="row">
+                        <% SeMethod.all.each do |m| %>
+                        <div class="check_box col-sm-4">
+                            <label for="evidence-item-method-<%=m.id%>">
+                                <input type="checkbox" value="<%=m.method_name%>" name="evidence_item[method][<%=m.id%>]" id="evidence-item-method-<%=m.id%>">
+                                <%= m.method_name %>
+                            </label>
+                        </div>
+                        <% end %>
+                    </div>
                 </div>
+                <hr/>
     
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927063911) do
+ActiveRecord::Schema.define(version: 20161007062135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -212,11 +212,16 @@ ActiveRecord::Schema.define(version: 20160927063911) do
     t.index ["research_method_id"], name: "index_research_methods_papers_on_research_method_id", using: :btree
   end
 
+  create_table "se_method_methodology_links", id: false, force: :cascade do |t|
+    t.integer "se_method_id",   null: false
+    t.integer "methodology_id", null: false
+  end
+
   create_table "se_methods", primary_key: "method_id", force: :cascade do |t|
     t.text     "method_name"
-    t.integer  "methodology_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.text     "method_description"
   end
 
   create_table "search_fields", force: :cascade do |t|
@@ -252,7 +257,7 @@ ActiveRecord::Schema.define(version: 20160927063911) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.integer "roles_mask", default: 0
+    t.integer  "roles_mask",             default: 0
     t.text     "first_name"
     t.text     "middle_name"
     t.text     "last_name"
@@ -276,6 +281,5 @@ ActiveRecord::Schema.define(version: 20160927063911) do
   add_foreign_key "papers", "users", column: "analyst_id"
   add_foreign_key "papers", "users", column: "moderator_id"
   add_foreign_key "research_designs", "evidence_sources"
-  add_foreign_key "se_methods", "methodologies", primary_key: "methodology_id"
   add_foreign_key "search_fields", "searches"
 end

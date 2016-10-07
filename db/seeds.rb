@@ -37,13 +37,29 @@ Methodology.create([{methodology_name: 'Scrum', description: 'Description'},
                     {methodology_name: 'Product Driven Development', description: 'Description'},
                     {methodology_name: 'Agile', description: 'Description'},])
 
+SeMethod.create([
+  {method_name: 'TDD', method_description: 'se-method-description'},
+  {method_name: 'BDD', method_description: 'se-method-description'},
+  {method_name: 'pair programming', method_description: 'se-method-description'},
+  {method_name: 'planning poker', method_description: 'se-method-description'},
+  {method_name: 'daily standu meetings', method_description: 'se-method-description'},
+  {method_name: 'story boards', method_description: 'se-method-description'},
+  {method_name: 'user story mapping', method_description: 'se-method-description'},
+  {method_name: 'continuous integration', method_description: 'se-method-description'},
+  {method_name: 'retrospectives', method_description: 'se-method-description'},
+  {method_name: 'burn down charts', method_description: 'se-method-description'},
+  {method_name: 'requirements prioritisation', method_description: 'se-method-description'},
+  {method_name: 'version control', method_description: 'se-method-description'},
+  {method_name: 'code sharing', method_description: 'se-method-description'},
+  ])
 
 User.create!([
   {
     email: "user@example.com", password: "123456", password_confirmation: "123456",
     reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1,
     current_sign_in_at: "2015-02-06 14:02:10", last_sign_in_at: "2015-02-06 14:02:10",
-    current_sign_in_ip: "127.0.0.1", last_sign_in_ip: "127.0.0.1"
+    current_sign_in_ip: "127.0.0.1", last_sign_in_ip: "127.0.0.1",
+    first_name: "Fistname", middle_name: "no-middle-name", last_name: "Lastname",
   },
 ])
 

@@ -122,7 +122,12 @@
                             "status": "<%= ei.status %>", "benefit": "<%= ei.benefit_under_test %>", "result": "<%= ei.result %>",
                             "ctx_what": "<%= ei.ctx_what %>", "ctx_when": "<%= ei.ctx_when %>", "ctx_where": "<%= ei.ctx_where %>",
                             "ctx_who": "<%= ei.ctx_who %>", "ctx_how": "<%= ei.ctx_how %>",
-                            "integrity": "<%=ei.integrity%>", "rating_tenth": "<%= ei.rating_tenth %>", "rating": "<%= ei.rating_tenth.to_i / 10 %>"
+                            "integrity": "<%=ei.integrity%>", "rating_tenth": "<%= ei.rating_tenth %>", "rating": "<%= ei.rating_tenth.to_i / 10 %>",
+                            "se_methods": [
+                                <% ei.se_methods.each do |m| %>
+                                <%= m.id %>,
+                                <% end %>
+                                ], // TODO
                         },
                     <% end %>
                 };
@@ -160,23 +165,22 @@
             <div class="list-group-item" data-serler-eiid="<%=ei.id%>">
                 <div class="row text-right text-uppercase">
                     <dov class="col-sm-6"></dov>
-                    <div class="col-sm-2"><em>Integrity: <%= ei.integrity %></emd></div>
-                    <div class="col-sm-2"><em>Rating: <%= ei.rating_tenth.to_i / 10 %></em></div>
-                    <!--
-                    <div class="col-sm-1">
-                        <code><em><%= draft ? "DRAFT"  : "" %></em></code>
-                    </div>
-                    -->
+                    <div class="col-sm-2"><em>Integrity: <span class="badge"><%= ei.integrity %></span></em></div>
+                    <div class="col-sm-2"><em>Rating: <span class="badge"><%= ei.rating_tenth.to_i / 10 %></span></em></div>
+                    <!--<div class="col-sm-1">-->
+                    <!--    <code><em><%= draft ? "DRAFT"  : "" %></em></code>-->
+                    <!--</div>-->
                     <div class="col-sm-2">
                         <button class="btn <%= draft ? "btn-primary" : "btn-warning" %> btn-xs" data-serler-ei="edit">
                         <span class="glyphicon glyphicon-edit"></span>&nbsp;EDIT&nbsp;</button>
                         <button class="btn <%= draft ? "btn-warning" : "btn-danger" %> btn-xs" data-serler-ei="x">&nbsp;X&nbsp;</button>
+                        <!--<code><em><%= draft ? "DRAFT"  : "" %></em></code>-->
                     </div>
                 </div><div>&nbsp;</div>
                 <div>
                     <table class="table table-striped">
                         <tr>
-                            <th>Benefit under test <code><em> <%= draft ? "DRAFT" : "" %></em></code></th>
+                            <th width="20%">Benefit under test <code><em> <%= draft ? "DRAFT" : "" %></em></code></th>
                             <td><%=ei.benefit_under_test%></td>
                             <td></td>
                             <td>
@@ -187,6 +191,9 @@
                         <tr><th>Context</th><td>
                             | What: <%=ei.ctx_what%> | Where: <%=ei.ctx_where%> | When: <%=ei.ctx_when%> | How: <%=ei.ctx_how%>| Who: <%=ei.ctx_who%> |
                         </td><td></td><td></td></tr>
+                        <tr><th>Methods</th><td>
+                            <% ei.se_methods.each do |m|%>&nbsp;<kbd><%=m.method_name%></kbd>&nbsp;<%end%>
+                        </td></tr>
                         <tr><th></th><td></td><td></td><td></td></tr>
                     </table>
                 </div>
