@@ -16,6 +16,11 @@ Rails.application.routes.draw do
   resources :evidence_sources do
     resources :g2_evidence_items
   end
+  
+  get 'headlines/news', to: 'headlines#news'
+  post 'headlines/news', to: 'headlines#create_news'
+  get 'headlines/recent_articles', to: 'headlines#recent_articles'
+  post 'headlines/recent_articles', to: 'headlines#create_recent_articles'
 
   get 'search/show'
   #root 'search#search'

@@ -15,7 +15,7 @@
       </div>
       -->
       <div class="col-sm-1">
-        <button class="btn btn-success" id="add-author"><span class="glyphicon glyphicon-plus"></span></button>
+        <button class="btn btn-success btn-xs" id="add-author"><span class="glyphicon glyphicon-plus"></span></button>
       </div>
     </div>
   </div>
@@ -36,7 +36,7 @@
     };
     
     var _clear_authors = function() {
-      $('input[name="evidence_source[author]"]').parent().remove();
+      $('input[name="evidence_source[author][]"]').parent().remove();
     };
     
     $().ready(function(){
@@ -63,6 +63,6 @@
   <%= f.text_field :DOI %>
   <div class="row">
     <div class="col-sm-6"><%= f.button "SUBMIT", type:"submit", class: "btn btn-success btn-block", id: "btn-submit" %></div>
-    <div class="col-sm-6"><%= f.button "DISCARD", type:"reset", class: "btn btn-danger btn-block", id: "btn-discard" %></div>
+    <div class="col-sm-6"><%= f.button "RESET", type:"reset", class: "btn btn-danger btn-block", id: "btn-discard" %></div>
   </div>
 <% end %>
