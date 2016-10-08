@@ -9,7 +9,42 @@
             });
         });
     </script>
-    <h2>EDIT EVIDENCE SOURCE</h2>
+    <div class="row">
+        <div class="col-sm-10"><h2>EDIT EVIDENCE SOURCE</h2></div>
+        <div class="col-sm-2" style="padding-top:2rem">
+            <button class="btn btn-danger" id="btn-finish-editing"><span class="glyphicon glyphicon-check"></span>&nbsp;&nbsp;FINISH EDITING</button>
+            <script>
+                $().ready(function(){
+                    $('#btn-finish-editing').click(function(){
+                        console.log("to finish editing ....");
+                        var draft = false;
+                        $.each(_evidence_item_list, function(eiid) {
+                            console.log(_evidence_item_list[eiid]['status']);
+                            if (_evidence_item_list[eiid]['status'] == 'DRAFT') {
+                                $('#message').html('<h3>Cannot publish. Draft evidence item exists!<h3>');
+                                $('#message-box').modal();
+                                console.log("DRAFT FOUND!");
+                                draft = true;
+                                return false;
+                            }
+                        });
+
+                        if (draft == false) {
+                            if ($('#research-aim-content').text().length == 0) {
+                                $('#message').html('<h3>Cannot publish.</h3><h3>No research question(aim) entered!<h3>');
+                                $('#message-box').modal();
+                                console.log("NO QUESTION(AIM) ENTERED!");
+                                return false;
+                            } else {
+                                $('#confirm-publish-box').modal();
+                                return true;
+                            }
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </div>
     <div>
         <table class="table table-stripped">
             <tr>
@@ -44,14 +79,13 @@
     </div>
     <hr/>
     <div>
-        <h2>research design</h2>
+        <h2>Research Design</h2>
         <button id="btn-edit-research-design" class="btn btn-warning">
             <span class="glyphicon glyphicon-edit"></span>&nbsp;EDIT&nbsp;
         </button>
         
         <table class="table table-stripped">
             <script>
-                
                 var _research_design = [
                     <% rd_list = ResearchDesign.where(evidence_source_id: @evidence_source.id) %>
                     <% rd_list.each do |rd| %>
@@ -82,8 +116,8 @@
                 });
             </script>
             <tr>
-                <th>Question (Aim)</th>
-                <td><p class="text-warning"><%= @evidence_source.research_aim %></p></td>
+                <th width="20%">Question (Aim)</th>
+                <td><p class="text-warning" id="research-aim-content"><%= @evidence_source.research_aim %></p></td>
             </tr>
             <tr>
                 <th>Method(s)</th>
@@ -108,7 +142,7 @@
     </div>
     <hr/>
     <div>
-        <div><h2>evidence items</h2><button id="new-evidence-item" class="btn btn-success">Create New</button></div>
+        <div><h2>Evidence Items</h2><button id="new-evidence-item" class="btn btn-success">Create New</button></div>
         <div class="modal fade" id="new-evidence-item-modal" role="dialog" data-backdrop="static">
             <%= render 'new_evidence_item' %>
         </div>
@@ -122,7 +156,8 @@
                             "status": "<%= ei.status %>", "benefit": "<%= ei.benefit_under_test %>", "result": "<%= ei.result %>",
                             "ctx_what": "<%= ei.ctx_what %>", "ctx_when": "<%= ei.ctx_when %>", "ctx_where": "<%= ei.ctx_where %>",
                             "ctx_who": "<%= ei.ctx_who %>", "ctx_how": "<%= ei.ctx_how %>",
-                            "integrity": "<%=ei.integrity%>", "rating_tenth": "<%= ei.rating_tenth %>", "rating": "<%= ei.rating_tenth.to_i / 10 %>"
+                            "integrity": "<%=ei.integrity%>", "rating_tenth": "<%= ei.rating_tenth %>", "rating": "<%= ei.rating_tenth.to_i / 10 %>",
+                            "se_methods": [<% ei.se_methods.each do |m| %><%= m.id %>,<% end %>],
                         },
                     <% end %>
                 };
@@ -160,23 +195,22 @@
             <div class="list-group-item" data-serler-eiid="<%=ei.id%>">
                 <div class="row text-right text-uppercase">
                     <dov class="col-sm-6"></dov>
-                    <div class="col-sm-2"><em>Integrity: <%= ei.integrity %></emd></div>
-                    <div class="col-sm-2"><em>Rating: <%= ei.rating_tenth.to_i / 10 %></em></div>
-                    <!--
-                    <div class="col-sm-1">
-                        <code><em><%= draft ? "DRAFT"  : "" %></em></code>
-                    </div>
-                    -->
+                    <div class="col-sm-2"><em>Integrity: <span class="badge"><%= ei.integrity %></span></em></div>
+                    <div class="col-sm-2"><em>Rating: <span class="badge"><%= ei.rating_tenth.to_i / 10 %></span></em></div>
+                    <!--<div class="col-sm-1">-->
+                    <!--    <code><em><%= draft ? "DRAFT"  : "" %></em></code>-->
+                    <!--</div>-->
                     <div class="col-sm-2">
                         <button class="btn <%= draft ? "btn-primary" : "btn-warning" %> btn-xs" data-serler-ei="edit">
                         <span class="glyphicon glyphicon-edit"></span>&nbsp;EDIT&nbsp;</button>
                         <button class="btn <%= draft ? "btn-warning" : "btn-danger" %> btn-xs" data-serler-ei="x">&nbsp;X&nbsp;</button>
+                        <!--<code><em><%= draft ? "DRAFT"  : "" %></em></code>-->
                     </div>
                 </div><div>&nbsp;</div>
                 <div>
                     <table class="table table-striped">
                         <tr>
-                            <th>Benefit under test <code><em> <%= draft ? "DRAFT" : "" %></em></code></th>
+                            <th width="20%">Benefit under test <code><em> <%= draft ? "DRAFT" : "" %></em></code></th>
                             <td><%=ei.benefit_under_test%></td>
                             <td></td>
                             <td>
@@ -187,6 +221,9 @@
                         <tr><th>Context</th><td>
                             | What: <%=ei.ctx_what%> | Where: <%=ei.ctx_where%> | When: <%=ei.ctx_when%> | How: <%=ei.ctx_how%>| Who: <%=ei.ctx_who%> |
                         </td><td></td><td></td></tr>
+                        <tr><th>Methods</th><td>
+                            <% ei.se_methods.each do |m|%>&nbsp;<kbd><%=m.method_name%></kbd>&nbsp;<%end%>
+                        </td></tr>
                         <tr><th></th><td></td><td></td><td></td></tr>
                     </table>
                 </div>
@@ -248,4 +285,71 @@
           </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="message-box" role="dialog">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body">
+      <p id="message" class="text-center">
+          Some text in the modal.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="modal fade" id="confirm-publish-box" role="dialog">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body">
+      <p id="message" class="text-center">
+          <h3 class="text-center">Sure to publish?</h3>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+          <div class="col-sm-6">
+              <button class="btn btn-danger btn-block" id="btn-confirm-publish">PUBLISH</button>
+          </div>
+          <div class="col-sm-6">
+              <button class="btn btn-default btn-block" data-dismiss="modal">CANCEL</button>
+          </div>
+          <script>
+              $().ready(function(){
+                  $('#btn-confirm-publish').click(function(){
+                      console.log("TO PUBLISHS ....");
+                      
+                      $.ajax({
+                        url: '/evidence_sources/<%= @evidence_source.id %>',
+                        type: 'PATCH',
+                        data: {status: 'PUBLISHED'},
+                        success: function() {
+                            console.log('patch success');
+                            $('#message').text('DONE.');
+                            $('#message-box').modal();
+
+                            window.location.replace("/evidence_sources/accepted");
+                        },
+                        error: function() {
+                            console.log('ERROR.');
+                            $('#message').text('Please refresh the page.');
+                            $('#message-box').modal();
+                        },
+                        complete: function() {
+                            console.log('patch complete');
+                            $('#message').text('Please refresh the page.');
+                            $('#message-box').modal();
+                        }
+                    });
+                  });
+              });
+          </script>
+      </div>
+    </div>
+  </div>
+</div>
 </div>

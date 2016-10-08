@@ -12,11 +12,11 @@
                                 <div class="col-sm-9">
                                     <%= es.title %>
                                 </div>
+                                <!--<div class="col-sm-1">-->
+                                <!--    <a href="/evidence_sources/<%=es.id%>" target="_blank">SHOW</a>-->
+                                <!--</div>-->
                                 <div class="col-sm-1">
-                                    <a href="/evidence_sources/<%=es.id%>" target="_blank">SHOW</a>
-                                </div>
-                                <div class="col-sm-1">
-                                    <a href="/evidence_sources/<%=es.id%>/edit" target="_blank">EDIT</a>
+                                    <a class="btn btn-primary btn-sm" role="button" href="/evidence_sources/<%=es.id%>/edit">EDIT</a>
                                 </div>
                                 <div class="col-sm-1"></div>
                             </div>
@@ -45,10 +45,10 @@
                         <th>source</th>
                         <td><%=es.source_title%></td>
                     </tr>
-                    <tr>
-                        <th>URL</th>
-                        <td>TODO: REMOVE THIS LINE? <%=es.URL%></td>
-                    </tr>
+                    <!--<tr>-->
+                    <!--    <th>URL</th>-->
+                    <!--    <td>TODO: REMOVE THIS LINE? <%=es.URL%></td>-->
+                    <!--</tr>-->
                     <tr><th>DOI</th><td><%=es.DOI%></td></tr>
                     
                 </table>

@@ -15,15 +15,15 @@
                     <label class="control-label">Research methods</label>
                     
                     <div class="row">
-                    <% ResearchMethod.all.each do |m| %>
-                    <div class="check_box col-sm-4">
-                        <label for="research-design-method-<%=m.id%>">
-                            <!--<input name="research_desing[]" type="hidden" value="0">-->
-                            <input type="checkbox" value="<%=m.method_name%>" name="research_design[method][<%=m.id%>]" id="research-design-method-<%=m.id%>">
-                            <%= m.method_name %>
-                        </label>
-                    </div>
-                    <% end %>
+                        <% ResearchMethod.all.each do |m| %>
+                        <div class="check_box col-sm-4">
+                            <label for="research-design-method-<%=m.id%>">
+                                <!--<input name="research_desing[]" type="hidden" value="0">-->
+                                <input type="checkbox" value="<%=m.method_name%>" name="research_design[method][<%=m.id%>]" id="research-design-method-<%=m.id%>">
+                                <%= m.method_name %>
+                            </label>
+                        </div>
+                        <% end %>
                     </div>
                     <hr/>
                     
