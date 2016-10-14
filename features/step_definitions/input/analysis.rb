@@ -1,9 +1,9 @@
-Given(/^I'm logged in as a admin user$/) do
+Given(/^I'm logged in as a admin analyst$/) do
     @user = User.create!({
-     email: "user@example.com", password: "123456", password_confirmation: "123456",
-     reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1,
+     email: "analyst@example.com", password: "123456", password_confirmation: "123456",
+     reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 4,
      current_sign_in_at: "2015-02-06 14:02:10", last_sign_in_at: "2015-02-06 14:02:10",
-     current_sign_in_ip: "127.0.0.1", last_sign_in_ip: "127.0.0.1", roles_mask: 1,
+     current_sign_in_ip: "127.0.0.1", last_sign_in_ip: "127.0.0.1", roles_mask: 4,
      first_name: "Fistname", middle_name: "no-middle-name", last_name: "Lastname",
    })
    @user.save!
@@ -12,28 +12,35 @@ Given(/^I'm logged in as a admin user$/) do
    fill_in 'Email', with: @user.email
    fill_in 'Password', with: @user.password
    click_button 'Log in'
- end
- 
- And(/^I click New Article link$/) do
- 	expect(page).to have_content('Title')
- 	click_link 'New Article'
- 	expect(page).to have_content('NEW EVIDENCE SOURCE')
- end
- 
- When(/^I type specific Title year and click submit$/) do
- 
-   click_button 'add-author'	
-   fill_in 'Title', with: 'From CMMI and Isolation to Scrum, Agile, Lean and Collaboration'
-   fill_in 'Year', with: '2009'
-   fill_in 'Source title', with: 'Communications of the ACM.'
-   fill_in 'Publisher', with: 'Google'
-   fill_in 'Volume number', with: 100
-   fill_in 'Issue number', with: 4
-   fill_in 'Page', with: '274a-274a'
-   fill_in 'Doi', with: '10.1109/AGILE.2009.18'
-   #fill_in 'evidence_source[author][]', with: 'Paul Hamilton'
-   click_button 'SUBMIT'	
- end
- 
- Then(/^we will on the list of submission page$/) do
- end
+end
+
+Given(/^There is one accepted article$/) do
+  es = EvidenceSource.create(
+  {
+    status: 'ACCEPTED', submitter_id: 1,
+    title: 'From CMMI and Isolation to Scrum, Agile, Lean and Collaboration',
+    source_title: 'Agile Conference, 2009. AGILE \'09.',
+    year: 2009, volume_number: 33, issue_number: 4,
+    page_str: '283-288', page_begin: 283, page_cease: 288,
+    DOI: '10.1109/AGILE.2009.18',
+    category: 'Academic Journals',
+    publisher: 'Elsevier Inc',
+    published_time: DateTime.new(2009,10,01),
+    rating_tenth: 10,
+    research_aim: 'Money',
+  })
+  es.save!
+end
+
+Given(/^I click Accepted Article link$/) do
+  click_link 'Accepted Article'
+   	expect(page).to have_content('LIST OF ACCEPTED EVIDENCE SOURCES')
+end
+
+When(/^I click EDIT$/) do
+  click_link 'EDIT'
+end
+
+Then(/^I will on edit page$/) do
+  expect(page).to have_content('EDIT EVIDENCE SOURCE')
+end

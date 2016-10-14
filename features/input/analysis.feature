@@ -5,7 +5,8 @@ Feature: Eidt New Eveidence Souces
  
 Background:
   Given I'm logged in as a admin analyst
-  And I click ACCEPTED Article
-Scenario: add new evidence item
-   When I click Create New
-   Then we will on NEW EVIDENCE ITEM pagea
+  And There is one accepted article
+  And I click Accepted Article link
+Scenario: Edit articles
+   When I click EDIT
+   Then I will on edit page
