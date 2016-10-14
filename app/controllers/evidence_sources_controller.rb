@@ -89,36 +89,38 @@ class EvidenceSourcesController < ApplicationController
         
         begin
             authors = params.require(:evidence_source)[:author]
-            authors.each do |a|
-                puts "==> " + a.to_s
-                
-                g = ''
-                f = ''
-                if a.include? ','
-                    c = a.index ','
-                    g = a[c+1..-1].strip
-                    f = a[0..c-1].strip
-                else
-                    c = a.rindex ' '
-                    g = a[0..c].strip
-                    f = a[c..-1].strip
-                end
-                
-                # puts '***** |' + a + '| ==> _' + g + '_' + f + '_'
-                
-                g_abbr = ''
-                begin
-                    g.split(' ').each do |s|
-                        g_abbr += s.strip()[0] + '. '
+            if not authors.nil?
+                authors.each do |a|
+                    puts "==> " + a.to_s
+                    
+                    g = ''
+                    f = ''
+                    if a.include? ','
+                        c = a.index ','
+                        g = a[c+1..-1].strip
+                        f = a[0..c-1].strip
+                    else
+                        c = a.rindex ' '
+                        g = a[0..c].strip
+                        f = a[c..-1].strip
                     end
+                    
+                    # puts '***** |' + a + '| ==> _' + g + '_' + f + '_'
+                    
+                    g_abbr = ''
+                    begin
+                        g.split(' ').each do |s|
+                            g_abbr += s.strip()[0] + '. '
+                        end
+                    end
+                    
+                    name = g + ' ' + f
+                    name_abbr = g_abbr + f
+                    
+                    author = @evidence_source.evidence_source_authors.create({
+                        name: name, name_abbr: name_abbr
+                    })
                 end
-                
-                name = g + ' ' + f
-                name_abbr = g_abbr + f
-                
-                author = @evidence_source.evidence_source_authors.create({
-                    name: name, name_abbr: name_abbr
-                })
             end
         end
 
