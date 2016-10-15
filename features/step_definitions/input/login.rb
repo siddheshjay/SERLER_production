@@ -16,6 +16,6 @@ When(/^Input Email and password/) do
      click_button 'Log in'
 end
 Then(/^I can login/) do
-    click_button 'Log in'
+    #click_button 'Log in'
     expect(page).to have_content('Title')
 end
