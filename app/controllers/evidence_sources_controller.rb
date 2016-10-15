@@ -26,6 +26,11 @@ class EvidenceSourcesController < ApplicationController
     def published
         # every one
         @evidence_sources = EvidenceSource.where 'status=?', 'PUBLISHED'
+
+        @editalbe = false
+        if current_user.roles.include? :administrator
+            @editable = true
+        end
     end
     
     def all
@@ -128,12 +133,57 @@ class EvidenceSourcesController < ApplicationController
     end
     
     def show
-        puts "this is show"
-        puts params[:id]
+        @evidence_source = EvidenceSource.find(params[:id])
+
+        status = @evidence_source.status
+        roles = current_user.roles
+
+        @showable = false
+        @editable = false
+
+        if roles.include? :moderator
+            @sowable = true
+        end
+
+        if roles.include? :analyst
+            @showable = true
+            if status == 'ACCEPTED'
+                @editable = true
+            end
+        end
+
+        if roles.include? :administrator
+            @showable = true
+            if status == 'ACCEPTED' or status == 'PUBLISHED'
+                @editable = true
+            end
+        end
+
+        if @evidence_source.submitter_id != current_user.id
+            @showable = true
+        end
+
+        if not @showable
+            redirect_to welcome_denied_path
+        end
     end
     
     def edit
         @evidence_source = EvidenceSource.find(params[:id])
+
+        roles = current_user.roles
+        @editable = false
+
+        if @evidence_source.status == 'ACCEPTED' 
+            if not roles.include? :analyst and not roles.include? :administrator
+                redirect_to welcome_denied_path
+            end
+        elsif @evidence_source.status == 'PUBLISHED'
+            if not roles.include? :administrator
+                redirect_to welcome_denied_path
+            end
+        else
+        end
     end
     
     def research_design

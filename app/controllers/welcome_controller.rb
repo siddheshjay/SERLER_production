@@ -19,6 +19,9 @@ class WelcomeController < ApplicationController
 
     end
     
-    def admini
+    def admin
+    end
+
+    def denied
     end
 end

@@ -8,7 +8,24 @@
             <table class="table table-stripped">
                 <tr>
                     <th>title</th>
-                    <td><%= es.title %></td>
+                    <!-- <td><%= es.title %></td> -->
+                    <td>
+                        <div class="row" data-esid="<%= es.id %>">
+                            <div class="col-sm-9">
+                                <%= es.title %>
+                            </div>
+                            <div class="col-sm-1">
+                                <a class="btn btn-default btn-sm" role="button" href="/evidence_sources/<%=es.id%>">SHOW</a>
+                            </div>
+                            <div class="col-sm-1">
+                                <% if @editable %>
+                                <a class="btn btn-primary btn-sm" role="button" href="/evidence_sources/<%=es.id%>/edit">EDIT</a>
+                                <% end %>
+                            </div>
+                            <div class="col-sm-1"></div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <th>misc</th>
