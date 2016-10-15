@@ -89,36 +89,38 @@ class EvidenceSourcesController < ApplicationController
         
         begin
             authors = params.require(:evidence_source)[:author]
-            authors.each do |a|
-                puts "==> " + a.to_s
-                
-                g = ''
-                f = ''
-                if a.include? ','
-                    c = a.index ','
-                    g = a[c+1..-1].strip
-                    f = a[0..c-1].strip
-                else
-                    c = a.rindex ' '
-                    g = a[0..c].strip
-                    f = a[c..-1].strip
-                end
-                
-                # puts '***** |' + a + '| ==> _' + g + '_' + f + '_'
-                
-                g_abbr = ''
-                begin
-                    g.split(' ').each do |s|
-                        g_abbr += s.strip()[0] + '. '
+            if not authors.nil?
+                authors.each do |a|
+                    puts "==> " + a.to_s
+                    
+                    g = ''
+                    f = ''
+                    if a.include? ','
+                        c = a.index ','
+                        g = a[c+1..-1].strip
+                        f = a[0..c-1].strip
+                    else
+                        c = a.rindex ' '
+                        g = a[0..c].strip
+                        f = a[c..-1].strip
                     end
+                    
+                    # puts '***** |' + a + '| ==> _' + g + '_' + f + '_'
+                    
+                    g_abbr = ''
+                    begin
+                        g.split(' ').each do |s|
+                            g_abbr += s.strip()[0] + '. '
+                        end
+                    end
+                    
+                    name = g + ' ' + f
+                    name_abbr = g_abbr + f
+                    
+                    author = @evidence_source.evidence_source_authors.create({
+                        name: name, name_abbr: name_abbr
+                    })
                 end
-                
-                name = g + ' ' + f
-                name_abbr = g_abbr + f
-                
-                author = @evidence_source.evidence_source_authors.create({
-                    name: name, name_abbr: name_abbr
-                })
             end
         end
 
@@ -160,6 +162,8 @@ class EvidenceSourcesController < ApplicationController
         
         begin
             rd_list = ResearchDesign.where(evidence_source_id: esid)
+            
+            # seems stupid!
             
             # old sets
             method_set_old = Set.new
@@ -281,6 +285,11 @@ class EvidenceSourcesController < ApplicationController
         ctx_what = ei['what']
         submit = ei['submit']
         draft = ei['draft']
+        integrity = ei['integrity']
+        rating_tenth = ei['rating'].to_i * 10
+        
+        se_methods = ei['method']
+        puts se_methods
         
         puts "xxxxxxxxxxxxxxx"
         status = 'DRAFT'
@@ -289,7 +298,7 @@ class EvidenceSourcesController < ApplicationController
         end
         
         if eiid.to_i < 0
-            G2EvidenceItem.create({
+            new_ei = G2EvidenceItem.new({
                 evidence_source_id: esid,
                 creator: current_user.id,
                 status: status,
@@ -300,21 +309,68 @@ class EvidenceSourcesController < ApplicationController
                 ctx_where: ctx_where,
                 ctx_when: ctx_when,
                 ctx_how: ctx_how,
-                # TODO integrity, rating_tenth
+                integrity: integrity,
+                rating_tenth: rating_tenth,   # FIXME
             })
+            
+            if not se_methods.nil?
+                se_methods.each do |mid|
+                    new_ei.se_methods << SeMethod.find(mid)
+                end
+            end
+            
+            new_ei.save
+            
+            # TODO update the rating
         else
-            # TODO
+            ei_entry = G2EvidenceItem.find(eiid)
+            ei_entry.status = status
+            ei_entry.benefit_under_test = benefit
+            ei_entry.result = result
+            ei_entry.ctx_who = ctx_whom
+            ei_entry.ctx_what = ctx_what
+            ei_entry.ctx_where = ctx_where
+            ei_entry.ctx_when = ctx_when
+            ei_entry.ctx_how = ctx_how
+            ei_entry.integrity = integrity
+            ei_entry.rating_tenth = rating_tenth  # FIXME
             
-            # ei_entry = G2EvienceItem.find(eiid)
-            # ei_entry.benefit_under_test = benefit,
-            # ei_entry.result = result,
-            # ei_entry.ctx_who = ctx_whom,
-            # ei_entry.ctx_what = ctx_what,
-            # ei_entry.ctx_where = ctx_where,
-            # ei_entry.ctx_when = ctx_when,
-            # ei_entry.ctx_how = ctx_how,
+            ei_entry.save
             
-            # ei_entry.save
+            puts "~~~~~~~~~~~~~~~~~~~~~~~~~~"
+            if se_methods.nil?
+                ei_entry.se_methods.delete_all
+            else
+                method_set_new = Set.new
+                se_methods.each do |mid|
+                    method_set_new << mid.to_s
+                end
+                method_set_old = Set.new
+                ei_entry.se_methods.each do |m|
+                    method_set_old << m.id.to_s
+                end
+                
+                method_to_delete = []
+                ei_entry.se_methods.each do |m|
+                    if not method_set_new.include? m.id.to_s
+                        method_to_delete << m
+                    end
+                end
+                method_to_delete.each do |m|
+                    ei_entry.se_methods.delete m
+                end
+                
+                if not se_methods.nil?
+                    se_methods.each do |mid|
+                        if not method_set_old.include? mid.to_s
+                            puts 'add new se_method:' + mid.to_s
+                            ei_entry.se_methods << SeMethod.find(mid)
+                        end
+                    end
+                end
+            end
+
+            # TODO update the rating
         end
         
         redirect_to edit_evidence_source_path esid
