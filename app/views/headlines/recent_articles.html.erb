@@ -52,7 +52,7 @@
                         }
                         
                         var selected_articles = $('a.selected-article-item');
-                        if (selected_articles.length < 1) {
+                        if (selected_articles.length <= 1) {
                             $('#message').text('Plesea select at least one article.');
                             $('#message-box').modal();
                             return false;
