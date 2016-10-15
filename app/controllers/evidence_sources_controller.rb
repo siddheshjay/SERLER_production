@@ -313,8 +313,10 @@ class EvidenceSourcesController < ApplicationController
                 rating_tenth: rating_tenth,   # FIXME
             })
             
-            se_methods.each do |mid|
-                new_ei.se_methods << SeMethod.find(mid)
+            if not se_methods.nil?
+                se_methods.each do |mid|
+                    new_ei.se_methods << SeMethod.find(mid)
+                end
             end
             
             new_ei.save
