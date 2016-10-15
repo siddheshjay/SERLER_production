@@ -10,11 +10,23 @@ class EvidenceSourcesController < ApplicationController
     
     def new_submitted
         # moderator and administrator
+
+        roles = current_user.roles
+        if not roles.include? :moderator and roles.include? :administrator
+            redirect_to welcome_denied_path
+        end
+
         @evidence_sources = EvidenceSource.where 'status=?', 'NEW'
     end
     
     def rejected
         # admistrator ? maybe
+
+        roles = current_user.roles
+        if not roles.include? :moderator and roles.include? :administrator
+            redirect_to welcome_denied_path
+        end
+
         @evidence_sources = EvidenceSource.where 'status=?', 'REJECTED'
     end
     
@@ -159,7 +171,11 @@ class EvidenceSourcesController < ApplicationController
             end
         end
 
-        if @evidence_source.submitter_id != current_user.id
+        puts '============'
+        puts @evidence_source.submitter_id
+        puts current_user.id
+
+        if @evidence_source.submitter_id == current_user.id
             @showable = true
         end
 
