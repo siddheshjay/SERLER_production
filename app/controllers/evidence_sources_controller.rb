@@ -360,10 +360,12 @@ class EvidenceSourcesController < ApplicationController
                     ei_entry.se_methods.delete m
                 end
                 
-                se_methods.each do |mid|
-                    if not method_set_old.include? mid.to_s
-                        puts 'add new se_method:' + mid.to_s
-                        ei_entry.se_methods << SeMethod.find(mid)
+                if not se_methods.nil?
+                    se_methods.each do |mid|
+                        if not method_set_old.include? mid.to_s
+                            puts 'add new se_method:' + mid.to_s
+                            ei_entry.se_methods << SeMethod.find(mid)
+                        end
                     end
                 end
             end
