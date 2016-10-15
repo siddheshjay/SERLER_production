@@ -1,0 +1,23 @@
+
+      <dl class="row">
+        <dt><strong> <%=label :from_date, 'From: ', html: {class: "col-sm-2 col-md-2"} %></strong></dt>
+        <dd class="input-group date col-sm-6 col-md-8" id="fromdate">
+        <%=f.text_field :from_date, value: @search.from_date, class: 'form-control' %>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        </dd>
+      </dl>
+
+      <dl class="row">
+        <dt><strong> <%= label_tag :to_date, 'To:', html: {class: "col-sm-2 col-md-2"} %> </strong></dt>
+        <dd class="input-group date col-sm-6 col-md-8" id="todate">
+        <%=f.text_field :to_date, value: @search.to_date, class: 'form-control' %>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        </dd>
+      </dl>
+
+      <dl class="row">
+        <dt></dt>
+        <dd>
+        <%= f.submit "Search", class: "btn btn-info btn-sm" %>
+        </dd>
+      </dl>

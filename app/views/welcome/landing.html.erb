@@ -8,10 +8,19 @@
 <h1>Welcome</h1>
 <p>user-id: <%= @the_user.id %></p>
 <p>user-email: <%= @the_user.email %></p>
-
+<p>roles: <%= @the_user.roles %> </p>
 </div>
 </div>
 
 </div>
+
+<!--
+<h2>links for admistrator</h2>
+<%= link_to 'ALL EVIDENC SOURCES', evidence_sources_all_path, target: :_blank %><br/>
+<%= link_to 'LIST OF REJECTED', evidence_sources_rejected_path, target: :_blank %><br/>
+<%= link_to 'CREATE NEWS', headlines_news_path, target: :_blank %><br/>
+<%= link_to 'CREATE RECENT-ARTICLES', headlines_recent_articles_path, target: :_blank %><br/>
+<hr/>
+-->
 
 </div>

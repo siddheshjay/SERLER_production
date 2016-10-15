@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <td>#</td>
+          <td>Name</td>
+          <td>Conditions</td>
+          <td>Created At</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @searches.each_with_index do |search, index| %>
+          <tr>
+            <td> <%= index %> </td>
+            <td> <%= search.name %> </td>
+            <td>
+              <% search.search_fields.each_with_index do |field, index| %>
+                <p>
+                <%= "#{field.op1} #{field.field} #{field.op2} #{field.content}" %>
+                </p>
+              <% end %>
+            </td>
+            <td>
+              <%= search.created_at.strftime("%v") %>
+            </td>
+            <td>
+              <%= link_to "Execute Search", search_path(search), :class => "btn btn-primary btn-sm" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

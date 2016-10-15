@@ -15,3 +15,9 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require jquery_nested_form
+//= require moment
+//= require bootstrap-datetimepicker
+//= require search
+//= require browse
+//= require jquery.infinitescroll
+//= require bootstrap-multiselect

@@ -1,12 +1,20 @@
 
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
-        <div class="modal-header" style="padding:35px 50px;">
-            <h4><span class="glyphicon glyphicon-plus"></span> NEW EVIDENCE SOURCE</h4>
+        <div class="modal-header" style="padding:15px 50px;">
+            <div class="row">
+                <div class="col-sm-9">
+                    <h4><span class="glyphicon glyphicon-plus"></span> NEW EVIDENCE SOURCE</h4>
+                </div>
+                <div class="col-sm-3" style="margin-top:2rem">
+                    <button class="btn btn-primary btn-block" id="btn-submit-by-citation">SUBMIT BY CITATION</button>
+                    <button class="btn btn-warning btn-block" id="btn-manually-input" style="display:none">MANUALLY INPUT</button>
+                </div>
+            </div>
         </div>
     
         <div class="modal-body" style="padding:40px 50px;">
-            <div id="citation-div">
+            <div id="citation-div" style="display:none">
                 <div class="form-group">
                     <label for="citation">Paste BibTeX or APA citation:</label>
                     <textarea class="form-control" style="resize:vertical" rows="10" id="citation"></textarea>
@@ -24,6 +32,7 @@
                     </div>
                 </div>
                 -->
+                <!--
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" id="btn-parse-bib">Parse BibTex</button>
@@ -35,15 +44,41 @@
                         <button type="button" class="btn btn-warning" id="manually-input">Manually Input</button>
                     </div>
                 </div>
+                -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-primary btn-block" id="btn-parse-bib">Submit BibTeX</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-info btn-block" id="btn-parse-apa">Submit APA</button>
+                    </div>
+                </div>
                 
             </div>
-            <div id="form-div" style="display:none">
+            <div id="form-div">
                 <%= render 'bs_form' %>
             </div>
+            
+            <%= render 'apa_js' %>
             
             <script>
                 $().ready(function(){
                     console.log('Hello, there!');
+                    
+                    $('#btn-submit-by-citation').click(function(){
+                        $('#citation-div').show();
+                        $('#form-div').hide();
+                        $(this).hide();
+                        $('#btn-manually-input').show();
+                    });
+                    
+                    $('#btn-manually-input').click(function(){
+                        $('#form-div').show();
+                        $('#citation-div').hide();
+                        $(this).hide();
+                        $('#btn-submit-by-citation').show();
+                    });
+                    
                     $('#btn-parse-bib').click(function(){
                         var s = $('#citation').val();
                         console.log(s);
@@ -94,26 +129,72 @@
                         
                         $('#input-raw-bib').val(s);
                         
-                        $('#form-div').show();
-                        $('#citation-div').hide();
+                        // $('#form-div').show();
+                        // $('#citation-div').hide();
+                        
+                        $('#btn-submit').click();
                     });
                     $('#btn-parse-apa').click(function(){
+                        var citation = $('#citation').val();
+                        console.log(citation);
+                        var obj = _parse_apa(citation);
                         
+                        if (obj === null) {
+                            // TODO
+                            return false;
+                        }
+                        
+                        $('#evidence_source_title').val(obj['TITLE']);
+                        $('#evidence_source_publisher').val(obj['PUBLISHER']);
+                        
+                        // authors
+                        $.each(obj['AUTHORS'], function(index){
+                            var author = obj['AUTHORS'][index];
+                            console.log(author);
+                            _new_author(author);
+                        });
+                        
+                        $('#evidence_source_year').val(obj['YEAR']);
+                        $('#evidence_source_DOI').val(obj['DOI']);
+                        $('#evidence_source_volume_number').val(obj['VOLUME']);
+                        $('#evidence_source_issue_number').val(obj['NUMBER']);
+                        $('#evidence_source_page').val(obj['PAGES']);
+                        
+                        $('#evidence_source_source_title').val(obj['SOURCE']);
+                        
+                        $('#input-raw-apa').val(citation);
+                        
+                        $('#form-div').show();
+                        $('#citation-div').hide();
+                        
+                        $('#btn-submit').click();
                     });
                     $('#manually-input').click(function(){
                         _new_author('');
                         $('#form-div').show();
                         $('#citation-div').hide();
                     });
-                    
                     $('#btn-discard').click(function(){
                         $('input[id]').val('');
                         _clear_authors();
-                        $('#citation-div').show();
-                        $('#form-div').hide();
+                        
+                        return true;
+                    });
+                    $('#btn-submit').click(function(){
+                        var title = $('#evidence_source_title').val();
+                        console.log('XXXX ' + title);
+                        
+                        if (title.length === 0) {
+                            $('#message').html('<h4>Please input <b>title</b> of the evidence source.</h4>');
+                            $('#message-box').modal();
+                            return false;
+                        }
+                        
+                        return true;
                     });
                 });
             </script>
         </div>
     </div>
 </div>
+<%= render 'message_box' %>
