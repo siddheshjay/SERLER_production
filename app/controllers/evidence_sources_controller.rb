@@ -89,36 +89,38 @@ class EvidenceSourcesController < ApplicationController
         
         begin
             authors = params.require(:evidence_source)[:author]
-            authors.each do |a|
-                puts "==> " + a.to_s
-                
-                g = ''
-                f = ''
-                if a.include? ','
-                    c = a.index ','
-                    g = a[c+1..-1].strip
-                    f = a[0..c-1].strip
-                else
-                    c = a.rindex ' '
-                    g = a[0..c].strip
-                    f = a[c..-1].strip
-                end
-                
-                # puts '***** |' + a + '| ==> _' + g + '_' + f + '_'
-                
-                g_abbr = ''
-                begin
-                    g.split(' ').each do |s|
-                        g_abbr += s.strip()[0] + '. '
+            if not authors.nil?
+                authors.each do |a|
+                    puts "==> " + a.to_s
+                    
+                    g = ''
+                    f = ''
+                    if a.include? ','
+                        c = a.index ','
+                        g = a[c+1..-1].strip
+                        f = a[0..c-1].strip
+                    else
+                        c = a.rindex ' '
+                        g = a[0..c].strip
+                        f = a[c..-1].strip
                     end
+                    
+                    # puts '***** |' + a + '| ==> _' + g + '_' + f + '_'
+                    
+                    g_abbr = ''
+                    begin
+                        g.split(' ').each do |s|
+                            g_abbr += s.strip()[0] + '. '
+                        end
+                    end
+                    
+                    name = g + ' ' + f
+                    name_abbr = g_abbr + f
+                    
+                    author = @evidence_source.evidence_source_authors.create({
+                        name: name, name_abbr: name_abbr
+                    })
                 end
-                
-                name = g + ' ' + f
-                name_abbr = g_abbr + f
-                
-                author = @evidence_source.evidence_source_authors.create({
-                    name: name, name_abbr: name_abbr
-                })
             end
         end
 
@@ -311,8 +313,10 @@ class EvidenceSourcesController < ApplicationController
                 rating_tenth: rating_tenth,   # FIXME
             })
             
-            se_methods.each do |mid|
-                new_ei.se_methods << SeMethod.find(mid)
+            if not se_methods.nil?
+                se_methods.each do |mid|
+                    new_ei.se_methods << SeMethod.find(mid)
+                end
             end
             
             new_ei.save
@@ -356,10 +360,12 @@ class EvidenceSourcesController < ApplicationController
                     ei_entry.se_methods.delete m
                 end
                 
-                se_methods.each do |mid|
-                    if not method_set_old.include? mid.to_s
-                        puts 'add new se_method:' + mid.to_s
-                        ei_entry.se_methods << SeMethod.find(mid)
+                if not se_methods.nil?
+                    se_methods.each do |mid|
+                        if not method_set_old.include? mid.to_s
+                            puts 'add new se_method:' + mid.to_s
+                            ei_entry.se_methods << SeMethod.find(mid)
+                        end
                     end
                 end
             end
