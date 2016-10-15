@@ -31,7 +31,7 @@ Given(/^I'm logged in as a admin user$/) do
    fill_in 'Issue number', with: 4
    fill_in 'Page', with: '274a-274a'
    fill_in 'Doi', with: '10.1109/AGILE.2009.18'
-   #fill_in 'evidence_source[author][]', with: 'Paul Hamilton'
+   fill_in 'evidence_source[author][]', with: 'Paul Hamilton'
    click_button 'SUBMIT'	
  end
  

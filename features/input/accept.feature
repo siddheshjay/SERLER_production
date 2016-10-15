@@ -5,7 +5,7 @@ Feature: Accept articles
  
 Background:
   Given I'm logged in as a admin moderator
-  And I click New Submitted Article
+  And I click New Submitted Articles
 Scenario: accept articles
    When I click ACCEPT
    Then we will See please refresh page
