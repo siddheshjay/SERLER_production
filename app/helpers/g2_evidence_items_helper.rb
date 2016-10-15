@@ -1,0 +1,2 @@
+module G2EvidenceItemsHelper
+end

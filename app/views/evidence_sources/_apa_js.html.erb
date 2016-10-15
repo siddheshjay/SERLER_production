@@ -1,0 +1,208 @@
+<script>
+    var _parse_apa = function(raw){
+        console.log(raw);
+        
+        var p = raw.indexOf('(');
+        if (p === -1) { return null; }
+        var authors = raw.slice(0, p);
+        raw = raw.slice(p + 1);
+        // console.log(authors);
+        
+        var year = null;
+        var month = null;
+        p = raw.indexOf(').');
+        if (p === -1) { return null; }
+        year = raw.slice(0, p);
+        raw = raw.slice(p + 2);
+        // console.log(year);
+        {
+            p = year.indexOf(',');
+            if (p !== -1) {
+                month = $.trim(year.slice(p + 1));
+                year = $.trim(year.slice(0, p));
+            }
+        }
+        
+        var title = null;
+        p = raw.indexOf('.');
+        if (p === -1) { return null; }
+        title = $.trim(raw.slice(0, p));
+        raw = raw.slice(p + 1);
+        // console.log(title);
+        
+        var publisher = null;
+        var source = null;
+        var volume = null;
+        var issue = null;
+        var pages = null;
+
+        raw = $.trim(raw);
+        // console.log("|" + raw);
+        
+        var ppp = raw.indexOf('(pp.');
+        var dotp = raw.indexOf('.');
+        var edsp = raw.indexOf('(Eds.),');
+        
+        if (dotp === -1) {
+            var apa = {
+                title: title,
+                year: year,
+                month: month,
+                authors: _split_authors(authors),
+                publisher: publisher,
+                source: source,
+                pages: pages,
+                volume: volume,
+                issue: issue,
+                doi: doi,
+            };
+            
+            return apa;
+        }
+        
+        if ((ppp !== -1 && ppp < dotp) || edsp !== -1) {
+            // Source (pp. pages).
+            source = $.trim(raw.slice(0, ppp));
+            edsp = source.indexOf('(Eds.),');
+            if (edsp !== -1) {
+                source = $.trim(source.slice(edsp + '(Eds.),'.length))
+            } else if (source.startsWith('In Proceedings of ')) {
+                source = $.trim(source.slice('In Proceedings of '.length));
+            } else if (source.startsWith('In ')) {
+                source = $.trim(source.slice('In '.length));
+            }
+            
+            raw = $.trim(raw.slice(ppp + 4));
+            dotp = raw.indexOf('.');
+            
+            pages = $.trim(raw.slice(0, dotp - 1));
+            raw = $.trim(raw.slice(dotp + 1));
+            
+            p = raw.indexOf('.');
+            publisher = raw.slice(0, p);
+            
+        } else {
+            p = raw.indexOf('.');
+            publisher = $.trim(raw.slice(0, p));
+            raw = raw.slice(p + 1);
+            {
+                p = publisher.indexOf(',');
+                if (p !== -1) {
+                    // Source, volume(issue), pages.
+                    volume = $.trim(publisher.slice(p + 1));
+                    source = $.trim(publisher.slice(0, p));
+                    publisher = null;
+                    
+                    p = volume.indexOf(',');
+                    if (p !== -1) {
+                        pages = $.trim(volume.slice(p + 1));
+                        volume = volume.slice(0, p);
+                    }
+                    
+                    p = volume.indexOf('(');
+                    if (p !== -1) {
+                        issue = volume.slice(p + 1, volume.length - 1);
+                        volume = volume.slice(0, p);
+                    }
+                } else {
+                    //
+                }
+            }
+        }
+        
+        var doi = null;
+        p = raw.indexOf('doi:');
+        if (p !== -1) {
+            doi = $.trim(raw.slice(p + 4));
+            raw = raw.slice(0, p);
+        }
+        
+        raw = $.trim(raw);
+        
+        // console.log(raw);
+        
+        var _split_authors = function(authors) {
+            var l = authors.split(',');
+            var al = [];
+            $.each(l, function(i){
+                if (i % 2 === 1) {
+                    f = $.trim(l[i - 1]);
+                    if (f[0] == '&') {
+                        f = $.trim(f.slice(1));
+                    }
+                    g = $.trim(l[i]);
+                    al.push(f + ', ' + g);
+                }
+            });
+            return al;
+        };
+        
+        // fix publisher
+        if (publisher !== null) {
+            p = publisher.indexOf(':');
+            if (p !== -1) {
+                publisher = $.trim(publisher.slice(p + 1));
+            }
+        }
+
+        var apa = {
+            TITLE: title,
+            YEAR: year,
+            MONTH: month,
+            AUTHORS: _split_authors(authors),
+            PUBLISHER: publisher,
+            SOURCE: source,
+            PAGES: pages,
+            VOLUME: volume,
+            NUMBER: issue,
+            DOI: doi,
+        };
+        
+        return apa;
+    };
+    
+    var _test_apa = function(){
+        console.log("to test _parse_apa ....");
+        
+        apa_strs = [
+            "Duvall, P. M. (2007). Continuous Integration. Pearson Education India.",
+            "Holck, J., & Jørgensen, N. (2003). Continuous integration and quality assurance: "
+                + "case study of two open source projects. Australasian Journal of Information Systems, 11(1).",
+            "Kim, S., Park, S., Yun, J., & Lee, Y. (2008, September). Automated continuous integration "
+                + "of component-based software: An industrial experience. In Proceedings of the 2008 23rd IEEE/ACM "
+                + "International Conference on Automated Software Engineering (pp. 423-426). IEEE Computer Society.",
+            "Ståhl, D., & Bosch, J. (2014). Modeling continuous integration practice differences "
+                + "in industry software development. Journal of Systems and Software, 87, 48-59.",
+            "Sims, C., & Johnson, H. L. (2012). Scrum: A breathtakingly brief and agile introduction. Dymax.",
+            "Paasivaara, M., Lassenius, C., Damian, D., Räty, P., & Schröter, A. (2013, May). Teaching "
+                + "students global software engineering skills using distributed scrum. In 2013 35th International "
+                + "Conference on Software Engineering (ICSE) (pp. 1128-1137). IEEE.",
+                
+            "Peres, A. L., & Meira, S. L. (2015, June). Towards a framework that promotes integration "
+                + "between the UX design and SCRUM, Aligned to CMMI. In 2015 10th Iberian Conference on "
+                + "Information Systems and Technologies (CISTI) (pp. 1-4). IEEE.",
+            "Alliance, S. (2013). The state of scrum: benchmarks and guidelines. Orlando, FL: Kim, D.",
+            "Mahnic, V. (2012). A capstone course on agile software development "
+                + "using Scrum. IEEE Transactions on Education, 55(1), 99-106.",
+                
+            "Sikes, P., & Potts, A. (Eds.). (2008). Researching education from the inside: "
+                + "Investigations from within. London, England: Routledge.",
+            // an edited book
+            "Easton, B. (2008). Does poverty affect health?. In K. Dew & A. Matheson (Eds.), "
+                + "Understanding health inequalities in Aotearoa New Zealand (pp. 97-106). "
+                + "Dunedin, New Zealand: Otago University Press."
+        ];
+        
+        $.each(apa_strs, function(index){
+            console.log('===============');
+            var apa_str = apa_strs[index];
+            var apa = _parse_apa(apa_str);
+            console.log(apa);
+        });
+        
+        _parse_apa(apa_strs[0]);
+        
+    };
+    
+    // $().ready(function(){ _test_apa(); });
+</script>

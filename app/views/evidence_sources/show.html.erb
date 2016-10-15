@@ -1,3 +1,167 @@
 <div class="container">
-<h2>Show Evidence Source</h2>
+    <script>
+        $().ready(function(){
+            console.log("page load down");
+            $('#new-evidence-item').click(function(){
+                console.log("to create new evience item!");
+                _evidence_item_modal(<%=@evidence_source.id%>, -1, null);
+                $('#new-evidence-item-modal').modal();
+            });
+        });
+    </script>
+    <div class="row">
+        <div class="col-sm-10"><h2>SHOW EVIDENCE SOURCE</h2></div>
+        <div class="col-sm-2" style="padding-top:2rem">
+        	<% if @editable %>
+        	<a role="button" class="btn btn-warning" href="/evidence_sources/<%=@evidence_source.id%>/edit">
+        	<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;EDIT</a>
+        	<% end %>
+    	</div>
+    </div>
+    <div>
+        <table class="table table-stripped">
+            <tr>
+                <th>title</th>
+                <td><%= @evidence_source.title %></td>
+            </tr>
+            <tr>
+                <th>misc</th>
+                <td> ID:<%=@evidence_source.id%> | <%=@evidence_source.status%>&nbsp;
+                        | category:<%=@evidence_source.category%>&nbsp;
+                        | year:<%=@evidence_source.year%>&nbsp;
+                        | volume:<%=@evidence_source.volume_number%>&nbsp;
+                        | issue:<%=@evidence_source.issue_number%>&nbsp;
+                        | page:<%=@evidence_source.page_str%>&nbsp;
+                </td>
+            </tr>
+            <tr>
+                <th>authors</th>
+                <td>
+                    <% @evidence_source.evidence_source_authors.each do |author| %>
+                        <%=author.name_abbr%> |
+                    <% end %>
+                </td>
+            </tr>
+            <tr>
+                <th>source</th>
+                <td><%=@evidence_source.source_title%></td>
+            </tr>
+            <tr><th>DOI</th><td><%=@evidence_source.DOI%></td></tr>
+            <tr><td></td><td></td></tr>
+        </table>
+    </div>
+    <hr/>
+    <div>
+        <h2>Research Design</h2>
+
+        <table class="table table-stripped">
+            <script>
+                var _research_design = [
+                    <% rd_list = ResearchDesign.where(evidence_source_id: @evidence_source.id) %>
+                    <% rd_list.each do |rd| %>
+                    { "category": "<%= rd.category %>", "ref_id": "<%= rd.ref_id %>", "text": "<%= rd.ref_text %>"},
+                    <% end %>
+                ];
+                $().ready(function(){
+                    $.each(_research_design, function(index){
+                        obj = _research_design[index];
+                        console.log(obj);
+                        if (obj['category'] === 'METHOD') {
+                            var d = $('#research-design-table-methods-div');
+                            d.html(d.html() + '&nbsp;<kbd>' + obj['text'] + '</kbd>&nbsp;');
+                        } else if (obj['category'] === 'PARTICIPANT') {
+                            var d = $('#research-design-table-participants-div');
+                            d.html(d.html() + '&nbsp;<kbd class="text-capitalize">' + obj['text'] + '</kbd>&nbsp;');
+                        } else if (obj['category'] === 'METRIC') {
+                            var t = $('#research-design-table-metric-table');
+                            $('<p class="text-primary">' + obj['text'] + '</p>').appendTo(t);
+                        }
+                    });
+                });
+            </script>
+            <tr>
+                <th width="20%">Question (Aim)</th>
+                <td><p class="text-warning" id="research-aim-content"><%= @evidence_source.research_aim %></p></td>
+            </tr>
+            <tr>
+                <th>Method(s)</th>
+                <td><div id="research-design-table-methods-div"></div></td>
+            </tr>
+            <tr>
+                <th>Participants</th>
+                <td><div id="research-design-table-participants-div"></div></td>
+            </tr>
+            <tr>
+                <th>Metric(s)</th>
+                <td>
+                    <div id="research-design-table-metric-table">
+                    </div>
+                </td>
+            </tr>
+            <tr><th></th><td></td></tr>
+        </table>
+    </div>
+    <div class="modal fade" id="edit-research-design-modal" role="dialog" data-backdrop="static">
+        <%= render 'edit_research_design' %>
+    </div>
+    <hr/>
+    <div>
+        <div><h2>Evidence Items</h2></div>
+        <div class="modal fade" id="new-evidence-item-modal" role="dialog" data-backdrop="static">
+            <%= render 'new_evidence_item' %>
+        </div>
+        <hr/>
+        <div class="list-group">
+            <% g2ei_list = G2EvidenceItem.where(evidence_source_id: @evidence_source.id) %>
+            <script>
+                var _evidence_item_list = {
+                    <% g2ei_list.each do |ei| %>
+                        <%= ei.id %>: {
+                            "status": "<%= ei.status %>", "benefit": "<%= ei.benefit_under_test %>", "result": "<%= ei.result %>",
+                            "ctx_what": "<%= ei.ctx_what %>", "ctx_when": "<%= ei.ctx_when %>", "ctx_where": "<%= ei.ctx_where %>",
+                            "ctx_who": "<%= ei.ctx_who %>", "ctx_how": "<%= ei.ctx_how %>",
+                            "integrity": "<%=ei.integrity%>", "rating_tenth": "<%= ei.rating_tenth %>", "rating": "<%= ei.rating_tenth.to_i / 10 %>",
+                            "se_methods": [<% ei.se_methods.each do |m| %><%= m.id %>,<% end %>],
+                        },
+                    <% end %>
+                };
+            </script>
+            
+            <% g2ei_list.each do |ei| %>
+            <% if ei.status == 'CONFIRMED' %>
+            <div class="list-group-item" data-serler-eiid="<%=ei.id%>">
+                <div class="row text-right text-uppercase">
+                    <dov class="col-sm-6"></dov>
+                    <div class="col-sm-2"><em>Integrity: <span class="badge"><%= ei.integrity %></span></em></div>
+                    <div class="col-sm-2"><em>Rating: <span class="badge"><%= ei.rating_tenth.to_i / 10 %></span></em></div>
+                    <div class="col-sm-2">
+                    </div>
+                </div><div>&nbsp;</div>
+                <div>
+                    <table class="table table-striped">
+                        <tr>
+                            <th width="20%">Benefit under test</th>
+                            <td><%=ei.benefit_under_test%></td>
+                            <td></td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr><th>Result</th><td><%=ei.result%></td><td></td><td></td></tr>
+                        <tr><th>Context</th><td>
+                            | What: <%=ei.ctx_what%> | Where: <%=ei.ctx_where%> | When: <%=ei.ctx_when%> | How: <%=ei.ctx_how%>| Who: <%=ei.ctx_who%> |
+                        </td><td></td><td></td></tr>
+                        <tr><th>Methods</th><td>
+                            <% ei.se_methods.each do |m|%>&nbsp;<kbd><%=m.method_name%></kbd>&nbsp;<%end%>
+                        </td></tr>
+                        <tr><th></th><td></td><td></td><td></td></tr>
+                    </table>
+                </div>
+            </div>
+            <% end %>
+            <% end %>
+        </div>
+    </div>
+    
+    <hr/>
 </div>

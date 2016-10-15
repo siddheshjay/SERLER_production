@@ -1,43 +1,95 @@
-
-<%= javascript_include_tag 'search_form'%>
-
 <% init = true %>
-<%= bootstrap_nested_form_for(@search,layout: :inline, url: {action: "show"}, :html => { :method => 'GET',:class => "search_form" }) do |f| %>
+<%= nested_form_for(@search, url: search_index_path,
+                    :html => { :id=> "search_form",:method => 'GET',:class => "form-inline search_form" }) do |f| %>
+                    <input type="hidden" value="<%= form_authenticity_token() %>" name="authenticity_token" />
+                    <%=f.fields_for :search_fields,nil,{ :class => 'search_fields'} do |builder|  %>
+                      <div class ="search_field">
 
-    <%=f.fields_for :search_fields,nil,{ :class => 'temperary'} do |builder|  %>
-        <div class ="search_field">
+                        <%unless init == true %>
+                          <%= builder.select :op1,
+                            options_for_select([["OR", "or" ], ["AND", "and"]], builder.object[:op1]),
+                            {},{:class=>"form-control"}
 
-          <%unless init == true %>
-              <%= builder.select :op1,
-                                 options_for_select([["OR", "or" ], ["AND", "and"]],["OR", "or" ]),
-                                 {hide_label: true }
+                          %>
+                      <%end%>
+
+                      <%= builder.select :field, options_for_select([["Source Title", "source_title" ],
+                                                                     ["Author", "name"],
+                                                                     ["Author Abbr.", "name_abbr"],
+                                                                     ["Category","category"],
+                                                                     ["Publisher","publisher"],
+                                                                     ["URL","URL"],
+                                                                     ["DOI","DOI"],
+                                                                     ["Research Aim","research_aim"],
+                                                                     ["Year","year"],
+                                                                     ["Raw Bib","raw_bib"],
+                                                                     ["Raw APA","raw_apa"],
+                      ],
+                      builder.object[:field]),
+                      {},{:class=>"form-control search_field_option"}
+
+                    %>
+
+                  <%= builder.select :op2,
+                    options_for_select([["Contain", "ILIKE" ],
+                                        ["Does not contain", "NOT ILIKE"],
+                                        ["Is equal to", "="],
+                                        ["Is less than", "<"],
+                                        ["Is more than", ">"],
+                  ],
+                  builder.object[:op2]) ,
+                    {},:class=>"form-control search_operation"
+
                   %>
-          <%end%>
 
-          <%= builder.select :field,
-                             options_for_select([["Title", "title" ], ["Author", "authors"],["Journal","journal"]],["Title", "title" ]),
-                             {hide_label: true}
-          %>
-
-          <%= builder.select :op2,
-                             options_for_select([["Contain", "ILIKE" ], ["Does not contain", "NOT ILIKE"]],["Contain", "ILIKE" ]) ,
-                             {hide_label: true}
-          %>
+                <%= builder.text_field :content,:class=>"form-control",:autofocus=>true %>
 
 
+                <% unless init == true %>
+                  <%= builder.link_to_remove "Remove Field",:class => 'btn btn-danger btn-sm'%>
+                <%end%>
+                <% init = false%>
+                      </div>
+                    <% end %>
 
-          <%= builder.text_field :content,hide_label: true,:autofocus=>true %>
+                    <div class="button-group">
+                      <%= f.link_to_add "Add a Field", :search_fields,:class => 'btn btn-info btn-sm' %>
+                      <%= f.submit "Search", class: "btn btn-info btn-sm" %>
+                      <%= link_to "Clear", search_index_path, class: "btn btn-default btn-sm" %>
+                      <button type="button" class="btn btn-primary btn-sm" id="save_search_btn"data-toggle="modal" data-target="#save_search_modal">
+                        Save Search
+                      </button>
+                      <%= link_to "Search History", search_history_path,:id=>'search_history' %>
+                    </div>
+
+                    <div class="columns-select">
+
+                      <select multiple="multiple" id="columns_select" name="columns_select">
+                        <option value="title" selected="selected">Title</option>
+                        <option value="name"  selected="selected">Authors</option>
+                        <option value="year" selected="selected">Year</option>
+                        <option value="source_title" selected="selected">Source</option>
+                        <option value="research_aim" selected="selected">Research Aim</option>
+                        <option value="publisher" selected="selected">Publisher</option>
+                        <option value="published_time" selected="selected">Published At</option>
+                        <option value="doi" selected="selected">DOI</option>
+                      </select>
+                    </div>
+
+                    <div class="container">
+                      <div class="row results">
+                        <div class="left col-sm-2 col-md-2">
+                          <%= render 'left_search_form', f: f %>
+                        </div>
+                        <div class="right col-sm-10 col-md-10">
+                          <div class="table-responsive">
+                            <%= render 'results' if @results%>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <%= render 'save_search', f: f %>
+                  <% end %>
 
 
-          <% unless init == true %>
-              <%= builder.link_to_remove "Remove Field",:class => 'btn btn-danger btn-sm'%>
-          <%end%>
-          <% init = false%>
-        </div>
-    <% end %>
-
-    <div>
-      <%= f.link_to_add "Add a Field", :search_fields,:class => 'btn btn-info btn-sm' %>
-      <%= f.submit "Search", :class => 'btn btn-info btn-sm' %>
-    </div>
-<% end %>
+                  <%= render 'popup'%>

@@ -1,5 +1,8 @@
 .navbar.navbar-default {
-    background: #fff;
+    background: #00539f; // #fff;
+    border: none;
+    box-shadow: none;
+    color: white;
 }
 
 .navbar {
@@ -8,7 +11,7 @@
     -moz-border-radius: 0;
     border-radius: 0;
     -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, .3);
-    box-shadow: 0 0 2px rgba(0, 0, 0, .3);
+    // box-shadow: 0 0 0px rgba(0, 0, 0, .3);
 }
 
 .header {
@@ -17,7 +20,7 @@
 }
 
 .top-menu {
-    background: #2d353c;
+    background: #00539f; // #2d353c;
     height: 40px;
     position: fixed;
     top: 54px;
