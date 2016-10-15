@@ -1,5 +1,5 @@
-Given(/^I'm on longin page$/) do
-    @user = User.create!({
+Given(/^I'm on login page$/) do
+   @user = User.create!({
      email: "user@example.com", password: "123456", password_confirmation: "123456",
      reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1,
      current_sign_in_at: "2015-02-06 14:02:10", last_sign_in_at: "2015-02-06 14:02:10",
@@ -9,13 +9,17 @@ Given(/^I'm on longin page$/) do
    @user.save!
    visit new_user_session_path
    expect(page).to have_content('Log in')
-end
-When(/^Input Email and password/) do
-     fill_in 'Email', with: @user.email
-     fill_in 'Password', with: @user.password
-     click_button 'Log in'
-end
-Then(/^I can login/) do
-    #click_button 'Log in'
-    expect(page).to have_content('Title')
-end
+ end
+ 
+ And(/^Input Email and password$/) do
+   fill_in 'Email', with: @user.email
+   fill_in 'Password', with: @user.password
+ end
+ 
+ When(/^I click login button/) do
+   click_button 'Log in'
+ end
+ 
+ Then(/^I can login/) do
+   expect(page).to have_content('Title')
+ end

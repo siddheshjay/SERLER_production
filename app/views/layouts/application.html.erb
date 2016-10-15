@@ -79,6 +79,8 @@
       
       <% if roles.include? :administrator %>
         <li> <%= link_to 'Published Articles', evidence_sources_published_path %> </li>
+        <li> <%= link_to 'Enter News', headlines_news_path %> </li>
+        <li> <%= link_to 'Enter Recent Articles', headlines_recent_articles_path %> </li>
         <li> <%= link_to 'ADMIN', welcome_admin_path %> </li>
       <% end %>
       
